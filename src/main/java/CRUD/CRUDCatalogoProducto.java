@@ -1,13 +1,13 @@
-
-package models;
+package CRUD;
 
 import Util.HibernateUtil;
+import models.Catalogo_productos;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
+public class CRUDCatalogoProducto {
 
-public class Catalogo_productosDAO {
-      public void save(Catalogo_productos newcatpro) {
+    public void save(Catalogo_productos newcatpro) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -70,4 +70,5 @@ public class Catalogo_productosDAO {
             session.close();
         }
     }
+
 }

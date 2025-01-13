@@ -62,6 +62,12 @@ public class CRUDCatalogoProducto {
             
         }catch(Exception err){
             
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            
+        }finally {
+            session.close();
         }
     }
 

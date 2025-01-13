@@ -1,7 +1,7 @@
 package CRUD;
 
 import Util.HibernateUtil;
-import Models.Catalogo_productos;
+import models.Catalogo_productos;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 

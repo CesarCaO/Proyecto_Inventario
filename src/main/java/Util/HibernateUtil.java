@@ -16,14 +16,14 @@ public class HibernateUtil {
             Configuration cfg= new Configuration();
             cfg.configure("hibernate.cfg.xml");
             
-            cfg.addAnnotatedClass(Models.Administrador.class);
-            cfg.addAnnotatedClass(Models.Catalogo_productos.class);
-            cfg.addAnnotatedClass(Models.Estado_prestamo.class);
-            cfg.addAnnotatedClass(Models.Estado_producto.class);
-            cfg.addAnnotatedClass(Models.Gabinete.class);
-            cfg.addAnnotatedClass(Models.Marca.class);
-            cfg.addAnnotatedClass(Models.Producto.class);
-            cfg.addAnnotatedClass(Models.Tipo_producto.class);
+            cfg.addAnnotatedClass(models.Administrador.class);
+            cfg.addAnnotatedClass(models.Catalogo_productos.class);
+            cfg.addAnnotatedClass(models.Estado_prestamo.class);
+            cfg.addAnnotatedClass(models.Estado_producto.class);
+            cfg.addAnnotatedClass(models.Gabinete.class);
+            cfg.addAnnotatedClass(models.Marca.class);
+            cfg.addAnnotatedClass(models.Producto.class);
+            cfg.addAnnotatedClass(models.Tipo_producto.class);
             
             return cfg.buildSessionFactory();
         }catch(Throwable ex){

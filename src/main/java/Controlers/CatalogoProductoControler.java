@@ -1,8 +1,8 @@
 
 package Controlers;
 
-import Models.Catalogo_productos;
-import Models.Catalogo_productosDAO;
+import models.Catalogo_productos;
+import models.Catalogo_productosDAO;
 import Views.CatalogoProducto;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

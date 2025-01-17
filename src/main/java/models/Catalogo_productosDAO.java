@@ -15,6 +15,7 @@ public class Catalogo_productosDAO {
 
         try {
             transaction = session.beginTransaction();
+            
             session.persist(newcatpro);
             transaction.commit();
             bandera=true;

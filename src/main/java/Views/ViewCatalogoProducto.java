@@ -4,7 +4,9 @@
  */
 package Views;
 
+import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import models.Catalogo_productos;
 
@@ -12,12 +14,12 @@ import models.Catalogo_productos;
  *
  * @author darwi
  */
-public class CatalogoProducto extends javax.swing.JFrame {
+public class ViewCatalogoProducto extends javax.swing.JFrame {
 
     /**
      * Creates new form CatalogoProducto
      */
-    public CatalogoProducto() {
+    public ViewCatalogoProducto() {
         initComponents();
     }
 
@@ -33,16 +35,16 @@ public class CatalogoProducto extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tblcatpro = new javax.swing.JTable();
-        btnActualizar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         txtBuscar = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         txtProducto = new javax.swing.JTextField();
-        btnAgregar = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         btnback = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
+        lbladmin = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -71,9 +73,9 @@ public class CatalogoProducto extends javax.swing.JFrame {
         });
         jScrollPane2.setViewportView(tblcatpro);
 
-        btnActualizar.setText("Actualizar");
+        btnUpdate.setText("Actualizar");
 
-        btnEliminar.setText("Eliminar");
+        btnDelete.setText("Eliminar");
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Buscar"));
 
@@ -108,7 +110,7 @@ public class CatalogoProducto extends javax.swing.JFrame {
             }
         });
 
-        btnAgregar.setText("Agregar");
+        btnAdd.setText("Agregar");
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -119,7 +121,7 @@ public class CatalogoProducto extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnAgregar)
+                .addComponent(btnAdd)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(25, 25, 25))
@@ -127,9 +129,9 @@ public class CatalogoProducto extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(btnActualizar)
+                        .addComponent(btnUpdate)
                         .addGap(18, 18, 18)
-                        .addComponent(btnEliminar)
+                        .addComponent(btnDelete)
                         .addGap(16, 16, 16))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 325, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -145,13 +147,13 @@ public class CatalogoProducto extends javax.swing.JFrame {
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel1)
                             .addComponent(txtProducto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnAgregar))))
+                            .addComponent(btnAdd))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnActualizar)
-                    .addComponent(btnEliminar))
+                    .addComponent(btnUpdate)
+                    .addComponent(btnDelete))
                 .addContainerGap())
         );
 
@@ -159,7 +161,7 @@ public class CatalogoProducto extends javax.swing.JFrame {
 
         btnback.setText("Volver");
 
-        jLabel2.setText("a");
+        lbladmin.setText("jLabel");
 
         jLabel3.setText("jLabel3");
 
@@ -171,7 +173,7 @@ public class CatalogoProducto extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(btnback)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lbladmin, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(39, 39, 39)
                 .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(31, 31, 31))
@@ -182,7 +184,7 @@ public class CatalogoProducto extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnback)
-                    .addComponent(jLabel2)
+                    .addComponent(lbladmin)
                     .addComponent(jLabel3))
                 .addContainerGap(14, Short.MAX_VALUE))
         );
@@ -219,8 +221,49 @@ public class CatalogoProducto extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarActionPerformed
     
+    //Crear getters y setters asegura que la interfaz solo muestre y los datos sean enviados al controlador
+    public void setAdmintext(String name){//Función para mostrar el nombre del administrador que esta dando de alta o de baja en el catalogo
+        this.lbladmin.setText(name);
+    }
+    //Metodos que seran utilizados por el controlador
+    public String getTxtBuscar() {
+        return txtBuscar.getText();
+    }
+
+    public String getTxtProducto() {
+        return txtProducto.getText();
+    }
+    
+    
     public void mensajeConsola(String text){
         System.out.println(text);
+    }
+    
+    public void addInsertActionListener(ActionListener listener){
+        btnAdd.addActionListener(listener);
+    }
+    public void addUpdateActionListener(ActionListener listener){
+        btnUpdate.addActionListener(listener);
+    }
+    public void addDeleteActionListener(ActionListener listener){
+        btnDelete.addActionListener(listener);
+    }
+    
+    
+    public boolean validacionNombre(){//Metodo para validar unicamente el nombre del produto
+        boolean isValidName=!this.getTxtBuscar().isEmpty() && this.getTxtBuscar().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+");//Es una forma de realizar validaciones
+        
+        return isValidName;
+    }
+    
+    public boolean validacionBusqueda(){
+        boolean isValidSearch=!this.getTxtBuscar().isEmpty();
+        
+        return isValidSearch;
+    }
+    
+    public void clean(){
+        this.txtProducto.setText("");
     }
     public void actualizarTabla(List<Catalogo_productos> listcatpro){
         DefaultTableModel model= (DefaultTableModel)tblcatpro.getModel();
@@ -247,36 +290,37 @@ public class CatalogoProducto extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CatalogoProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewCatalogoProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CatalogoProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewCatalogoProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CatalogoProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewCatalogoProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CatalogoProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(ViewCatalogoProducto.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CatalogoProducto().setVisible(true);
+                new ViewCatalogoProducto().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton btnActualizar;
-    public javax.swing.JButton btnAgregar;
-    public javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnback;
+    public javax.swing.JButton btnAdd;
+    public javax.swing.JButton btnDelete;
+    public javax.swing.JButton btnUpdate;
+    public javax.swing.JButton btnback;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    public javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane2;
+    public javax.swing.JLabel lbladmin;
     public javax.swing.JTable tblcatpro;
     public javax.swing.JTextField txtBuscar;
     public javax.swing.JTextField txtProducto;

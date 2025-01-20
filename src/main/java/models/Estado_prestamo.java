@@ -18,8 +18,8 @@ public class Estado_prestamo {
     @Column(name="estado")
     private String estado;
     
-    @OneToMany(mappedBy="estado_prestamo", cascade=CascadeType.ALL,orphanRemoval=true)
-    private List<Producto> producto= new ArrayList<>();
+    //@OneToMany(mappedBy="estado_prestamo", cascade=CascadeType.ALL,orphanRemoval=true)
+    //private List<Producto> producto= new ArrayList<>();
 
     public Estado_prestamo(int id_estado, String estado) {
         this.id_estado = id_estado;
@@ -36,9 +36,9 @@ public class Estado_prestamo {
         this.estado = estado;
     }
 
-    public void setProducto(List<Producto> producto) {
-        this.producto = producto;
-    }
+//    public void setProducto(List<Producto> producto) {
+//        this.producto = producto;
+//    }
 
     public int getId_estado() {
         return id_estado;
@@ -48,9 +48,9 @@ public class Estado_prestamo {
         return estado;
     }
 
-    public List<Producto> getProducto() {
-        return producto;
-    }
+//    public List<Producto> getProducto() {
+//        return producto;
+//    }
     
     @Override
     public String toString(){

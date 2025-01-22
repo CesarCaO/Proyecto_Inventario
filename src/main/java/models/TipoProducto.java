@@ -7,29 +7,29 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="tipo_producto")
-public class Tipo_producto {
+@Table(name="tipoproducto")
+public class TipoProducto {
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id_tipoProducto")
-    private int id_tipoProducto;
+    @Column(name="idTipoProducto")
+    private int idTipoProducto;
     
     @Column(name="tipo")
     private String tipo;
     
-    @OneToMany(mappedBy="tipo_producto", cascade=CascadeType.ALL,orphanRemoval=true)
+    @OneToMany(mappedBy="tipoProducto", cascade=CascadeType.ALL,orphanRemoval=true)
     private List<Producto> producto= new ArrayList<>();
 
-    public Tipo_producto(int id_tipoProducto, String tipo) {
-        this.id_tipoProducto = id_tipoProducto;
+    public TipoProducto(int idTipoProducto, String tipo) {
+        this.idTipoProducto = idTipoProducto;
         this.tipo = tipo;
     }
     
-    public Tipo_producto(){}
+    public TipoProducto(){}
     
-    public void setId_tipoProducto(int id_tipoProducto) {
-        this.id_tipoProducto = id_tipoProducto;
+    public void setId_tipoProducto(int idTipoProducto) {
+        this.idTipoProducto = idTipoProducto;
     }
 
     public void setTipo(String tipo) {
@@ -40,8 +40,8 @@ public class Tipo_producto {
         this.producto = producto;
     }
 
-    public int getId_tipoProducto() {
-        return id_tipoProducto;
+    public int getIdTipoProducto() {
+        return idTipoProducto;
     }
 
     public String getTipo() {
@@ -55,7 +55,7 @@ public class Tipo_producto {
  @Override
     public String toString(){
         return "Tipo producto\n"+
-                "ID: "+id_tipoProducto+"\n"+
+                "ID: "+idTipoProducto+"\n"+
                 "Tipo: "+tipo+"\n";
     }
     

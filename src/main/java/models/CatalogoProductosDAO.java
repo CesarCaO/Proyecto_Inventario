@@ -6,8 +6,8 @@ import java.util.List;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class Catalogo_productosDAO {
-    public boolean save(Catalogo_productos newcatpro) {
+public class CatalogoProductosDAO {
+    public boolean save(CatalogoProductos newcatpro) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -33,7 +33,7 @@ public class Catalogo_productosDAO {
        return bandera;
     }
 
-    public boolean update(Catalogo_productos newcatpro) {
+    public boolean update(CatalogoProductos newcatpro) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -57,7 +57,7 @@ public class Catalogo_productosDAO {
     return bandera;
     }
     
-    public void delete(Catalogo_productos catpro){
+    public void delete(CatalogoProductos catpro){
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
@@ -73,22 +73,25 @@ public class Catalogo_productosDAO {
             if (transaction != null) {
                 transaction.rollback();
             }
-            
+               
         }finally {
             session.close();
         }
     }
     
-    public List<Catalogo_productos> getAll(){
+    public List<CatalogoProductos> getAll(){
         Session session = HibernateUtil.getSessionFactory().openSession();
-        
-        List<Catalogo_productos> listcatpro= null;
+        List<CatalogoProductos> listcatpro= null;
         
         try{
-            listcatpro=session.createQuery("Select nombre_producto from catalogo_productos",Catalogo_productos.class).list();
+            listcatpro=session.createQuery("FROM CatalogoProductos",CatalogoProductos.class).list();
+            if(!listcatpro.isEmpty()){
             System.out.println("Se recuperaron: "+listcatpro.size()+" producto(s) dentro del catalgo de productos");
+            }else{
+                System.out.println("No se recuperó ningun registro");
+            }
         }catch(Exception err){
-            System.out.println("Error al obtener los productos del catalogo");
+            System.out.println("Error al obtener los productos del catalogo "+err);
         }finally{
             session.close();
         }

@@ -1,8 +1,8 @@
 
 package Controlers;
 
-import models.Catalogo_productos;
-import models.Catalogo_productosDAO;
+import models.CatalogoProductos;
+import models.CatalogoProductosDAO;
 import Views.ViewCatalogoProducto;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,13 +11,13 @@ import javax.swing.JOptionPane;
 public class CatalogoProductoControler{
     
     
-    Catalogo_productosDAO catproDAO;
+    CatalogoProductosDAO catproDAO;
     ViewCatalogoProducto viewcatpro;
 
     public CatalogoProductoControler(ViewCatalogoProducto viewcatpro) {
        
         this.viewcatpro = viewcatpro;
-        this.catproDAO = new Catalogo_productosDAO();
+        this.catproDAO = new CatalogoProductosDAO();
         //Agregar el ActionListener de los botones
         this.viewcatpro.addInsertActionListener(new SaveActionListener());
         this.viewcatpro.addUpdateActionListener(new UpdateActionListener());
@@ -37,9 +37,9 @@ public class CatalogoProductoControler{
             if(!viewcatpro.validacionNombre()){
                 return;
             }
-            Catalogo_productos newcatpro= new Catalogo_productos();
+            CatalogoProductos newcatpro= new CatalogoProductos();
             
-            newcatpro.setNombre_producto(viewcatpro.getTxtProducto());
+            newcatpro.setNombreProducto(viewcatpro.getTxtProducto());
             
             catproDAO.save(newcatpro);
             viewcatpro.actualizarTabla(catproDAO.getAll());//Actualizar tabla despues de una insercion
@@ -55,9 +55,9 @@ public class CatalogoProductoControler{
             if(!viewcatpro.validacionNombre()){
                 return;
             }
-            Catalogo_productos newcatpro= new Catalogo_productos();
+            CatalogoProductos newcatpro= new CatalogoProductos();
             
-            newcatpro.setNombre_producto(viewcatpro.getTxtProducto());
+            newcatpro.setNombreProducto(viewcatpro.getTxtProducto());
             
             catproDAO.update(newcatpro);
             viewcatpro.actualizarTabla(catproDAO.getAll());//Actualizar tabla despues de una insercion
@@ -72,9 +72,9 @@ public class CatalogoProductoControler{
             if(!viewcatpro.validacionNombre()){
                 return;
             }
-            Catalogo_productos newcatpro= new Catalogo_productos();
+            CatalogoProductos newcatpro= new CatalogoProductos();
             
-            newcatpro.setNombre_producto(viewcatpro.getTxtProducto());
+            newcatpro.setNombreProducto(viewcatpro.getTxtProducto());
             
             catproDAO.delete(newcatpro);
             viewcatpro.actualizarTabla(catproDAO.getAll());//Actualizar tabla despues de una insercion

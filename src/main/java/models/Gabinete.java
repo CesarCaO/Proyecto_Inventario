@@ -11,11 +11,11 @@ import java.util.List;
 public class Gabinete {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id_gabinete")
-    private int id_gabinete;
+    @Column(name="idGabinete")
+    private int idGabinete;
     
-    @Column(name="num_gabinete")
-    private int num_gabinete;
+    @Column(name="numGabinete")
+    private int numGabinete;
     
     @Column(name="descripcion")
     private String descripcion;
@@ -23,20 +23,20 @@ public class Gabinete {
     @OneToMany(mappedBy="gabinete", cascade=CascadeType.ALL,orphanRemoval=true)
     private List<Producto> producto= new ArrayList<>();
 
-    public Gabinete(int id_gabinete, int num_gabinete, String descripcion) {
-        this.id_gabinete = id_gabinete;
-        this.num_gabinete = num_gabinete;
+    public Gabinete(int idGabinete, int numGabinete, String descripcion) {
+        this.idGabinete = idGabinete;
+        this.numGabinete = numGabinete;
         this.descripcion = descripcion;
     }
     
-    public Gabinete (){}
-    
-    public void setId_gabinete(int id_gabinete) {
-        this.id_gabinete = id_gabinete;
+    public Gabinete(){}
+
+    public void setIdGabinete(int idGabinete) {
+        this.idGabinete = idGabinete;
     }
 
-    public void setNum_gabinete(int num_gabinete) {
-        this.num_gabinete = num_gabinete;
+    public void setNumGabinete(int numGabinete) {
+        this.numGabinete = numGabinete;
     }
 
     public void setDescripcion(String descripcion) {
@@ -47,12 +47,12 @@ public class Gabinete {
         this.producto = producto;
     }
 
-    public int getId_gabinete() {
-        return id_gabinete;
+    public int getIdGabinete() {
+        return idGabinete;
     }
 
-    public int getNum_gabinete() {
-        return num_gabinete;
+    public int getNumGabinete() {
+        return numGabinete;
     }
 
     public String getDescripcion() {
@@ -62,12 +62,15 @@ public class Gabinete {
     public List<Producto> getProducto() {
         return producto;
     }
+
+   
+    
     
     @Override
     public String toString(){
         return "Gabinete\n"+
-                "ID: "+id_gabinete+"\n"+
-                "Numero de gabinete: "+num_gabinete+"\n"+
+                "ID: "+idGabinete+"\n"+
+                "Numero de gabinete: "+numGabinete+"\n"+
                 "Descripcion: "+descripcion+"\n";
     }
     

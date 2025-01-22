@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/XML/XMLDocument.xml to edit this template
--->
+
 
 <hibernate-configuration>
     <session-factory>
-        <property name = "hibernate.connection.url">jdbc:mysql://localhost:3306/proveedores_bd?useSSL=false</property>
+        <property name = "hibernate.connection.url">jdbc:mysql://localhost:3306/ucl_tr_inventario?useSSL=false</property>
         <property name = "hibernate.connection.username">root</property>
         <property name = "hibernate.connection.password">CECEVI2003</property>
         <property name = "hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name = "hibernate.show_sql">true</property>
         <property name="hibernate.archive.autodetection">class</property>
+        
+        
+        <property name="hibernate.show_sql">true</property>       <!-- Muestra las consultas SQL en la consola -->
+        <property name="hibernate.format_sql">true</property>     <!-- Formatea las consultas SQL en la consola -->
+        <property name="hibernate.hbm2ddl.auto">none</property>   <!-- No modifica la estructura de la base de datos -->
     </session-factory>
 </hibernate-configuration>

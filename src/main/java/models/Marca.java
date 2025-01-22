@@ -11,51 +11,53 @@ public class Marca implements Serializable{
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id_marca")
-    private int id_marca;
+    @Column(name="idMarca")
+    private int idMarca;
     
     @Column(name="nombre_marca")
-    private String nombre_marca;
+    private String nombreMarca;
     
     @OneToMany(mappedBy="marca", cascade=CascadeType.ALL,orphanRemoval=true)
     private List<Producto> producto= new ArrayList<>();
 
-    public Marca(int id_marca, String nombre_marca) {
-        this.id_marca = id_marca;
-        this.nombre_marca = nombre_marca;
+    public Marca(int idMarca, String nombreMarca) {
+        this.idMarca = idMarca;
+        this.nombreMarca = nombreMarca;
     }
     
     public Marca(){}
 
-    public void setId_marca(int id_marca) {
-        this.id_marca = id_marca;
+    public void setIdMarca(int idMarca) {
+        this.idMarca = idMarca;
     }
 
-    public void setNombre_marca(String nombre_marca) {
-        this.nombre_marca = nombre_marca;
+    public void setNombreMarca(String nombreMarca) {
+        this.nombreMarca = nombreMarca;
     }
 
     public void setProducto(List<Producto> producto) {
         this.producto = producto;
     }
 
-    public int getId_marca() {
-        return id_marca;
+    public int getIdMarca() {
+        return idMarca;
     }
 
-    public String getNombre_marca() {
-        return nombre_marca;
+    public String getNombreMarca() {
+        return nombreMarca;
     }
 
     public List<Producto> getProducto() {
         return producto;
     }
+
+    
     
     @Override
     public String toString(){
         return "Marca\n"+
-                "ID: "+id_marca+"\n"+
-                "Nombre de la Marca"+nombre_marca+"\n";
+                "ID: "+idMarca+"\n"+
+                "Nombre de la Marca"+nombreMarca+"\n";
     }
     
     

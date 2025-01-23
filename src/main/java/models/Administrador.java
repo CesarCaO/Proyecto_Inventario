@@ -12,11 +12,11 @@ public class Administrador implements Serializable{
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="idAdmin")
-    private int idAdmin;
+    @Column(name="id_admin")
+    private int id_admin;
     
-    @Column(name="cuentaAdmin")
-    private int cuentaAdmin;
+    @Column(name="cuenta_admin")
+    private int cuenta_admin;
     
     @Column(name="nombre")
     private String nombre;
@@ -30,20 +30,22 @@ public class Administrador implements Serializable{
     @OneToMany(mappedBy="administrador", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Producto> producto= new ArrayList<>();
 
-    public Administrador(int idAdmin, int cuentaAdmin, String nombre, String contrasenia, String telefono) {
-        this.idAdmin = idAdmin;
-        this.cuentaAdmin = cuentaAdmin;
+    public Administrador(int id_admin, int cuenta_admin, String nombre, String contrasenia, String telefono) {
+        this.id_admin = id_admin;
+        this.cuenta_admin = cuenta_admin;
         this.nombre = nombre;
         this.contrasenia = contrasenia;
         this.telefono = telefono;
     }
+    
+    public Administrador(){}
 
-    public void setIdAdmin(int idAdmin) {
-        this.idAdmin = idAdmin;
+    public void setId_admin(int id_admin) {
+        this.id_admin = id_admin;
     }
 
-    public void setCuentaAdmin(int cuentaAdmin) {
-        this.cuentaAdmin = cuentaAdmin;
+    public void setCuenta_admin(int cuenta_admin) {
+        this.cuenta_admin = cuenta_admin;
     }
 
     public void setNombre(String nombre) {
@@ -62,12 +64,12 @@ public class Administrador implements Serializable{
         this.producto = producto;
     }
 
-    public int getIdAdmin() {
-        return idAdmin;
+    public int getId_admin() {
+        return id_admin;
     }
 
-    public int getCuentaAdmin() {
-        return cuentaAdmin;
+    public int getCuenta_admin() {
+        return cuenta_admin;
     }
 
     public String getNombre() {
@@ -85,14 +87,12 @@ public class Administrador implements Serializable{
     public List<Producto> getProducto() {
         return producto;
     }
-
-    
     
     @Override
     public String toString(){
         return "Marca\n"+
-                "ID: "+idAdmin+"\n"+
-                "Numero de cuenta: "+cuentaAdmin+"\n"+
+                "ID: "+id_admin+"\n"+
+                "Numero de cuenta: "+cuenta_admin+"\n"+
                 "Nombre: "+nombre+"\n"+
                 "Contrasenia: "+contrasenia+"\n"+
                 "Telefono: "+telefono+"\n";

@@ -17,13 +17,13 @@ public class HibernateUtil {
             cfg.configure("hibernate.cfg.xml");
             
             cfg.addAnnotatedClass(models.Administrador.class);
-            cfg.addAnnotatedClass(models.CatalogoProductos.class);
-            cfg.addAnnotatedClass(models.EstadoPrestamo.class);
-            cfg.addAnnotatedClass(models.EstadoProducto.class);
+            cfg.addAnnotatedClass(models.Catalogo_productos.class);
+            cfg.addAnnotatedClass(models.Estado_prestamo.class);
+            cfg.addAnnotatedClass(models.Estado_producto.class);
             cfg.addAnnotatedClass(models.Gabinete.class);
             cfg.addAnnotatedClass(models.Marca.class);
             cfg.addAnnotatedClass(models.Producto.class);
-            cfg.addAnnotatedClass(models.TipoProducto.class);
+            cfg.addAnnotatedClass(models.Tipo_producto.class);
             
             return cfg.buildSessionFactory();
         }catch(Throwable ex){

@@ -8,28 +8,28 @@ import java.util.List;
 
 @Entity
  @Table(name="estado_prestamo")
-public class Estado_prestamo {
+public class EstadoPrestamo {
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id_estado")
-    private int id_estado;
+    @Column(name="idEstado")
+    private int idEstado;
     
     @Column(name="estado")
     private String estado;
     
-    //@OneToMany(mappedBy="estado_prestamo", cascade=CascadeType.ALL,orphanRemoval=true)
-    //private List<Producto> producto= new ArrayList<>();
+//    @OneToMany(mappedBy="estadoPrestamo", cascade=CascadeType.ALL,orphanRemoval=true)
+//    private List<Producto> producto= new ArrayList<>();
 
-    public Estado_prestamo(int id_estado, String estado) {
-        this.id_estado = id_estado;
+    public EstadoPrestamo(int id_estado, String estado) {
+        this.idEstado = id_estado;
         this.estado = estado;
     }
     
-    public Estado_prestamo(){}
+    public EstadoPrestamo(){}
 
     public void setId_estado(int id_estado) {
-        this.id_estado = id_estado;
+        this.idEstado = id_estado;
     }
 
     public void setEstado(String estado) {
@@ -41,7 +41,7 @@ public class Estado_prestamo {
 //    }
 
     public int getId_estado() {
-        return id_estado;
+        return idEstado;
     }
 
     public String getEstado() {
@@ -55,7 +55,7 @@ public class Estado_prestamo {
     @Override
     public String toString(){
         return "Estado de prestamos\n"+
-                "ID: "+id_estado+"\n"+
+                "ID: "+idEstado+"\n"+
                 "Nombre del producto: "+estado+"\n";
     }
 }

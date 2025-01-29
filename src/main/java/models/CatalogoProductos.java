@@ -7,32 +7,32 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="catalogo_productos")
-public class Catalogo_productos {
+@Table(name="CatalogoProductos")
+public class CatalogoProductos {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id_catpro")
-    private int id_catpro;
+    @Column(name="idCatpro")
+    private int idCatpro;
     
-    @Column(name="nombre_producto")
-    private String nombre_producto;
+    @Column(name="nombreProducto")
+    private String nombreProducto;
     
-    @OneToMany(mappedBy="catalogo_producto", cascade=CascadeType.ALL,orphanRemoval=true)
+    @OneToMany(mappedBy="catalogoProducto", cascade=CascadeType.ALL,orphanRemoval=true)
     private List<Producto> producto= new ArrayList<>();
 
-    public Catalogo_productos(int id_catpro, String nombre_producto) {
-        this.id_catpro = id_catpro;
-        this.nombre_producto = nombre_producto;
+    public CatalogoProductos(int idCatpro, String nombre_producto) {
+        this.idCatpro = idCatpro;
+        this.nombreProducto = nombre_producto;
     }
     
-    public Catalogo_productos(){}
+    public CatalogoProductos(){}
 
     public void setId_catpro(int id_catpro) {
-        this.id_catpro = id_catpro;
+        this.idCatpro = id_catpro;
     }
 
     public void setNombre_producto(String nombre_producto) {
-        this.nombre_producto = nombre_producto;
+        this.nombreProducto = nombre_producto;
     }
 
     public void setProducto(List<Producto> producto) {
@@ -40,11 +40,11 @@ public class Catalogo_productos {
     }
 
     public int getId_catpro() {
-        return id_catpro;
+        return idCatpro;
     }
 
     public String getNombre_producto() {
-        return nombre_producto;
+        return nombreProducto;
     }
 
     public List<Producto> getProducto() {
@@ -54,7 +54,7 @@ public class Catalogo_productos {
     @Override
     public String toString(){
         return "Catalogo del productos\n"+
-                "ID: "+id_catpro+"\n"+
-                "Nombre del producto"+nombre_producto+"\n";
+                "ID: "+idCatpro+"\n"+
+                "Nombre del producto"+nombreProducto+"\n";
     }
 }

@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name="estado_producto")
-public class Estado_producto {
+public class EstadoProducto {
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -18,15 +18,15 @@ public class Estado_producto {
     @Column(name="estado")
     private String estado;
     
-    @OneToMany(mappedBy="estado_producto", cascade=CascadeType.ALL,orphanRemoval=true)
+    @OneToMany(mappedBy="estadoProducto", cascade=CascadeType.ALL,orphanRemoval=true)
     private List<Producto> producto= new ArrayList<>();
 
-    public Estado_producto(int id_estadoProducto, String estado) {
+    public EstadoProducto(int id_estadoProducto, String estado) {
         this.id_estadoProducto = id_estadoProducto;
         this.estado = estado;
     }
     
-    public Estado_producto(){}
+    public EstadoProducto(){}
 
     public void setId_estadoProducto(int id_estadoProducto) {
         this.id_estadoProducto = id_estadoProducto;

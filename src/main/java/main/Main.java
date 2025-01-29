@@ -1,19 +1,19 @@
 
 package main;
 
-import Controlers.MainMenuControler;
+
 import Views.MainMenu;
 
 
 public class Main {
-    public static void main(String [] args){
-        java.awt.EventQueue.invokeLater(()->{
-            System.out.print("Iniciando sistema");
-            MainMenu mainMenu=new MainMenu();
-            MainMenuControler mainControler = new MainMenuControler(mainMenu);
-            mainMenu.setVisible(true);
-        }
-        );
-    }
     
+//    public static void main(String [] args){
+//        java.awt.EventQueue.invokeLater(()->{
+//            System.out.println("Iniciando el programa");
+//            MainMenu menu = new MainMenu();
+//            MainMenuControler menuControler = new MainMenuControler(menu);//constructor
+//            menu.setVisible(true);
+//            
+//        });
+//    }
 }

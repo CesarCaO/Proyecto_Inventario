@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
-import models.Catalogo_productos;
+import models.CatalogoProductos;
 
 /**
  *
@@ -225,6 +225,15 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
     public void setAdmintext(String name){//Función para mostrar el nombre del administrador que esta dando de alta o de baja en el catalogo
         this.lbladmin.setText(name);
     }
+
+    public void setTxtBuscar(JTextField txtBuscar) {
+        this.txtBuscar = txtBuscar;
+    }
+
+    public void setTxtProducto(JTextField txtProducto) {
+        this.txtProducto = txtProducto;
+    }
+    
     //Metodos que seran utilizados por el controlador
     public String getTxtBuscar() {
         return txtBuscar.getText();
@@ -240,6 +249,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
     }
     
     public void addInsertActionListener(ActionListener listener){
+        System.out.println("Se agrego el Action Listener al boton ADD");
         btnAdd.addActionListener(listener);
     }
     public void addUpdateActionListener(ActionListener listener){
@@ -251,7 +261,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
     
     
     public boolean validacionNombre(){//Metodo para validar unicamente el nombre del produto
-        boolean isValidName=!this.getTxtBuscar().isEmpty() && this.getTxtBuscar().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+");//Es una forma de realizar validaciones
+        boolean isValidName=!this.getTxtProducto().isEmpty() && this.getTxtProducto().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+");//Es una forma de realizar validaciones
         
         return isValidName;
     }
@@ -265,11 +275,11 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
     public void clean(){
         this.txtProducto.setText("");
     }
-    public void actualizarTabla(List<Catalogo_productos> listcatpro){
+    public void actualizarTabla(List<CatalogoProductos> listcatpro){
         DefaultTableModel model= (DefaultTableModel)tblcatpro.getModel();
         model.setRowCount(0);//Determina cuantas filas debe de tener el modelo
         mensajeConsola("Actualizando la tabla de catalogos de productos");
-        for(Catalogo_productos catpro : listcatpro){
+        for(CatalogoProductos catpro : listcatpro){
             String nombre_producto=catpro.getNombre_producto();
             Object [] fila = {nombre_producto};
             model.addRow(fila);
@@ -279,7 +289,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    public javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAdd;
     public javax.swing.JButton btnDelete;
     public javax.swing.JButton btnUpdate;
     public javax.swing.JButton btnback;

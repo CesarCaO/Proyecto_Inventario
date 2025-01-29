@@ -8,26 +8,26 @@ import java.util.List;
 
 @Entity
 @Table(name="tipo_producto")
-public class Tipo_producto {
+public class TipoProducto {
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id_tipoProducto")
+    @Column(name="idTipoProducto")
     private int id_tipoProducto;
     
     @Column(name="tipo")
     private String tipo;
     
-    @OneToMany(mappedBy="tipo_producto", cascade=CascadeType.ALL,orphanRemoval=true)
+    @OneToMany(mappedBy="tipoProducto", cascade=CascadeType.ALL,orphanRemoval=true)
     private List<Producto> producto= new ArrayList<>();
 
-    public Tipo_producto(int id_tipoProducto, String tipo) {
+    public TipoProducto(int id_tipoProducto, String tipo) {
         this.id_tipoProducto = id_tipoProducto;
         this.tipo = tipo;
     }
-    
-    public Tipo_producto(){}
-    
+
+    public TipoProducto(){}
+
     public void setId_tipoProducto(int id_tipoProducto) {
         this.id_tipoProducto = id_tipoProducto;
     }
@@ -51,6 +51,8 @@ public class Tipo_producto {
     public List<Producto> getProducto() {
         return producto;
     }
+    
+    
     
  @Override
     public String toString(){

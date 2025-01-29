@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import java.util.Date;
 
 @Entity
-@Table(name="producto")
+@Table(name="Producto")
 public class Producto {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
@@ -17,7 +17,7 @@ public class Producto {
     
     @ManyToOne
     @JoinColumn(name="idCatpro", foreignKey=@ForeignKey(name="id_catpro"), nullable=false)
-    private CatalogoProductos catalogoProductos;
+    private CatalogoProductos catalogoProducto;
     
     @ManyToOne
     @JoinColumn(name="idMarca", foreignKey=@ForeignKey(name="id_marca"),nullable=false)
@@ -45,22 +45,22 @@ public class Producto {
     private int cantidadPrestada;
     
     @Column(name="cantidadUtilizada")
-    private int cantidadUtulizada;
+    private int cantidadUtilizada;
     
     @Column(name="fechaRegistro")
-    private Date cantidadUtilizada;
+    private Date fechaRegistro;
     
     @Column(name="imagen")
     private Object image;
     
     @ManyToOne
-    @JoinColumn(name="idAdmin",foreignKey=@ForeignKey(name="id_admin"),nullable=false)
+    @JoinColumn(name="idAdmin",foreignKey=@ForeignKey(name="idAdmin"),nullable=false)
     private Administrador administrador;
 
-    public Producto(int idProducto, int numInventario, CatalogoProductos catalogoProductos, Marca marca, TipoProducto tipoProducto, Gabinete gabinete, EstadoProducto estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtulizada, Date cantidadUtilizada, Object image, Administrador administrador) {
+    public Producto(int idProducto, int numInventario, CatalogoProductos catalogProducto, Marca marca, TipoProducto tipoProducto, Gabinete gabinete, EstadoProducto estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtulizada, Date fechaRegistro, Object image, Administrador administrador) {
         this.idProducto = idProducto;
         this.numInventario = numInventario;
-        this.catalogoProductos = catalogoProductos;
+        this.catalogoProducto = catalogProducto;
         this.marca = marca;
         this.tipoProducto = tipoProducto;
         this.gabinete = gabinete;
@@ -68,11 +68,13 @@ public class Producto {
         this.descripcion = descripcion;
         this.cantidadStock = cantidadStock;
         this.cantidadPrestada = cantidadPrestada;
-        this.cantidadUtulizada = cantidadUtulizada;
-        this.cantidadUtilizada = cantidadUtilizada;
+        this.cantidadUtilizada = cantidadUtulizada;
+        this.fechaRegistro = fechaRegistro;
         this.image = image;
         this.administrador = administrador;
     }
+
+    public Producto(){}
 
     public void setIdProducto(int idProducto) {
         this.idProducto = idProducto;
@@ -82,8 +84,8 @@ public class Producto {
         this.numInventario = numInventario;
     }
 
-    public void setCatalogoProductos(CatalogoProductos catalogoProductos) {
-        this.catalogoProductos = catalogoProductos;
+    public void setCatalogProducto(CatalogoProductos catalogProducto) {
+        this.catalogoProducto = catalogProducto;
     }
 
     public void setMarca(Marca marca) {
@@ -115,11 +117,11 @@ public class Producto {
     }
 
     public void setCantidadUtulizada(int cantidadUtulizada) {
-        this.cantidadUtulizada = cantidadUtulizada;
+        this.cantidadUtilizada = cantidadUtulizada;
     }
 
-    public void setCantidadUtilizada(Date cantidadUtilizada) {
-        this.cantidadUtilizada = cantidadUtilizada;
+    public void setFechaRegistro(Date fechaRegistro) {
+        this.fechaRegistro = fechaRegistro;
     }
 
     public void setImage(Object image) {
@@ -138,8 +140,8 @@ public class Producto {
         return numInventario;
     }
 
-    public CatalogoProductos getCatalogoProductos() {
-        return catalogoProductos;
+    public CatalogoProductos getCatalogProducto() {
+        return catalogoProducto;
     }
 
     public Marca getMarca() {
@@ -171,11 +173,11 @@ public class Producto {
     }
 
     public int getCantidadUtulizada() {
-        return cantidadUtulizada;
+        return cantidadUtilizada;
     }
 
-    public Date getCantidadUtilizada() {
-        return cantidadUtilizada;
+    public Date getFechaRegistro() {
+        return fechaRegistro;
     }
 
     public Object getImage() {
@@ -186,12 +188,14 @@ public class Producto {
         return administrador;
     }
     
+
+ 
     @Override
     public String toString(){
         return "Producto\n"+
                 "ID: "+idProducto+"\n"+
                 "Número de inventario: "+numInventario+"\n"+
-                "Nombre del Producto: "+catalogoProductos+"\n"+
+                "Nombre del Producto: "+catalogoProducto+"\n"+
                 "Marca: "+marca+"\n"+
                 "Tipo de producto: "+tipoProducto+"\n"+
                 "Estado del producto: "+estadoProducto+"\n"+

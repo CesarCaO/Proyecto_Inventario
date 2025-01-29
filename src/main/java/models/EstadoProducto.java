@@ -7,13 +7,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="estadoproducto")
+@Table(name="estado_producto")
 public class EstadoProducto {
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="idEstadoProducto")
-    private int idEstadoProducto;
+    @Column(name="id_estadoProducto")
+    private int id_estadoProducto;
     
     @Column(name="estado")
     private String estado;
@@ -22,14 +22,14 @@ public class EstadoProducto {
     private List<Producto> producto= new ArrayList<>();
 
     public EstadoProducto(int id_estadoProducto, String estado) {
-        this.idEstadoProducto = id_estadoProducto;
+        this.id_estadoProducto = id_estadoProducto;
         this.estado = estado;
     }
     
     public EstadoProducto(){}
 
     public void setId_estadoProducto(int id_estadoProducto) {
-        this.idEstadoProducto = id_estadoProducto;
+        this.id_estadoProducto = id_estadoProducto;
     }
 
     public void setEstado(String estado) {
@@ -41,7 +41,7 @@ public class EstadoProducto {
     }
 
     public int getId_estadoProducto() {
-        return idEstadoProducto;
+        return id_estadoProducto;
     }
 
     public String getEstado() {
@@ -51,13 +51,11 @@ public class EstadoProducto {
     public List<Producto> getProducto() {
         return producto;
     }
-
-    
     
     @Override
     public String toString(){
         return "Estado Producto\n"+
-                "ID: "+idEstadoProducto+"\n"+
+                "ID: "+id_estadoProducto+"\n"+
                 "Estado: "+estado+"\n";
     }
     

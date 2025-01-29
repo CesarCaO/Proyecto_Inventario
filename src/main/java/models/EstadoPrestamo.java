@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
- @Table(name="estadoPrestamo")
+ @Table(name="estado_prestamo")
 public class EstadoPrestamo {
     
     @Id
@@ -18,41 +18,42 @@ public class EstadoPrestamo {
     @Column(name="estado")
     private String estado;
     
-    //@OneToMany(mappedBy="estado_prestamo", cascade=CascadeType.ALL,orphanRemoval=true)
-    //private List<Producto> producto= new ArrayList<>();
+//    @OneToMany(mappedBy="estadoPrestamo", cascade=CascadeType.ALL,orphanRemoval=true)
+//    private List<Producto> producto= new ArrayList<>();
 
-    public EstadoPrestamo(int idEstado, String estado) {
-        this.idEstado = idEstado;
+    public EstadoPrestamo(int id_estado, String estado) {
+        this.idEstado = id_estado;
         this.estado = estado;
     }
+    
+    public EstadoPrestamo(){}
 
-    public void setIdEstado(int idEstado) {
-        this.idEstado = idEstado;
+    public void setId_estado(int id_estado) {
+        this.idEstado = id_estado;
     }
 
     public void setEstado(String estado) {
         this.estado = estado;
     }
-  
-    public int getIdEstado() {
-        return idEstado;
-    }
-    
-     public String getEstado() {
-        return estado;
-    }
 
-   
 //    public void setProducto(List<Producto> producto) {
 //        this.producto = producto;
 //    }
-   
+
+    public int getId_estado() {
+        return idEstado;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
 
 //    public List<Producto> getProducto() {
 //        return producto;
 //    }
+    
     @Override
-    public String toString() {
+    public String toString(){
         return "Estado de prestamos\n"+
                 "ID: "+idEstado+"\n"+
                 "Nombre del producto: "+estado+"\n";

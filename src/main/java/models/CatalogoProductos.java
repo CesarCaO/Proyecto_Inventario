@@ -8,7 +8,7 @@ import java.util.List;
 
 @Entity
 @Table(name="CatalogoProductos")
-public class CatalogoProductos implements Serializable{
+public class CatalogoProductos {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="idCatpro")
@@ -17,43 +17,39 @@ public class CatalogoProductos implements Serializable{
     @Column(name="nombreProducto")
     private String nombreProducto;
     
-    @OneToMany(mappedBy="catalogoProductos", cascade=CascadeType.ALL,orphanRemoval=true)
+    @OneToMany(mappedBy="catalogoProducto", cascade=CascadeType.ALL,orphanRemoval=true)
     private List<Producto> producto= new ArrayList<>();
 
-    public CatalogoProductos(int idCatpro, String nombreProducto) {
+    public CatalogoProductos(int idCatpro, String nombre_producto) {
         this.idCatpro = idCatpro;
-        this.nombreProducto = nombreProducto;
+        this.nombreProducto = nombre_producto;
     }
     
     public CatalogoProductos(){}
 
-    public int getIdCatpro() {
-        return idCatpro;
+    public void setId_catpro(int id_catpro) {
+        this.idCatpro = id_catpro;
     }
 
-    public void setIdCatpro(int idCatpro) {
-        this.idCatpro = idCatpro;
-    }
-
-    public String getNombreProducto() {
-        return nombreProducto;
-    }
-
-    public void setNombreProducto(String nombreProducto) {
-        this.nombreProducto = nombreProducto;
-    }
-
-    public List<Producto> getProducto() {
-        return producto;
+    public void setNombre_producto(String nombre_producto) {
+        this.nombreProducto = nombre_producto;
     }
 
     public void setProducto(List<Producto> producto) {
         this.producto = producto;
     }
 
-    
-    
-  
+    public int getId_catpro() {
+        return idCatpro;
+    }
+
+    public String getNombre_producto() {
+        return nombreProducto;
+    }
+
+    public List<Producto> getProducto() {
+        return producto;
+    }
     
     @Override
     public String toString(){

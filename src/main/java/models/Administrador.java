@@ -38,6 +38,8 @@ public class Administrador implements Serializable{
         this.telefono = telefono;
     }
 
+    public Administrador(){}
+
     public void setIdAdmin(int idAdmin) {
         this.idAdmin = idAdmin;
     }
@@ -85,9 +87,8 @@ public class Administrador implements Serializable{
     public List<Producto> getProducto() {
         return producto;
     }
-
     
-    
+   
     @Override
     public String toString(){
         return "Marca\n"+

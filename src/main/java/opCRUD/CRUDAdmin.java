@@ -186,7 +186,12 @@ public class CRUDAdmin {
             }
             
             case "Nombre del administrador" ->{
-                results=opRead(crit,"");
+                results=opRead(crit,"nombre");
+                tm=listToAdmin(results);
+            }
+            case "Teléfono"->{
+                results=opRead(crit,"telefono");
+                tm=listToAdmin(results);
             }
         }
         return tm;

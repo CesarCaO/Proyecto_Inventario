@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
- @Table(name="estado_prestamo")
+ @Table(name="EstadoPrestamo")
 public class EstadoPrestamo {
     
     @Id

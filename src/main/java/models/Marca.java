@@ -11,10 +11,10 @@ public class Marca implements Serializable{
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id_marca")
+    @Column(name="idMarca")
     private int id_marca;
     
-    @Column(name="nombre_marca")
+    @Column(name="nombreMarca")
     private String nombre_marca;
     
     @OneToMany(mappedBy="marca", cascade=CascadeType.ALL,orphanRemoval=true)

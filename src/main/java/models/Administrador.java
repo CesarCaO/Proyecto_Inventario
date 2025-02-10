@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="administrador")
+@Table(name="Administrador")
 public class Administrador implements Serializable{
     
     @Id

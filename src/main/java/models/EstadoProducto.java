@@ -7,12 +7,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="estado_producto")
+@Table(name="EstadoProducto")
 public class EstadoProducto {
     
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id_estadoProducto")
+    @Column(name="idEstadoProducto")
     private int id_estadoProducto;
     
     @Column(name="estado")

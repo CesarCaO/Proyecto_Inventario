@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="gabinete")
+@Table(name="Gabinete")
 public class Gabinete {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
-    @Column(name="id_gabinete")
+    @Column(name="idGabinete")
     private int id_gabinete;
     
-    @Column(name="num_gabinete")
+    @Column(name="numGabinete")
     private int num_gabinete;
     
     @Column(name="descripcion")

@@ -84,14 +84,14 @@ public class CRUDAdmin {
          
      }
     
-    public boolean ValidarCatalogo(String idAdmin){
+    public boolean ValidarAdministrador(String numAdmin){
         Session session= HibernateUtil.getSessionFactory().openSession();
         
         Administrador foundAdmin;
         boolean encontrado=false;
         try{
-            Query<Administrador> query=session.createQuery("FROM Admin WHERE idAdmin= :id", Administrador.class);
-            query.setParameter("id",idAdmin);
+            Query<Administrador> query=session.createQuery("FROM Admin WHERE cuantaAdmin= :cuenta", Administrador.class);
+            query.setParameter("cuenta",numAdmin);
             foundAdmin=query.uniqueResult();
             if(foundAdmin!= null){
                 encontrado=true;
@@ -123,7 +123,7 @@ public class CRUDAdmin {
         return idAdmin;
     }
 //*******************************************  Metodos para buscar y crear la tabla ******************************************//
-    public List opRead(String crit, String field){
+    public List opRead(String crit, String field){//Este metodo recupera los registros de la base de datos mediante consultas
         Session session=HibernateUtil.getSessionFactory().openSession();
         System.out.println(crit);
         List<Administrador> listcatpro=null;
@@ -134,7 +134,7 @@ public class CRUDAdmin {
                 listcatpro=query.getResultList();
 
             }else{
-                query=session.createQuery("FROM Administradir WHERE"+ field +"LIKE :crit", Administrador.class);
+                query=session.createQuery("FROM Administrador WHERE"+ field +"LIKE :crit", Administrador.class);
                 query.setParameter("crit",crit+"%");
                 listcatpro=query.getResultList();
                 System.out.println(listcatpro);
@@ -146,7 +146,7 @@ public class CRUDAdmin {
         return listcatpro; 
     }
     
-    public TableModel listToAdmin(List results){
+    public TableModel listToAdmin(List results){///Este metodo crea la tabla de la interfaz
         
         
         Vector columnNames=new Vector();
@@ -156,6 +156,7 @@ public class CRUDAdmin {
         
         columnNames.addElement("Número de cuenta");
         columnNames.addElement("Nombre completo");
+        columnNames.addElement("Correo electrónico");
         columnNames.addElement("Teléfono");
        
         Iterator itCatPro=results.iterator();
@@ -165,6 +166,7 @@ public class CRUDAdmin {
             Vector newRow=new Vector();
             newRow.addElement(admin.getCuentaAdmin());
             newRow.addElement(admin.getNombre());
+            newRow.addElement(admin.getCorreo());
             newRow.addElement(admin.getTelefono());
             rows.addElement(newRow);
         }
@@ -176,7 +178,7 @@ public class CRUDAdmin {
      };
    }
     
-    public TableModel opBuscar(String field, String crit){
+    public TableModel opBuscar(String field, String crit){ ///Este metodo determina el campo con el cual se van a buscar los registro dentro de la base de datos
         TableModel tm=null;
         List<Administrador> results;
         switch(field){

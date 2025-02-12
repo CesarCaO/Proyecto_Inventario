@@ -27,17 +27,21 @@ public class Administrador implements Serializable{
     @Column(name="telefono")
     private String telefono;
     
+    @Column(name="correo")
+    private String correo;
+    
     @OneToMany(mappedBy="administrador", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Producto> producto= new ArrayList<>();
 
-    public Administrador(int idAdmin, int cuentaAdmin, String nombre, String contrasenia, String telefono) {
+    public Administrador(int idAdmin, int cuentaAdmin, String nombre, String contrasenia, String telefono, String correo) {
         this.idAdmin = idAdmin;
         this.cuentaAdmin = cuentaAdmin;
         this.nombre = nombre;
         this.contrasenia = contrasenia;
         this.telefono = telefono;
+        this.correo = correo;
     }
-
+    
     public Administrador(){}
 
     public void setIdAdmin(int idAdmin) {
@@ -58,6 +62,10 @@ public class Administrador implements Serializable{
 
     public void setTelefono(String telefono) {
         this.telefono = telefono;
+    }
+
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public void setProducto(List<Producto> producto) {
@@ -84,10 +92,15 @@ public class Administrador implements Serializable{
         return telefono;
     }
 
+    public String getCorreo() {
+        return correo;
+    }
+
     public List<Producto> getProducto() {
         return producto;
     }
-    
+
+        
    
     @Override
     public String toString(){
@@ -96,7 +109,8 @@ public class Administrador implements Serializable{
                 "Numero de cuenta: "+cuentaAdmin+"\n"+
                 "Nombre: "+nombre+"\n"+
                 "Contrasenia: "+contrasenia+"\n"+
-                "Telefono: "+telefono+"\n";
+                "Telefono: "+telefono+"\n"+
+                "Correo: "+correo+"\n";
                 
     }
     

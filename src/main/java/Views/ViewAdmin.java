@@ -1,18 +1,29 @@
 
 package Views;
 
+import Util.PasswordEncryption;
+import javax.swing.JOptionPane;
+import models.Administrador;
+import opCRUD.CRUDAdmin;
+
 
 public class ViewAdmin extends javax.swing.JFrame {
 
+    CRUDAdmin crudAdmin=new CRUDAdmin();
    
     public ViewAdmin() {
         initComponents();
-        
+        createTable();
     }
     
     public void createTable(){
-        
+        tblAdmin.setModel(crudAdmin.opBuscar(cmbBuscar.getSelectedItem().toString(), txtBuscar.getText()));
     }
+    public void limpiarCampos(){
+        txtApellidoP.setText("");
+        txtApellidoM.setText("");
+    }
+    
 
     
     @SuppressWarnings("unchecked")
@@ -42,10 +53,15 @@ public class ViewAdmin extends javax.swing.JFrame {
         btnCancel = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         txtTelefono = new javax.swing.JTextField();
         cmbTel = new javax.swing.JComboBox<>();
+        jPanel6 = new javax.swing.JPanel();
+        txtCorreo = new javax.swing.JTextField();
+        txtCuenta = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -129,7 +145,7 @@ public class ViewAdmin extends javax.swing.JFrame {
                 .addComponent(cmbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -193,7 +209,12 @@ public class ViewAdmin extends javax.swing.JFrame {
 
         btnUpdate.setText("Actualizar registro");
 
-        jButton5.setText("Agregar administrador");
+        btnAdd.setText("Agregar administrador");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAddActionPerformed(evt);
+            }
+        });
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Número de teléfono"));
 
@@ -220,6 +241,50 @@ public class ViewAdmin extends javax.swing.JFrame {
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
+        jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Correo electrónico"));
+
+        txtCuenta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtCuentaActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setText("Correo electrónico");
+
+        jLabel8.setText("Número de cuenta");
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGap(27, 27, 27)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jLabel8)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(txtCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(89, 89, 89))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel7))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addContainerGap(19, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -229,20 +294,21 @@ public class ViewAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addComponent(jButton5)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(30, 30, 30))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                                        .addComponent(btnAdd)
                                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                         .addComponent(btnCancel)
                                         .addGap(0, 0, Short.MAX_VALUE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 37, Short.MAX_VALUE)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(30, 30, 30)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane1)
                             .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -267,15 +333,16 @@ public class ViewAdmin extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
+                    .addComponent(btnAdd)
                     .addComponent(btnCancel)
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete))
@@ -306,9 +373,78 @@ public class ViewAdmin extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancelActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
+        boolean bandera=false;
+        String nombreCompleto=null, telefono=null, correo=null, StringPasswordONE=null, StringPasswordConfirm=null,hashedPasswordONE=null,hashedPasswordConfirm=null;
+        int  numCuenta=0;
+        if(txtApellidoP.getText().isEmpty() && txtApellidoM.getText().isEmpty()&& txtNombre.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Debe de introducir su nombre completo", "ERROR", JOptionPane.ERROR_MESSAGE);
+            bandera=true;
+        }else{
+            nombreCompleto=txtNombre.getText()+" "+txtApellidoP.getText()+" "+txtApellidoM.getText();
+        }
+        
+        if(txtTelefono.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Debe de instroducir su número de teléfono", "ERROR", JOptionPane.ERROR_MESSAGE);
+            bandera=true;
+        }else{
+            telefono=txtTelefono.getText();
+        }
+        if(txtCorreo.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null, "Debe de introducir su nombre completo", "ERROR", JOptionPane.ERROR_MESSAGE);
+            bandera=true;
+        }else{
+            correo=txtCorreo.getText();
+        }
+        if(txtCuenta.getText().isEmpty()){
+            JOptionPane.showMessageDialog(null,"Debe de introducir su número de cuenta", "Error", JOptionPane.ERROR_MESSAGE);
+            bandera=true;
+        }else{
+            try{
+            numCuenta=Integer.parseInt(txtCuenta.getText());
+            }catch(NumberFormatException err){
+                JOptionPane.showMessageDialog(null,"No debe de haber letras en el número de cuenta","Error",JOptionPane.ERROR_MESSAGE);
+            }
+        }
+//*****************Apartado para la encriptacion y validacion de la contrasenias*******************//
+        char[] passwordCharsONE= passwordONE.getPassword();
+        char[] passwordCharsConfirm=passwordConfirm.getPassword();
+        
+        if(passwordCharsConfirm.length==0 && passwordCharsONE.length==0){
+            JOptionPane.showMessageDialog(null,"Debe de introducir una contraseña y confirmarla", "Error", JOptionPane.ERROR_MESSAGE);
+            bandera=true;
+        }else{
+            StringPasswordONE=new String(passwordCharsONE);
+            StringPasswordConfirm=new String(passwordCharsConfirm);
+            
+            if(!StringPasswordONE.equals(StringPasswordConfirm)){
+               JOptionPane.showMessageDialog(null,"Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE); 
+               StringPasswordONE=null;
+               StringPasswordConfirm=null;
+               bandera=true;
+            }else{
+                hashedPasswordONE=PasswordEncryption.encryptionPassword(StringPasswordONE);
+                hashedPasswordConfirm=PasswordEncryption.encryptionPassword(StringPasswordConfirm);
+            }   
+        }
+      if(!bandera){
+          Administrador newAdmin=new Administrador();
+          newAdmin.setNombre(nombreCompleto);
+          newAdmin.setCuentaAdmin(numCuenta);
+          newAdmin.setTelefono(telefono);
+          newAdmin.setCorreo(correo);
+          newAdmin.setContrasenia(hashedPasswordONE);
+          crudAdmin.save(newAdmin);
+          
+      }
+        
+    }//GEN-LAST:event_btnAddActionPerformed
+
+    private void txtCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCuentaActionPerformed
+        
+    }//GEN-LAST:event_txtCuentaActionPerformed
+
+  
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -342,24 +478,27 @@ public class ViewAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnGoBack;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cmbBuscar;
     private javax.swing.JComboBox<String> cmbTel;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
+    private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JPasswordField passwordConfirm;
     private javax.swing.JPasswordField passwordONE;
@@ -367,6 +506,8 @@ public class ViewAdmin extends javax.swing.JFrame {
     private javax.swing.JTextField txtApellidoM;
     private javax.swing.JTextField txtApellidoP;
     private javax.swing.JTextField txtBuscar;
+    private javax.swing.JTextField txtCorreo;
+    private javax.swing.JTextField txtCuenta;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTelefono;
     // End of variables declaration//GEN-END:variables

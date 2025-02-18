@@ -2,6 +2,11 @@
 package Views;
 
 import Util.PasswordEncryption;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import models.Administrador;
 import opCRUD.CRUDAdmin;
@@ -10,7 +15,8 @@ import opCRUD.CRUDAdmin;
 public class ViewAdmin extends javax.swing.JFrame {
 
     CRUDAdmin crudAdmin=new CRUDAdmin();
-   
+    boolean cambiarContrasenia=false;
+    
     public ViewAdmin() {
         initComponents();
         createTable();
@@ -22,10 +28,23 @@ public class ViewAdmin extends javax.swing.JFrame {
     public void limpiarCampos(){
         txtApellidoP.setText("");
         txtApellidoM.setText("");
+        txtNombre.setText("");
+        txtTelefono.setText("");
+        txtCorreo.setText("");
+        txtCuenta.setText("");
+        passwordONE.setText("");
+        passwordConfirm.setText("");
+        tblAdmin.clearSelection();
     }
     
-
-    
+   public boolean validarCorreo(String correo){
+       String regex="[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$";
+       Pattern pattern=Pattern.compile(regex);
+       Matcher matcher=pattern.matcher(correo);
+       return matcher.matches();
+   }
+   
+  
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -62,6 +81,7 @@ public class ViewAdmin extends javax.swing.JFrame {
         txtCuenta = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        btnCambiarContrasenia = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -79,6 +99,11 @@ public class ViewAdmin extends javax.swing.JFrame {
 
             }
         ));
+        tblAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tblAdminMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tblAdmin);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Nombre del Administrador"));
@@ -145,7 +170,7 @@ public class ViewAdmin extends javax.swing.JFrame {
                 .addComponent(cmbBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(89, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -180,7 +205,7 @@ public class ViewAdmin extends javax.swing.JFrame {
                         .addGroup(jPanel4Layout.createSequentialGroup()
                             .addGap(63, 63, 63)
                             .addComponent(passwordONE, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(61, Short.MAX_VALUE))
+                .addContainerGap(43, Short.MAX_VALUE))
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,6 +233,11 @@ public class ViewAdmin extends javax.swing.JFrame {
         btnDelete.setText("Eliminar registro");
 
         btnUpdate.setText("Actualizar registro");
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnUpdateActionPerformed(evt);
+            }
+        });
 
         btnAdd.setText("Agregar administrador");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -218,6 +248,12 @@ public class ViewAdmin extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Número de teléfono"));
 
+        txtTelefono.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtTelefonoFocusLost(evt);
+            }
+        });
+
         cmbTel.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "+52", "Ext" }));
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -225,7 +261,7 @@ public class ViewAdmin extends javax.swing.JFrame {
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(24, Short.MAX_VALUE)
                 .addComponent(cmbTel, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -242,6 +278,12 @@ public class ViewAdmin extends javax.swing.JFrame {
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Correo electrónico"));
+
+        txtCorreo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtCorreoFocusLost(evt);
+            }
+        });
 
         txtCuenta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -285,6 +327,13 @@ public class ViewAdmin extends javax.swing.JFrame {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
+        btnCambiarContrasenia.setText("Cambiar Contraseña");
+        btnCambiarContrasenia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCambiarContraseniaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -294,28 +343,29 @@ public class ViewAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(30, 30, 30))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                                        .addComponent(btnAdd)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(btnCancel)
-                                        .addGap(0, 0, Short.MAX_VALUE)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jScrollPane1)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnAdd)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnCancel))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 345, Short.MAX_VALUE)
+                                .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 345, Short.MAX_VALUE)
+                                .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(15, 15, 15)
+                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(6, 6, 6)
                                 .addComponent(btnUpdate)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnDelete))))
+                                .addGap(18, 18, 18)
+                                .addComponent(btnCambiarContrasenia)
+                                .addGap(223, 223, 223)
+                                .addComponent(btnDelete))
+                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnGoBack)
                         .addGap(0, 0, Short.MAX_VALUE)))
@@ -345,7 +395,8 @@ public class ViewAdmin extends javax.swing.JFrame {
                     .addComponent(btnAdd)
                     .addComponent(btnCancel)
                     .addComponent(btnUpdate)
-                    .addComponent(btnDelete))
+                    .addComponent(btnDelete)
+                    .addComponent(btnCambiarContrasenia))
                 .addGap(8, 8, 8))
         );
 
@@ -375,26 +426,43 @@ public class ViewAdmin extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         boolean bandera=false;
-        String nombreCompleto=null, telefono=null, correo=null, StringPasswordONE=null, StringPasswordConfirm=null,hashedPasswordONE=null,hashedPasswordConfirm=null;
-        int  numCuenta=0;
-        if(txtApellidoP.getText().isEmpty() && txtApellidoM.getText().isEmpty()&& txtNombre.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Debe de introducir su nombre completo", "ERROR", JOptionPane.ERROR_MESSAGE);
-            bandera=true;
+        String nombre=null,apellidoPaterno=null, apellidoMaterno=null, telefono=null, correo=null, StringPasswordONE=null, StringPasswordConfirm=null,hashedPasswordONE=null,hashedPasswordConfirm=null;
+        int  numCuenta=-1;
+        
+        if(txtApellidoM.getText().isEmpty()){
+           JOptionPane.showMessageDialog(null, "Debe de introducir su apellido materno", "ERROR", JOptionPane.ERROR_MESSAGE);
+           bandera=true;
         }else{
-            nombreCompleto=txtNombre.getText()+" "+txtApellidoP.getText()+" "+txtApellidoM.getText();
+            apellidoMaterno=txtApellidoM.getText();
+        }
+        if(txtApellidoP.getText().isEmpty()){
+           JOptionPane.showMessageDialog(null, "Debe de introducir su apellido paterno", "ERROR", JOptionPane.ERROR_MESSAGE);
+           bandera=true;
+        }else{
+            apellidoPaterno=txtApellidoP.getText();
+        }
+        if(txtNombre.getText().isEmpty()){
+           JOptionPane.showMessageDialog(null, "Debe de introducir su nombre(s)", "ERROR", JOptionPane.ERROR_MESSAGE);
+           bandera=true;
+        }else{
+            nombre=txtNombre.getText();
         }
         
         if(txtTelefono.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Debe de instroducir su número de teléfono", "ERROR", JOptionPane.ERROR_MESSAGE);
             bandera=true;
         }else{
-            telefono=txtTelefono.getText();
+            telefono=cmbTel.getSelectedItem()+" "+txtTelefono.getText();
         }
         if(txtCorreo.getText().isEmpty()){
             JOptionPane.showMessageDialog(null, "Debe de introducir su nombre completo", "ERROR", JOptionPane.ERROR_MESSAGE);
             bandera=true;
         }else{
             correo=txtCorreo.getText();
+            if(!validarCorreo(correo)){
+               JOptionPane.showMessageDialog(null, "El correo no es valido", "ERROR", JOptionPane.ERROR_MESSAGE);
+               bandera=true; 
+            }
         }
         if(txtCuenta.getText().isEmpty()){
             JOptionPane.showMessageDialog(null,"Debe de introducir su número de cuenta", "Error", JOptionPane.ERROR_MESSAGE);
@@ -404,6 +472,7 @@ public class ViewAdmin extends javax.swing.JFrame {
             numCuenta=Integer.parseInt(txtCuenta.getText());
             }catch(NumberFormatException err){
                 JOptionPane.showMessageDialog(null,"No debe de haber letras en el número de cuenta","Error",JOptionPane.ERROR_MESSAGE);
+                bandera=true;
             }
         }
 //*****************Apartado para la encriptacion y validacion de la contrasenias*******************//
@@ -421,21 +490,30 @@ public class ViewAdmin extends javax.swing.JFrame {
                JOptionPane.showMessageDialog(null,"Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE); 
                StringPasswordONE=null;
                StringPasswordConfirm=null;
+               Arrays.fill(passwordCharsONE,'\0');//Limpieza de caracteres de la contraseña
+               Arrays.fill(passwordCharsConfirm,'\0');//Limpieza de caracteres de la contraseña
                bandera=true;
             }else{
-                hashedPasswordONE=PasswordEncryption.encryptionPassword(StringPasswordONE);
-                hashedPasswordConfirm=PasswordEncryption.encryptionPassword(StringPasswordConfirm);
+               hashedPasswordONE=PasswordEncryption.encryptionPassword(StringPasswordONE);
+               Arrays.fill(passwordCharsONE,'\0');//Liempieza de caracteres de la contraseña
+               Arrays.fill(passwordCharsConfirm,'\0');//Limpieza de caracteres de la contraseña
+              
             }   
         }
       if(!bandera){
           Administrador newAdmin=new Administrador();
-          newAdmin.setNombre(nombreCompleto);
+          newAdmin.setApellidoPaterno(apellidoPaterno);
+          newAdmin.setApellidoMaterno(apellidoMaterno);
+          newAdmin.setNombre(nombre);
           newAdmin.setCuentaAdmin(numCuenta);
           newAdmin.setTelefono(telefono);
           newAdmin.setCorreo(correo);
           newAdmin.setContrasenia(hashedPasswordONE);
           crudAdmin.save(newAdmin);
-          
+          char[]hashedPasswordChars=hashedPasswordONE.toCharArray();//Convertir la hashesPassword en carateres para limpiarlo
+          Arrays.fill(hashedPasswordChars, '\0');//Limpiar la contraseña encriptada
+          limpiarCampos();
+          createTable();
       }
         
     }//GEN-LAST:event_btnAddActionPerformed
@@ -443,6 +521,134 @@ public class ViewAdmin extends javax.swing.JFrame {
     private void txtCuentaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCuentaActionPerformed
         
     }//GEN-LAST:event_txtCuentaActionPerformed
+
+    private void txtTelefonoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtTelefonoFocusLost
+        
+    }//GEN-LAST:event_txtTelefonoFocusLost
+
+    private void txtCorreoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtCorreoFocusLost
+       if(!validarCorreo(txtCorreo.getText())){
+            JOptionPane.showMessageDialog(null,"El correo introducido no es valido", "Error",JOptionPane.ERROR_MESSAGE);
+            txtCorreo.setText("");
+        }
+    }//GEN-LAST:event_txtCorreoFocusLost
+
+    private void tblAdminMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAdminMouseClicked
+       
+       txtApellidoP.setText(tblAdmin.getValueAt(tblAdmin.getSelectedRow(),1).toString());
+       txtApellidoM.setText(tblAdmin.getValueAt(tblAdmin.getSelectedRow(),2).toString());
+       txtNombre.setText(tblAdmin.getValueAt(tblAdmin.getSelectedRow(),3).toString());
+       txtTelefono.setText(tblAdmin.getValueAt(tblAdmin.getSelectedRow(),5).toString());
+       txtCorreo.setText(tblAdmin.getValueAt(tblAdmin.getSelectedRow(),4).toString());
+       txtCuenta.setText(tblAdmin.getValueAt(tblAdmin.getSelectedRow(),0).toString());
+       passwordONE.setEnabled(false);
+       passwordConfirm.setEnabled(false);           
+    }//GEN-LAST:event_tblAdminMouseClicked
+
+    private void btnCambiarContraseniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarContraseniaActionPerformed
+       passwordONE.setEnabled(true);
+       passwordConfirm.setEnabled(true);
+       cambiarContrasenia=true;
+    }//GEN-LAST:event_btnCambiarContraseniaActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        boolean bandera = false;
+        String nombre = null, apellidoPaterno = null, apellidoMaterno = null, telefono = null, correo = null, StringPasswordONE = null, StringPasswordConfirm = null, hashedPasswordONE = null, hashedPasswordConfirm = null;
+        int numCuenta = -1;
+        Administrador newAdmin=new Administrador();
+
+        if (txtApellidoM.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe de introducir su apellido materno", "ERROR", JOptionPane.ERROR_MESSAGE);
+            bandera = true;
+        } else {
+            apellidoMaterno = txtApellidoM.getText();
+        }
+        if (txtApellidoP.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe de introducir su apellido paterno", "ERROR", JOptionPane.ERROR_MESSAGE);
+            bandera = true;
+        } else {
+            apellidoPaterno = txtApellidoP.getText();
+        }
+        if (txtNombre.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe de introducir su nombre(s)", "ERROR", JOptionPane.ERROR_MESSAGE);
+            bandera = true;
+        } else {
+            nombre = txtNombre.getText();
+        }
+
+        if (txtTelefono.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe de instroducir su número de teléfono", "ERROR", JOptionPane.ERROR_MESSAGE);
+            bandera = true;
+        } else {
+           telefono=cmbTel.getSelectedItem()+" "+txtTelefono.getText();
+        }
+        if (txtCorreo.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe de introducir su nombre completo", "ERROR", JOptionPane.ERROR_MESSAGE);
+            bandera = true;
+        } else {
+            correo = txtCorreo.getText();
+            if (!validarCorreo(correo)) {
+                JOptionPane.showMessageDialog(null, "El correo no es valido", "ERROR", JOptionPane.ERROR_MESSAGE);
+                bandera = true;
+            }
+        }
+        if (txtCuenta.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe de introducir su número de cuenta", "Error", JOptionPane.ERROR_MESSAGE);
+            bandera = true;
+        } else {
+            try {
+                numCuenta = Integer.parseInt(txtCuenta.getText());
+            } catch (NumberFormatException err) {
+                JOptionPane.showMessageDialog(null, "No debe de haber letras en el número de cuenta", "Error", JOptionPane.ERROR_MESSAGE);
+                bandera = true;
+            }
+        }
+        if (cambiarContrasenia) {
+            char[] passwordCharsONE = passwordONE.getPassword();
+            char[] passwordCharsConfirm = passwordConfirm.getPassword();
+
+            if (passwordCharsConfirm.length == 0 && passwordCharsONE.length == 0) {
+                JOptionPane.showMessageDialog(null, "Debe de introducir una contraseña y confirmarla", "Error", JOptionPane.ERROR_MESSAGE);
+                bandera = true;
+            } else {
+                StringPasswordONE = new String(passwordCharsONE);
+                StringPasswordConfirm = new String(passwordCharsConfirm);
+
+                if (!StringPasswordONE.equals(StringPasswordConfirm)) {
+                    JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE);
+                    StringPasswordONE = null;
+                    StringPasswordConfirm = null;
+                    Arrays.fill(passwordCharsONE, '\0');//Limpieza de caracteres de la contraseña
+                    Arrays.fill(passwordCharsConfirm, '\0');//Limpieza de caracteres de la contraseña
+                    bandera = true;
+                } else {
+                    hashedPasswordONE = PasswordEncryption.encryptionPassword(StringPasswordONE);
+                    newAdmin.setContrasenia(hashedPasswordONE);
+                    Arrays.fill(passwordCharsONE, '\0');//Liempieza de caracteres de la contraseña
+                    Arrays.fill(passwordCharsConfirm, '\0');//Limpieza de caracteres de la contraseña
+                    char[]hashedPasswordChars=hashedPasswordONE.toCharArray();//Convertir la hashesPassword en carateres para limpiarlo
+                    Arrays.fill(hashedPasswordChars, '\0');//Limpiar la contraseña encriptada
+                }
+                
+            }
+        }
+        
+        if(!bandera){
+          newAdmin.setApellidoPaterno(apellidoPaterno);
+          newAdmin.setApellidoMaterno(apellidoMaterno);
+          newAdmin.setNombre(nombre);
+          newAdmin.setCuentaAdmin(numCuenta);
+          newAdmin.setTelefono(telefono);
+          newAdmin.setCorreo(correo); 
+          crudAdmin.update(newAdmin, numCuenta);
+          limpiarCampos();
+          createTable();
+          cambiarContrasenia=false;
+          
+        }
+        
+
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
   
     public static void main(String args[]) {
@@ -479,6 +685,7 @@ public class ViewAdmin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnCambiarContrasenia;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnGoBack;

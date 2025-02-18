@@ -42,10 +42,15 @@ public class CRUDAdmin {
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
+        Administrador oldadmin= new Administrador();
         
         try{
             System.out.println("Transaction iniciada");
             newadmin.setIdAdmin(ToID(numCuenta));
+            if(newadmin.getContrasenia()==null){
+                oldadmin=session.get(Administrador.class, newadmin.getIdAdmin());
+                newadmin.setContrasenia(oldadmin.getContrasenia());
+            }
             transaction = session.beginTransaction();
             System.out.println("Actualizar administrador");
             session.merge(newadmin);
@@ -155,7 +160,9 @@ public class CRUDAdmin {
         Administrador admin;
         
         columnNames.addElement("Número de cuenta");
-        columnNames.addElement("Nombre completo");
+        columnNames.addElement("Apellido Paterno");
+        columnNames.addElement("Apellido Materno");
+        columnNames.addElement("Nombre(s)");
         columnNames.addElement("Correo electrónico");
         columnNames.addElement("Teléfono");
        
@@ -165,6 +172,8 @@ public class CRUDAdmin {
             admin=(Administrador)itCatPro.next();
             Vector newRow=new Vector();
             newRow.addElement(admin.getCuentaAdmin());
+            newRow.addElement(admin.getApellidoPaterno());
+            newRow.addElement(admin.getApellidoMaterno());
             newRow.addElement(admin.getNombre());
             newRow.addElement(admin.getCorreo());
             newRow.addElement(admin.getTelefono());

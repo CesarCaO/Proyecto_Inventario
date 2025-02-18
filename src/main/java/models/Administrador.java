@@ -18,6 +18,12 @@ public class Administrador implements Serializable{
     @Column(name="cuentaAdmin")
     private int cuentaAdmin;
     
+    @Column(name="apellidoPaterno")
+    private String apellidoPaterno;
+    
+    @Column(name="apellidoMaterno")
+    private String apellidoMaterno;
+    
     @Column(name="nombre")
     private String nombre;
     
@@ -27,22 +33,24 @@ public class Administrador implements Serializable{
     @Column(name="telefono")
     private String telefono;
     
-    @Column(name="correo")
-    private String correo;
+    @Column(name="correoE")
+    private String correoE;
     
     @OneToMany(mappedBy="administrador", cascade=CascadeType.ALL, orphanRemoval=true)
     private List<Producto> producto= new ArrayList<>();
 
-    public Administrador(int idAdmin, int cuentaAdmin, String nombre, String contrasenia, String telefono, String correo) {
+    public Administrador(int idAdmin, int cuentaAdmin, String apellidoPaterno, String apellidoMaterno, String nombre, String contrasenia, String telefono, String correo) {
         this.idAdmin = idAdmin;
         this.cuentaAdmin = cuentaAdmin;
+        this.apellidoPaterno = apellidoPaterno;
+        this.apellidoMaterno = apellidoMaterno;
         this.nombre = nombre;
         this.contrasenia = contrasenia;
         this.telefono = telefono;
-        this.correo = correo;
+        this.correoE = correo;
     }
-    
-    public Administrador(){}
+
+   public Administrador(){}
 
     public void setIdAdmin(int idAdmin) {
         this.idAdmin = idAdmin;
@@ -50,6 +58,14 @@ public class Administrador implements Serializable{
 
     public void setCuentaAdmin(int cuentaAdmin) {
         this.cuentaAdmin = cuentaAdmin;
+    }
+
+    public void setApellidoPaterno(String apellidoPaterno) {
+        this.apellidoPaterno = apellidoPaterno;
+    }
+
+    public void setApellidoMaterno(String apellidoMaterno) {
+        this.apellidoMaterno = apellidoMaterno;
     }
 
     public void setNombre(String nombre) {
@@ -65,7 +81,7 @@ public class Administrador implements Serializable{
     }
 
     public void setCorreo(String correo) {
-        this.correo = correo;
+        this.correoE = correo;
     }
 
     public void setProducto(List<Producto> producto) {
@@ -78,6 +94,14 @@ public class Administrador implements Serializable{
 
     public int getCuentaAdmin() {
         return cuentaAdmin;
+    }
+
+    public String getApellidoPaterno() {
+        return apellidoPaterno;
+    }
+
+    public String getApellidoMaterno() {
+        return apellidoMaterno;
     }
 
     public String getNombre() {
@@ -93,13 +117,14 @@ public class Administrador implements Serializable{
     }
 
     public String getCorreo() {
-        return correo;
+        return correoE;
     }
 
     public List<Producto> getProducto() {
         return producto;
     }
-
+   
+   
         
    
     @Override
@@ -107,10 +132,12 @@ public class Administrador implements Serializable{
         return "Marca\n"+
                 "ID: "+idAdmin+"\n"+
                 "Numero de cuenta: "+cuentaAdmin+"\n"+
+                "Apellido Paterno: "+apellidoPaterno+
+                "Apellido Materno: "+apellidoMaterno+
                 "Nombre: "+nombre+"\n"+
                 "Contrasenia: "+contrasenia+"\n"+
                 "Telefono: "+telefono+"\n"+
-                "Correo: "+correo+"\n";
+                "Correo: "+correoE+"\n";
                 
     }
     

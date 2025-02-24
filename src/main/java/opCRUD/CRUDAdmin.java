@@ -89,13 +89,13 @@ public class CRUDAdmin {
          
      }
     
-    public boolean ValidarAdministrador(String numAdmin){
+    public boolean ValidarAdministrador(int numAdmin){
         Session session= HibernateUtil.getSessionFactory().openSession();
         
         Administrador foundAdmin;
         boolean encontrado=false;
         try{
-            Query<Administrador> query=session.createQuery("FROM Admin WHERE cuantaAdmin= :cuenta", Administrador.class);
+            Query<Administrador> query=session.createQuery("FROM Administrador WHERE cuentaAdmin= :cuenta", Administrador.class);
             query.setParameter("cuenta",numAdmin);
             foundAdmin=query.uniqueResult();
             if(foundAdmin!= null){
@@ -139,7 +139,7 @@ public class CRUDAdmin {
                 listcatpro=query.getResultList();
 
             }else{
-                query=session.createQuery("FROM Administrador WHERE"+ field +"LIKE :crit", Administrador.class);
+                query=session.createQuery("FROM Administrador WHERE CAST("+ field +" AS string) LIKE :crit", Administrador.class);
                 query.setParameter("crit",crit+"%");
                 listcatpro=query.getResultList();
                 System.out.println(listcatpro);
@@ -198,6 +198,14 @@ public class CRUDAdmin {
             
             case "Nombre del administrador" ->{
                 results=opRead(crit,"nombre");
+                tm=listToAdmin(results);
+            }
+            case "Apellido paterno del administrador" ->{
+                results=opRead(crit,"apellidoPaterno");
+                tm=listToAdmin(results);
+            }
+            case "Apellido materno del administrador" ->{
+                results=opRead(crit,"apellidoMaterno");
                 tm=listToAdmin(results);
             }
             case "Teléfono"->{

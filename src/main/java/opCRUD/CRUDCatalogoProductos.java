@@ -89,6 +89,7 @@ public class CRUDCatalogoProductos {
             session.close();
         }
         return completado;
+
     }
     
     public List opRead(String crit){

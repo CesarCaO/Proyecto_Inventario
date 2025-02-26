@@ -66,11 +66,12 @@ public class CRUDAdmin {
         }
     }
     
-     public void delete(Administrador deladmin, int numCuenta){
+     public void delete(int numCuenta){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         
         try{
+            Administrador deladmin=new Administrador();
             System.out.println("Transaction iniciada");
             deladmin.setIdAdmin(ToID(numCuenta));
             transaction = session.beginTransaction();
@@ -131,24 +132,24 @@ public class CRUDAdmin {
     public List opRead(String crit, String field){//Este metodo recupera los registros de la base de datos mediante consultas
         Session session=HibernateUtil.getSessionFactory().openSession();
         System.out.println(crit);
-        List<Administrador> listcatpro=null;
+        List<Administrador> listadmin=null;
         Query<Administrador> query;
          try{
             if(crit.equals("")){
                 query=session.createQuery("FROM Administrador", Administrador.class);
-                listcatpro=query.getResultList();
+                listadmin=query.getResultList();
 
             }else{
                 query=session.createQuery("FROM Administrador WHERE CAST("+ field +" AS string) LIKE :crit", Administrador.class);
                 query.setParameter("crit",crit+"%");
-                listcatpro=query.getResultList();
-                System.out.println(listcatpro);
+                listadmin=query.getResultList();
+                System.out.println(listadmin);
             }
         }catch(Exception err){
              
              JOptionPane.showMessageDialog(null,"Error al leer el administrador "+err+" Error: opRead", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return listcatpro; 
+        return listadmin; 
     }
     
     public TableModel listToAdmin(List results){///Este metodo crea la tabla de la interfaz
@@ -166,10 +167,10 @@ public class CRUDAdmin {
         columnNames.addElement("Correo electrónico");
         columnNames.addElement("Teléfono");
        
-        Iterator itCatPro=results.iterator();
+        Iterator itAdmin=results.iterator();
         
-        while(itCatPro.hasNext()){
-            admin=(Administrador)itCatPro.next();
+        while(itAdmin.hasNext()){
+            admin=(Administrador)itAdmin.next();
             Vector newRow=new Vector();
             newRow.addElement(admin.getCuentaAdmin());
             newRow.addElement(admin.getApellidoPaterno());

@@ -13,7 +13,7 @@ public class EstadoProducto {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="idEstadoProducto")
-    private int id_estadoProducto;
+    private int idEstadoProducto;
     
     @Column(name="estado")
     private String estado;
@@ -21,15 +21,15 @@ public class EstadoProducto {
     @OneToMany(mappedBy="estadoProducto", cascade=CascadeType.ALL,orphanRemoval=true)
     private List<Producto> producto= new ArrayList<>();
 
-    public EstadoProducto(int id_estadoProducto, String estado) {
-        this.id_estadoProducto = id_estadoProducto;
+    public EstadoProducto(int idEstadoProducto, String estado) {
+        this.idEstadoProducto = idEstadoProducto;
         this.estado = estado;
     }
-    
-    public EstadoProducto(){}
 
-    public void setId_estadoProducto(int id_estadoProducto) {
-        this.id_estadoProducto = id_estadoProducto;
+    public EstadoProducto (){}
+
+    public void setIdEstadoProducto(int idEstadoProducto) {
+        this.idEstadoProducto = idEstadoProducto;
     }
 
     public void setEstado(String estado) {
@@ -40,8 +40,8 @@ public class EstadoProducto {
         this.producto = producto;
     }
 
-    public int getId_estadoProducto() {
-        return id_estadoProducto;
+    public int getIdEstadoProducto() {
+        return idEstadoProducto;
     }
 
     public String getEstado() {
@@ -51,11 +51,11 @@ public class EstadoProducto {
     public List<Producto> getProducto() {
         return producto;
     }
-    
+     
     @Override
     public String toString(){
         return "Estado Producto\n"+
-                "ID: "+id_estadoProducto+"\n"+
+                "ID: "+idEstadoProducto+"\n"+
                 "Estado: "+estado+"\n";
     }
     

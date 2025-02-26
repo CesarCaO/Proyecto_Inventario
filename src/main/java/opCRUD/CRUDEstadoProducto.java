@@ -8,15 +8,15 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import models.Gabinete;
+import models.EstadoProducto;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 
-public class CRUDGabinete {
+public class CRUDEstadoProducto {
     
-    public void save(Gabinete newGabinete){
+    public void save(EstadoProducto newEstPro){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         
@@ -24,7 +24,7 @@ public class CRUDGabinete {
             System.out.println("Transaction iniciada");
             transaction = session.beginTransaction();
             System.out.println("Guardando producto en el catalogo");
-            session.persist(newGabinete);
+            session.persist(newEstPro);
             transaction.commit();
              System.out.println("Se guardo el producto en el catalogo");
         } catch (Exception err) {
@@ -39,14 +39,14 @@ public class CRUDGabinete {
         }
     }
     
-    public void update(Gabinete newGabinete, int numOldGabinete){
+    public void update(EstadoProducto newEstPro, String nombre){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             
-            newGabinete.setIdGabinete(NumToID(numOldGabinete));
+            newEstPro.setIdEstadoProducto(ToID(nombre));
             transaction = session.beginTransaction();
-            session.merge(newGabinete);
+            session.merge(newEstPro);
             transaction.commit();
             
 
@@ -61,17 +61,16 @@ public class CRUDGabinete {
         }
     }
     
-     public void delete(int numero){
+    public void delete(String estado){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        
         try{
-            Gabinete delGab= new Gabinete();
+            EstadoProducto delEstPro=new EstadoProducto();
             System.out.println("Transaction iniciada");
-            delGab.setIdGabinete(NumToID(numero));
+            delEstPro.setIdEstadoProducto(ToID(estado));
             transaction = session.beginTransaction();
             System.out.println("Eliminar administrador");
-            session.remove(delGab);
+            session.remove(delEstPro);
             transaction.commit();
             System.out.println("Se eliminó administrador");
         }catch(Exception err){
@@ -82,41 +81,39 @@ public class CRUDGabinete {
         }finally{
             session.close();
         }
-         
-     }
-    public int NumToID(int numero){
-          Session session= HibernateUtil.getSessionFactory().openSession();
+    }
+    public int ToID(String estado){
+        Session session= HibernateUtil.getSessionFactory().openSession();
           Query<Integer>query;
-          int idGabinete=-1;
+          int idEstPro=-1;
           try{
-              query=session.createQuery("SELECT idGabinete FROM Gabinete WHERE numGabinete =: numero",Integer.class);
-              query.setParameter("numero",numero );
-              idGabinete=query.uniqueResult();
+              query=session.createQuery("SELECT idEstadoProducto FROM EstadoProducto WHERE estado =: estado",Integer.class);
+              query.setParameter("estado",estado);
+              idEstPro=query.uniqueResult();
           }catch(Exception err){
-                JOptionPane.showMessageDialog(null,"Error al encontrar el id del Gabinete"+err+" Error: IDGAB", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Error al encontrar el id del estado del producto"+err+" Error: IDGAB", "Error", JOptionPane.ERROR_MESSAGE);
           }finally{
               session.close();
           }
-          System.out.println(idGabinete);
-          return idGabinete;
+          return idEstPro;
     }
     
-    public boolean validarGabinete(int numero){
+    public boolean ValidarEstadoProducto(String estado){
         Session session= HibernateUtil.getSessionFactory().openSession();
         
-        Gabinete foundGabinete;
+        EstadoProducto foundAdmin;
         boolean encontrado=false;
-        
         try{
-             Query<Gabinete> query=session.createQuery("FROM Gabinete WHERE numGabinete= :numero", Gabinete.class);
-            query.setParameter("numero",numero);
-            foundGabinete=query.uniqueResult();
-            if(foundGabinete!= null){
+            Query<EstadoProducto> query=session.createQuery("FROM EstadoProducto WHERE estado= :estado", EstadoProducto.class);
+            query.setParameter("estado",estado);
+            foundAdmin=query.uniqueResult();
+            if(foundAdmin!= null){
                 encontrado=true;
                 return encontrado;
             }
+            
         }catch(Exception err){
-            JOptionPane.showMessageDialog(null,"Error al validar existencia del Gabinete "+err+" Error: ValCAT", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Error al validar existencia del Estado Producto "+err+" Error: ValCAT", "Error", JOptionPane.ERROR_MESSAGE);
         }finally{
             session.close();
         }
@@ -124,50 +121,39 @@ public class CRUDGabinete {
         return encontrado;
     }
     
-    
-    //*******************************************  Metodos para buscar y crear la tabla ******************************************//
     public List opRead(String crit, String field){//Este metodo recupera los registros de la base de datos mediante consultas
         Session session=HibernateUtil.getSessionFactory().openSession();
         System.out.println(crit);
-        List<Gabinete> listcatpro=null;
-        Query<Gabinete> query;
+        List<EstadoProducto> listadmin=null;
+        Query<EstadoProducto> query;
          try{
             if(crit.equals("")){
-                query=session.createQuery("FROM Gabinete", Gabinete.class);
-                listcatpro=query.getResultList();
-
-            }else{
-                query=session.createQuery("FROM Gabinete WHERE CAST("+ field +" AS string) LIKE :crit",Gabinete.class);
-                query.setParameter("crit",crit+"%");
-                listcatpro=query.getResultList();
-                System.out.println(listcatpro);
+                query=session.createQuery("FROM EstadoProducto", EstadoProducto.class);
+                listadmin=query.getResultList();
             }
         }catch(Exception err){
              
-             JOptionPane.showMessageDialog(null,"Error al leer el gabinete "+err+" Error: opRead", "Error", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(null,"Error en la lectura "+err+" Error: opRead", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return listcatpro; 
+        return listadmin; 
     }
     
-    public TableModel listToGabinete(List results){///Este metodo crea la tabla de la interfaz
+    public TableModel listTo(List results){///Este metodo crea la tabla de la interfaz
         
         
         Vector columnNames=new Vector();
         Vector rows=new Vector();
         
-        Gabinete gabinete;
+        EstadoProducto estpro;
         
-        columnNames.addElement("Número de gabinete");
-        columnNames.addElement("Descripción del gabinete");
-        
+        columnNames.addElement("Estado del producto");
        
-        Iterator itGabinete=results.iterator();
+        Iterator itEstPro=results.iterator();
         
-        while(itGabinete.hasNext()){
-            gabinete=(Gabinete)itGabinete.next();
+        while(itEstPro.hasNext()){
+            estpro=(EstadoProducto)itEstPro.next();
             Vector newRow=new Vector();
-            newRow.addElement(gabinete.getNumGabinete());
-            newRow.addElement(gabinete.getDescripcion());
+            newRow.addElement(estpro.getEstado());
             rows.addElement(newRow);
         }
      return new DefaultTableModel(rows,columnNames){
@@ -178,11 +164,11 @@ public class CRUDGabinete {
      };
    }
     
-   public TableModel opBuscar(String field, String crit){
+    public TableModel opBuscar(String field, String crit){ ///Este metodo determina el campo con el cual se van a buscar los registro dentro de la base de datos
         TableModel tm=null;
-        List<Gabinete> results;
+        List<EstadoProducto> results;
         results=opRead(crit,field);
-        tm=listToGabinete(results);
+        tm=listTo(results);
         return tm;
     }
 }

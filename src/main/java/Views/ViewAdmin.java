@@ -15,12 +15,14 @@ import opCRUD.CRUDAdmin;
 public class ViewAdmin extends javax.swing.JFrame {
 
     CRUDAdmin crudAdmin=new CRUDAdmin();
-    boolean cambiarContrasenia=false;
+    private int cuentaLogin;
     
     public ViewAdmin() {
         initComponents();
         createTable();
         this.setResizable(false);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
     }
     
     public void createTable(){
@@ -44,13 +46,21 @@ public class ViewAdmin extends javax.swing.JFrame {
        Matcher matcher=pattern.matcher(correo);
        return matcher.matches();
    }
-    public boolean validarTelefono(String telefono) {
-        boolean valido = false;
-        String regex = "^\\d+$";
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(telefono.trim());
-        valido = matcher.matches();
-        return valido;
+    public boolean validarTelefono(String telefono, boolean extension) {
+        boolean valido = false;        
+        if (extension) {
+            String regex = "^\\d{6}+$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(telefono.trim());
+            valido = matcher.matches();
+            return valido;
+        } else {
+            String regex = "^\\d{10}+$";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(telefono.trim());
+            valido = matcher.matches();
+            return valido;
+        }  
     }
   
    
@@ -85,13 +95,12 @@ public class ViewAdmin extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         txtTelefono = new javax.swing.JTextField();
-        jLabel9 = new javax.swing.JLabel();
+        checkExtension = new javax.swing.JCheckBox();
         jPanel6 = new javax.swing.JPanel();
         txtCorreo = new javax.swing.JTextField();
         txtCuenta = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
-        btnCambiarContrasenia = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -281,18 +290,18 @@ public class ViewAdmin extends javax.swing.JFrame {
             }
         });
 
-        jLabel9.setText("Sin guiones ni espacios");
+        checkExtension.setText("Extensión");
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(15, 15, 15))
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(12, 12, 12)
+                .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(checkExtension, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -300,7 +309,7 @@ public class ViewAdmin extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel9))
+                    .addComponent(checkExtension))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -336,8 +345,8 @@ public class ViewAdmin extends javax.swing.JFrame {
                         .addComponent(jLabel8)))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(89, 89, 89))
         );
         jPanel6Layout.setVerticalGroup(
@@ -351,15 +360,8 @@ public class ViewAdmin extends javax.swing.JFrame {
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel8))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
-
-        btnCambiarContrasenia.setText("Cambiar Contraseña");
-        btnCambiarContrasenia.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCambiarContraseniaActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -375,7 +377,7 @@ public class ViewAdmin extends javax.swing.JFrame {
                                 .addGap(33, 33, 33)
                                 .addComponent(btnCancel))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 368, Short.MAX_VALUE)
                                 .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -386,9 +388,7 @@ public class ViewAdmin extends javax.swing.JFrame {
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addComponent(btnUpdate)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnCambiarContrasenia)
-                                .addGap(223, 223, 223)
+                                .addGap(378, 378, 378)
                                 .addComponent(btnDelete))
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
@@ -422,8 +422,7 @@ public class ViewAdmin extends javax.swing.JFrame {
                     .addComponent(btnAdd)
                     .addComponent(btnCancel)
                     .addComponent(btnUpdate)
-                    .addComponent(btnDelete)
-                    .addComponent(btnCambiarContrasenia))
+                    .addComponent(btnDelete))
                 .addGap(8, 8, 8))
         );
 
@@ -448,9 +447,11 @@ public class ViewAdmin extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
-        limpiarCampos();
-        passwordONE.setEnabled(true);
-       passwordConfirm.setEnabled(true);   
+       limpiarCampos();
+       passwordONE.setEnabled(true);
+       passwordConfirm.setEnabled(true);
+       btnUpdate.setEnabled(false);
+       btnDelete.setEnabled(false);
         
     }//GEN-LAST:event_btnCancelActionPerformed
 
@@ -484,10 +485,10 @@ public class ViewAdmin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe de instroducir un número de teléfono\n", "ERROR", JOptionPane.ERROR_MESSAGE);
             bandera=true;
         }else{
-            if(validarTelefono(txtTelefono.getText())){
+            if(validarTelefono(txtTelefono.getText(),checkExtension.isSelected())){
                 telefono=txtTelefono.getText();
             }else{
-                JOptionPane.showMessageDialog(null, "Debe escribir su número de telefono sin espacios ni guiones", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "El número de telefono es incorrecto", "ERROR", JOptionPane.ERROR_MESSAGE);
                 bandera=true;
             }
         }
@@ -510,7 +511,7 @@ public class ViewAdmin extends javax.swing.JFrame {
             try{
             numCuenta=Integer.parseInt(txtCuenta.getText());
             }catch(NumberFormatException err){
-                JOptionPane.showMessageDialog(null,"No debe de haber letras en el número de cuenta","Error",JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"El número de cuenta es valido","Error",JOptionPane.ERROR_MESSAGE);
                 bandera=true;
             }
         }
@@ -583,19 +584,16 @@ public class ViewAdmin extends javax.swing.JFrame {
        txtCuenta.setText(tblAdmin.getValueAt(tblAdmin.getSelectedRow(),0).toString());
        passwordONE.setEnabled(false);
        passwordConfirm.setEnabled(false);
-       txtCuenta.setEnabled(false);
+       btnUpdate.setEnabled(true);
+       btnDelete.setEnabled(true);
+       btnAdd.setEnabled(true);
+       
        
     }//GEN-LAST:event_tblAdminMouseClicked
 
-    private void btnCambiarContraseniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarContraseniaActionPerformed
-       passwordONE.setEnabled(true);
-       passwordConfirm.setEnabled(true);
-       cambiarContrasenia=true;
-    }//GEN-LAST:event_btnCambiarContraseniaActionPerformed
-
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         boolean bandera = false;
-        String nombre = null, apellidoPaterno = null, apellidoMaterno = null, telefono = null, correo = null, StringPasswordONE = null, StringPasswordConfirm = null, hashedPasswordONE = null, hashedPasswordConfirm = null;
+        String nombre = null, apellidoPaterno = null, apellidoMaterno = null, telefono = null, correo = null, hashedPasswordONE = null;
         int numCuenta = -1;
         Administrador newAdmin=new Administrador();
          ///////////////////////////////////////Apellido Materno/////////////////////////////////////////////////////////////////////////////
@@ -624,10 +622,10 @@ public class ViewAdmin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe de instroducir un número de teléfono\n", "ERROR", JOptionPane.ERROR_MESSAGE);
             bandera=true;
         }else{
-            if(validarTelefono(txtTelefono.getText())){
+            if(validarTelefono(txtTelefono.getText(),checkExtension.isSelected())){
                 telefono=txtTelefono.getText();
             }else{
-                JOptionPane.showMessageDialog(null, "Debe escribir su número de telefono sin espacios ni guiones", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "El número de telefono es incorrecto", "ERROR", JOptionPane.ERROR_MESSAGE);
                 bandera=true;
             }
         }
@@ -650,52 +648,49 @@ public class ViewAdmin extends javax.swing.JFrame {
             try {
                 numCuenta = Integer.parseInt(txtCuenta.getText());
             } catch (NumberFormatException err) {
-                JOptionPane.showMessageDialog(null, "No debe de haber letras en el número de cuenta", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "El número de cuenta es ", "Error", JOptionPane.ERROR_MESSAGE);
                 bandera = true;
             }
         }
-//*****************Apartado para la encriptacion y validacion de la contrasenias*******************//
-        if (cambiarContrasenia) {
-            char[] passwordCharsONE = passwordONE.getPassword();
-            char[] passwordCharsConfirm = passwordConfirm.getPassword();
-
-            if (passwordCharsConfirm.length == 0 && passwordCharsONE.length == 0) {
-                JOptionPane.showMessageDialog(null, "Debe de introducir una contraseña y confirmarla", "Error", JOptionPane.ERROR_MESSAGE);
-                bandera = true;
-            } else {
-                StringPasswordONE = new String(passwordCharsONE);
-                StringPasswordConfirm = new String(passwordCharsConfirm);
-
-                if (!StringPasswordONE.equals(StringPasswordConfirm)) {
-                    JOptionPane.showMessageDialog(null, "Las contraseñas no coinciden", "Error", JOptionPane.ERROR_MESSAGE);
-                    StringPasswordONE = null;
-                    StringPasswordConfirm = null;
-                    Arrays.fill(passwordCharsONE, '\0');//Limpieza de caracteres de la contraseña
-                    Arrays.fill(passwordCharsConfirm, '\0');//Limpieza de caracteres de la contraseña
-                    bandera = true;
-                } else {
-                    hashedPasswordONE = PasswordEncryption.encryptionPassword(StringPasswordONE);
-                    newAdmin.setContrasenia(hashedPasswordONE);
-                    Arrays.fill(passwordCharsONE, '\0');//Liempieza de caracteres de la contraseña
-                    Arrays.fill(passwordCharsConfirm, '\0');//Limpieza de caracteres de la contraseña
-                    char[]hashedPasswordChars=hashedPasswordONE.toCharArray();//Convertir la hashesPassword en carateres para limpiarlo
-                    Arrays.fill(hashedPasswordChars, '\0');//Limpiar la contraseña encriptada
-                }
-                
-            }
-        }
-        
+ 
         if (!bandera) {
             newAdmin.setCuentaAdmin(numCuenta);
-            newAdmin.setApellidoPaterno(apellidoPaterno);
-            newAdmin.setApellidoMaterno(apellidoMaterno);
-            newAdmin.setNombre(nombre);
-            newAdmin.setTelefono(telefono);
-            newAdmin.setCorreo(correo);
-            crudAdmin.update(newAdmin, Integer.parseInt(tblAdmin.getValueAt(tblAdmin.getSelectedRow(), 0).toString()));
-            limpiarCampos();
-            createTable();
-            cambiarContrasenia = false;
+            if(newAdmin.getCuentaAdmin()==Integer.parseInt(tblAdmin.getValueAt(tblAdmin.getSelectedRow(), 0).toString())){
+                newAdmin.setApellidoPaterno(apellidoPaterno);
+                newAdmin.setApellidoMaterno(apellidoMaterno);
+                newAdmin.setNombre(nombre);
+                newAdmin.setTelefono(telefono);
+                newAdmin.setCorreo(correo);
+                newAdmin.setContrasenia(hashedPasswordONE);
+                passwordONE.setEnabled(true);
+                passwordConfirm.setEnabled(true);
+                crudAdmin.update(newAdmin, Integer.parseInt(tblAdmin.getValueAt(tblAdmin.getSelectedRow(), 0).toString()));
+                limpiarCampos();
+                createTable();
+                 passwordONE.setEnabled(true);
+                 passwordConfirm.setEnabled(true);
+                 btnUpdate.setEnabled(false);
+                 btnDelete.setEnabled(false);
+            }else{
+                 if (crudAdmin.ValidarAdministrador(newAdmin.getCuentaAdmin())) {
+                JOptionPane.showMessageDialog(null, "El administrador ya esta dado de alta en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }else{
+                     newAdmin.setApellidoPaterno(apellidoPaterno);
+                     newAdmin.setApellidoMaterno(apellidoMaterno);
+                     newAdmin.setNombre(nombre);
+                     newAdmin.setTelefono(telefono);
+                     newAdmin.setCorreo(correo);
+                     newAdmin.setContrasenia(hashedPasswordONE);
+                     crudAdmin.update(newAdmin, Integer.parseInt(tblAdmin.getValueAt(tblAdmin.getSelectedRow(), 0).toString()));
+                     limpiarCampos();
+                     createTable();
+                     passwordONE.setEnabled(true);
+                     passwordConfirm.setEnabled(true);
+                     btnUpdate.setEnabled(false);
+                     
+                     btnDelete.setEnabled(false);
+                 }
+            }
         }
         
 
@@ -710,9 +705,11 @@ public class ViewAdmin extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, "Debe seleccionar un registro para eliminarlo", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
             admin.setCuentaAdmin(Integer.parseInt(txtCuenta.getText()));
-            crudAdmin.delete(admin, Integer.parseInt(tblAdmin.getValueAt(tblAdmin.getSelectedRow(),0).toString()));
+            crudAdmin.delete(Integer.parseInt(tblAdmin.getValueAt(tblAdmin.getSelectedRow(), 0).toString()));
             limpiarCampos();
             createTable();
+            btnUpdate.setEnabled(false);
+            btnDelete.setEnabled(false);
         }
         
         
@@ -761,11 +758,11 @@ public class ViewAdmin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnCambiarContrasenia;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnGoBack;
     private javax.swing.JButton btnUpdate;
+    private javax.swing.JCheckBox checkExtension;
     private javax.swing.JComboBox<String> cmbBuscar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -775,7 +772,6 @@ public class ViewAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

@@ -9,11 +9,14 @@ import opCRUD.CRUDGabinete;
 public class ViewGabinete extends javax.swing.JFrame {
 
    CRUDGabinete crudGabinete=new CRUDGabinete();
+   boolean update=false;
     public ViewGabinete() {
         initComponents();
         txtDescripcion.setLineWrap(true);
         txtDescripcion.setWrapStyleWord(true);
         createTable();
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
     }
     
     public void createTable(){
@@ -32,7 +35,7 @@ public class ViewGabinete extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        pnlPrincipal = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         txtNumero = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -51,7 +54,12 @@ public class ViewGabinete extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Gabinete"));
+        pnlPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Gabinete"));
+        pnlPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlPrincipalMouseClicked(evt);
+            }
+        });
 
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -156,6 +164,11 @@ public class ViewGabinete extends javax.swing.JFrame {
 
             }
         ));
+        tblGabinete.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tblGabineteFocusLost(evt);
+            }
+        });
         tblGabinete.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblGabineteMouseClicked(evt);
@@ -179,16 +192,16 @@ public class ViewGabinete extends javax.swing.JFrame {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
+        pnlPrincipal.setLayout(pnlPrincipalLayout);
+        pnlPrincipalLayout.setHorizontalGroup(
+            pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPrincipalLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jPanel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 495, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
                         .addComponent(btnGoBack)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(btnUpdate)
@@ -197,16 +210,16 @@ public class ViewGabinete extends javax.swing.JFrame {
                     .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+        pnlPrincipalLayout.setVerticalGroup(
+            pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
                 .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGoBack)
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete))
@@ -219,14 +232,14 @@ public class ViewGabinete extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pnlPrincipal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(9, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(pnlPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -290,6 +303,9 @@ public class ViewGabinete extends javax.swing.JFrame {
     private void tblGabineteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGabineteMouseClicked
         txtNumero.setText(tblGabinete.getValueAt(tblGabinete.getSelectedRow(),0).toString());
         txtDescripcion.setText(tblGabinete.getValueAt(tblGabinete.getSelectedRow(),1).toString());
+        update=true;
+        btnUpdate.setEnabled(true);
+        btnDelete.setEnabled(true);
         
     }//GEN-LAST:event_tblGabineteMouseClicked
 
@@ -342,6 +358,28 @@ public class ViewGabinete extends javax.swing.JFrame {
         createTable();
     }//GEN-LAST:event_txtBuscarKeyReleased
 
+    private void pnlPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPrincipalMouseClicked
+   
+        if(update){
+            pnlPrincipal.requestFocus();
+            limpiarCampos();
+            update=false;
+            btnUpdate.setEnabled(false);
+            btnDelete.setEnabled(false);
+        }else{
+            pnlPrincipal.requestFocus();
+        }
+    }//GEN-LAST:event_pnlPrincipalMouseClicked
+
+    private void tblGabineteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblGabineteFocusLost
+        
+            limpiarCampos();
+            update=false;
+            btnUpdate.setEnabled(false);
+            btnDelete.setEnabled(false);
+        
+    }//GEN-LAST:event_tblGabineteFocusLost
+
    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -384,11 +422,11 @@ public class ViewGabinete extends javax.swing.JFrame {
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JTable tblGabinete;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextArea txtDescripcion;

@@ -15,15 +15,24 @@ import opCRUD.CRUDAdmin;
 public class ViewAdmin extends javax.swing.JFrame {
 
     CRUDAdmin crudAdmin=new CRUDAdmin();
+    Administrador admin=null;
     private int cuentaLogin;
+    private String nombreAdmin;
+    private boolean updateDelete;
     
-    public ViewAdmin() {
+    public ViewAdmin(Administrador admin) {
+        this.admin=admin;
         initComponents();
         createTable();
         this.setResizable(false);
-        btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
+        lblNumCuenta.setText(String.valueOf(admin.getCuentaAdmin()));
+        String nombreCompleto=admin.getNombre()+" "+admin.getApellidoPaterno()+" "+admin.getApellidoMaterno();
+        lblNombre.setText(nombreCompleto);
+        
     }
+    
+    public ViewAdmin(){}
     
     public void createTable(){
         tblAdmin.setModel(crudAdmin.opBuscar(cmbBuscar.getSelectedItem().toString(), txtBuscar.getText()));
@@ -69,14 +78,14 @@ public class ViewAdmin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        pnlPrincipal = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblAdmin = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         txtApellidoP = new javax.swing.JTextField();
         txtApellidoM = new javax.swing.JTextField();
         txtNombre = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
+        lblApellido = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -91,7 +100,6 @@ public class ViewAdmin extends javax.swing.JFrame {
         btnGoBack = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        btnUpdate = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         txtTelefono = new javax.swing.JTextField();
@@ -101,10 +109,20 @@ public class ViewAdmin extends javax.swing.JFrame {
         txtCuenta = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        lblNumCuenta = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlPrincipal.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        pnlPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlPrincipalMouseClicked(evt);
+            }
+        });
 
         tblAdmin.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         tblAdmin.setModel(new javax.swing.table.DefaultTableModel(
@@ -118,6 +136,11 @@ public class ViewAdmin extends javax.swing.JFrame {
 
             }
         ));
+        tblAdmin.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                tblAdminFocusLost(evt);
+            }
+        });
         tblAdmin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 tblAdminMouseClicked(evt);
@@ -126,8 +149,13 @@ public class ViewAdmin extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tblAdmin);
 
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Nombre del Administrador"));
+        jPanel2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel2MouseClicked(evt);
+            }
+        });
 
-        jLabel1.setText("Apellido Paterno");
+        lblApellido.setText("Apellido Paterno");
 
         jLabel2.setText("Apellido Materno");
 
@@ -145,7 +173,7 @@ public class ViewAdmin extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(txtApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -160,7 +188,7 @@ public class ViewAdmin extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtApellidoP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1))
+                    .addComponent(lblApellido))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtApellidoM, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -176,6 +204,11 @@ public class ViewAdmin extends javax.swing.JFrame {
 
         cmbBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Número de cuenta", "Nombre del administrador", "Apellido paterno del administrador", "Apellido materno del administrador", "Teléfono" }));
 
+        txtBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtBuscarFocusGained(evt);
+            }
+        });
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscarKeyReleased(evt);
@@ -209,6 +242,11 @@ public class ViewAdmin extends javax.swing.JFrame {
         );
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Contraseña"));
+        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel4MouseClicked(evt);
+            }
+        });
 
         passwordONE.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -268,13 +306,6 @@ public class ViewAdmin extends javax.swing.JFrame {
             }
         });
 
-        btnUpdate.setText("Actualizar registro");
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
-
         btnAdd.setText("Agregar administrador");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -283,6 +314,11 @@ public class ViewAdmin extends javax.swing.JFrame {
         });
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Número de teléfono"));
+        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel5MouseClicked(evt);
+            }
+        });
 
         txtTelefono.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -314,6 +350,11 @@ public class ViewAdmin extends javax.swing.JFrame {
         );
 
         jPanel6.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Correo electrónico"));
+        jPanel6.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel6MouseClicked(evt);
+            }
+        });
 
         txtCorreo.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
@@ -363,53 +404,85 @@ public class ViewAdmin extends javax.swing.JFrame {
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnAdd)
-                                .addGap(33, 33, 33)
-                                .addComponent(btnCancel))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 368, Short.MAX_VALUE)
-                                .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(15, 15, 15)
-                                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(btnUpdate)
-                                .addGap(378, 378, 378)
-                                .addComponent(btnDelete))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnGoBack)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+        jPanel7.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel1.setText("Número de cuenta:");
+
+        jLabel9.setText("Nombre:");
+
+        javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+        jPanel7.setLayout(jPanel7Layout);
+        jPanel7Layout.setHorizontalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel7Layout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jLabel1)
+                .addGap(18, 18, 18)
+                .addComponent(lblNumCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(41, 41, 41)
+                .addComponent(jLabel9)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(67, Short.MAX_VALUE))
         );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
+        jPanel7Layout.setVerticalGroup(
+            jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(21, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel9)
+                    .addComponent(lblNumCuenta)
+                    .addComponent(lblNombre))
+                .addGap(19, 19, 19))
+        );
+
+        javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
+        pnlPrincipal.setLayout(pnlPrincipalLayout);
+        pnlPrincipalLayout.setHorizontalGroup(
+            pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+            .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                        .addComponent(btnAdd)
+                        .addGap(33, 33, 33)
+                        .addComponent(btnCancel))
+                    .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 368, Short.MAX_VALUE)
+                        .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                        .addGap(12, 12, 12)
+                        .addComponent(btnGoBack)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jPanel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnDelete, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(17, 17, 17))
+        );
+        pnlPrincipalLayout.setVerticalGroup(
+            pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPrincipalLayout.createSequentialGroup()
                 .addGap(7, 7, 7)
-                .addComponent(btnGoBack)
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                        .addGap(13, 13, 13)
+                        .addComponent(btnGoBack)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
                         .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE))
+                    .addGroup(pnlPrincipalLayout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -418,10 +491,9 @@ public class ViewAdmin extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
                     .addComponent(btnCancel)
-                    .addComponent(btnUpdate)
                     .addComponent(btnDelete))
                 .addGap(8, 8, 8))
         );
@@ -432,14 +504,14 @@ public class ViewAdmin extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(pnlPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -450,7 +522,6 @@ public class ViewAdmin extends javax.swing.JFrame {
        limpiarCampos();
        passwordONE.setEnabled(true);
        passwordConfirm.setEnabled(true);
-       btnUpdate.setEnabled(false);
        btnDelete.setEnabled(false);
         
     }//GEN-LAST:event_btnCancelActionPerformed
@@ -553,6 +624,7 @@ public class ViewAdmin extends javax.swing.JFrame {
                 newAdmin.setCorreo(correo);
                 newAdmin.setContrasenia(hashedPasswordONE);
                 crudAdmin.save(newAdmin);
+                JOptionPane.showMessageDialog(null,"Se dio de alta el siguiente administrador: \n"+newAdmin,"INFO", JOptionPane.INFORMATION_MESSAGE);
                 char[] hashedPasswordChars = hashedPasswordONE.toCharArray();//Convertir la hashesPassword en carateres para limpiarlo
                 Arrays.fill(hashedPasswordChars, '\0');//Limpiar la contraseña encriptada
                 limpiarCampos();
@@ -582,136 +654,55 @@ public class ViewAdmin extends javax.swing.JFrame {
        txtTelefono.setText(tblAdmin.getValueAt(tblAdmin.getSelectedRow(),5).toString());
        txtCorreo.setText(tblAdmin.getValueAt(tblAdmin.getSelectedRow(),4).toString());
        txtCuenta.setText(tblAdmin.getValueAt(tblAdmin.getSelectedRow(),0).toString());
+       txtApellidoP.setEditable(false);
+       txtApellidoM.setEditable(false);
+       txtNombre.setEditable(false);
+       txtTelefono.setEditable(false);
+       txtCorreo.setEditable(false);
+       txtCuenta.setEditable(false);
        passwordONE.setEnabled(false);
        passwordConfirm.setEnabled(false);
-       btnUpdate.setEnabled(true);
        btnDelete.setEnabled(true);
-       btnAdd.setEnabled(true);
+       btnAdd.setEnabled(false);
+       updateDelete=true;
        
        
     }//GEN-LAST:event_tblAdminMouseClicked
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        boolean bandera = false;
-        String nombre = null, apellidoPaterno = null, apellidoMaterno = null, telefono = null, correo = null, hashedPasswordONE = null;
-        int numCuenta = -1;
-        Administrador newAdmin=new Administrador();
-         ///////////////////////////////////////Apellido Materno/////////////////////////////////////////////////////////////////////////////
-         if(txtApellidoM.getText().isEmpty()||!txtApellidoM.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")){
-           JOptionPane.showMessageDialog(null, "Debe de introducir su apellido materno correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
-           bandera=true;
-        }else{
-            apellidoMaterno=txtApellidoM.getText();
-        }
-         ///////////////////////////////////////Apellido Paterno/////////////////////////////////////////////////////////////////////////////
-         if(txtApellidoP.getText().isEmpty()||!txtApellidoP.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")){
-           JOptionPane.showMessageDialog(null, "Debe de introducir su apellido paterno correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
-           bandera=true;
-        }else{
-            apellidoPaterno=txtApellidoP.getText();
-        }
-         ///////////////////////////////////////Nombre/////////////////////////////////////////////////////////////////////////////
-        if(txtNombre.getText().isEmpty()||!txtNombre.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")){
-           JOptionPane.showMessageDialog(null, "Debe de introducir su nombre(s) correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
-           bandera=true;
-        }else{
-            nombre=txtNombre.getText();
-        }
-         ///////////////////////////////////////Telefono/////////////////////////////////////////////////////////////////////////////
-        if(txtTelefono.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Debe de instroducir un número de teléfono\n", "ERROR", JOptionPane.ERROR_MESSAGE);
-            bandera=true;
-        }else{
-            if(validarTelefono(txtTelefono.getText(),checkExtension.isSelected())){
-                telefono=txtTelefono.getText();
-            }else{
-                JOptionPane.showMessageDialog(null, "El número de telefono es incorrecto", "ERROR", JOptionPane.ERROR_MESSAGE);
-                bandera=true;
-            }
-        }
-         ///////////////////////////////////////Correo/////////////////////////////////////////////////////////////////////////////
-        if(txtCorreo.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Debe de introducir un correo electrónico", "ERROR", JOptionPane.ERROR_MESSAGE);
-            bandera=true;
-        }else{
-            correo=txtCorreo.getText();
-            if(!validarCorreo(correo)){
-                JOptionPane.showMessageDialog(null, "El correo electrónico es invalido", "ERROR", JOptionPane.ERROR_MESSAGE);
-                bandera=true;
-            }
-        }
-         ///////////////////////////////////////Número de cuenta/////////////////////////////////////////////////////////////////////////////
-        if (txtCuenta.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Debe de introducir su número de cuenta", "Error", JOptionPane.ERROR_MESSAGE);
-            bandera = true;
-        } else {
-            try {
-                numCuenta = Integer.parseInt(txtCuenta.getText());
-            } catch (NumberFormatException err) {
-                JOptionPane.showMessageDialog(null, "El número de cuenta es ", "Error", JOptionPane.ERROR_MESSAGE);
-                bandera = true;
-            }
-        }
- 
-        if (!bandera) {
-            newAdmin.setCuentaAdmin(numCuenta);
-            if(newAdmin.getCuentaAdmin()==Integer.parseInt(tblAdmin.getValueAt(tblAdmin.getSelectedRow(), 0).toString())){
-                newAdmin.setApellidoPaterno(apellidoPaterno);
-                newAdmin.setApellidoMaterno(apellidoMaterno);
-                newAdmin.setNombre(nombre);
-                newAdmin.setTelefono(telefono);
-                newAdmin.setCorreo(correo);
-                newAdmin.setContrasenia(hashedPasswordONE);
-                passwordONE.setEnabled(true);
-                passwordConfirm.setEnabled(true);
-                crudAdmin.update(newAdmin, Integer.parseInt(tblAdmin.getValueAt(tblAdmin.getSelectedRow(), 0).toString()));
-                limpiarCampos();
-                createTable();
-                 passwordONE.setEnabled(true);
-                 passwordConfirm.setEnabled(true);
-                 btnUpdate.setEnabled(false);
-                 btnDelete.setEnabled(false);
-            }else{
-                 if (crudAdmin.ValidarAdministrador(newAdmin.getCuentaAdmin())) {
-                JOptionPane.showMessageDialog(null, "El administrador ya esta dado de alta en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
-                }else{
-                     newAdmin.setApellidoPaterno(apellidoPaterno);
-                     newAdmin.setApellidoMaterno(apellidoMaterno);
-                     newAdmin.setNombre(nombre);
-                     newAdmin.setTelefono(telefono);
-                     newAdmin.setCorreo(correo);
-                     newAdmin.setContrasenia(hashedPasswordONE);
-                     crudAdmin.update(newAdmin, Integer.parseInt(tblAdmin.getValueAt(tblAdmin.getSelectedRow(), 0).toString()));
-                     limpiarCampos();
-                     createTable();
-                     passwordONE.setEnabled(true);
-                     passwordConfirm.setEnabled(true);
-                     btnUpdate.setEnabled(false);
-                     
-                     btnDelete.setEnabled(false);
-                 }
-            }
-        }
-        
-
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         
-        Administrador admin=new Administrador();
         
-        if(txtCuenta.getText().isEmpty()){
-            
+        if(txtCuenta.getText().isEmpty()){     
             JOptionPane.showMessageDialog(null, "Debe seleccionar un registro para eliminarlo", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            admin.setCuentaAdmin(Integer.parseInt(txtCuenta.getText()));
-            crudAdmin.delete(Integer.parseInt(tblAdmin.getValueAt(tblAdmin.getSelectedRow(), 0).toString()));
-            limpiarCampos();
-            createTable();
-            btnUpdate.setEnabled(false);
-            btnDelete.setEnabled(false);
+ 
+            if (admin.getCuentaAdmin() == Integer.parseInt(tblAdmin.getValueAt(tblAdmin.getSelectedRow(), 0).toString())) {
+                JOptionPane.showMessageDialog(null, "No se puede eliminar a si mismo\n Si quiere eliminar su cuenta vaya a Ajustes de perfil", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (JOptionPane.showConfirmDialog(null, "Esta a punto de eliminar el administrador con los siguientes datos: \n"
+                        +"Número de cuenta: "+ tblAdmin.getValueAt(tblAdmin.getSelectedRow(),0).toString()+"\n"
+                        +"Apellido Paterno: "+ tblAdmin.getValueAt(tblAdmin.getSelectedRow(),1).toString()+"\n"
+                        +"Apellido Materno: "+ tblAdmin.getValueAt(tblAdmin.getSelectedRow(),2).toString()+"\n"
+                        +"Nombre: "+tblAdmin.getValueAt(tblAdmin.getSelectedRow(),3).toString()+"\n"
+                        +"Correo: "+tblAdmin.getValueAt(tblAdmin.getSelectedRow(),4).toString()+"\n"
+                        +"Telefono: "+tblAdmin.getValueAt(tblAdmin.getSelectedRow(),5).toString(),"Warning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    crudAdmin.delete(Integer.parseInt(tblAdmin.getValueAt(tblAdmin.getSelectedRow(), 0).toString()));
+                    limpiarCampos();
+                    createTable();
+                    btnDelete.setEnabled(false);
+                    txtApellidoP.setEditable(true);
+                    txtApellidoM.setEditable(true);
+                    txtNombre.setEditable(true);
+                    txtTelefono.setEditable(true);
+                    txtCorreo.setEditable(true);
+                    txtCuenta.setEditable(true);
+                    btnAdd.setEnabled(true);
+                    passwordONE.setEnabled(true);
+                    passwordConfirm.setEnabled(true);
+                }
+            }
         }
-        
+
         
     }//GEN-LAST:event_btnDeleteActionPerformed
 
@@ -721,7 +712,82 @@ public class ViewAdmin extends javax.swing.JFrame {
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         createTable();
+        
     }//GEN-LAST:event_txtBuscarKeyReleased
+
+    private void jPanel2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel2MouseClicked
+        if(updateDelete){
+            limpiarCampos();
+            passwordONE.setEnabled(true);
+            passwordConfirm.setEnabled(true);
+            updateDelete=true;
+            pnlPrincipal.requestFocus();
+        }else{
+            pnlPrincipal.requestFocus();
+        }
+    }//GEN-LAST:event_jPanel2MouseClicked
+
+    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
+        if(updateDelete){
+            limpiarCampos();
+            passwordONE.setEnabled(true);
+            passwordConfirm.setEnabled(true);
+            updateDelete=true;
+            pnlPrincipal.requestFocus();
+        }else{
+            pnlPrincipal.requestFocus();
+        }
+    }//GEN-LAST:event_jPanel5MouseClicked
+
+    private void pnlPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPrincipalMouseClicked
+        if(updateDelete){
+            limpiarCampos();
+            passwordONE.setEnabled(true);
+            passwordConfirm.setEnabled(true);
+            updateDelete=true;
+            pnlPrincipal.requestFocus();
+        }else{
+            pnlPrincipal.requestFocus();
+        }
+    }//GEN-LAST:event_pnlPrincipalMouseClicked
+
+    private void tblAdminFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblAdminFocusLost
+        if(!updateDelete){
+            limpiarCampos();
+        }
+    }//GEN-LAST:event_tblAdminFocusLost
+
+    private void jPanel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel6MouseClicked
+        if(updateDelete){
+            limpiarCampos();
+            passwordONE.setEnabled(true);
+            passwordConfirm.setEnabled(true);
+            updateDelete=true;
+            pnlPrincipal.requestFocus();
+        }else{
+            pnlPrincipal.requestFocus();
+        }
+    }//GEN-LAST:event_jPanel6MouseClicked
+
+    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
+        if(updateDelete){
+            limpiarCampos();
+            passwordONE.setEnabled(true);
+            passwordConfirm.setEnabled(true);
+            updateDelete=true;
+            pnlPrincipal.requestFocus();
+        }else{
+            pnlPrincipal.requestFocus();
+        }
+    }//GEN-LAST:event_jPanel4MouseClicked
+
+    private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
+        if(updateDelete){
+            limpiarCampos();
+            btnDelete.setEnabled(false);
+            updateDelete=false;
+        }
+    }//GEN-LAST:event_txtBuscarFocusGained
 
   
     public static void main(String args[]) {
@@ -761,7 +827,6 @@ public class ViewAdmin extends javax.swing.JFrame {
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnGoBack;
-    private javax.swing.JButton btnUpdate;
     private javax.swing.JCheckBox checkExtension;
     private javax.swing.JComboBox<String> cmbBuscar;
     private javax.swing.JLabel jLabel1;
@@ -772,15 +837,20 @@ public class ViewAdmin extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblApellido;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblNumCuenta;
     private javax.swing.JPasswordField passwordConfirm;
     private javax.swing.JPasswordField passwordONE;
+    private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JTable tblAdmin;
     private javax.swing.JTextField txtApellidoM;
     private javax.swing.JTextField txtApellidoP;

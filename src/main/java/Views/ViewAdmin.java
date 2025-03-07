@@ -24,11 +24,15 @@ public class ViewAdmin extends javax.swing.JFrame {
         this.admin=admin;
         initComponents();
         createTable();
+        ///////////////////////////////////
         this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        ///////////////////////////////////
         btnDelete.setEnabled(false);
         lblNumCuenta.setText(String.valueOf(admin.getCuentaAdmin()));
         String nombreCompleto=admin.getNombre()+" "+admin.getApellidoPaterno()+" "+admin.getApellidoMaterno();
         lblNombre.setText(nombreCompleto);
+        pnlPrincipal.requestFocus();
         
     }
     

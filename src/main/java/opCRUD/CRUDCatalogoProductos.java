@@ -33,7 +33,7 @@ public class CRUDCatalogoProductos {
             if (transaction != null) {
                 transaction.rollback();
                 System.out.println("El error en el metodo de guardar es: "+err);
-                JOptionPane.showMessageDialog(null,"Hubo un error al dar de alta el registro\n"+err+"\n Error SAVECRUDAdmin", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Hubo un error al dar de alta el registro\n"+err+"\n Error SAVECRUD", "Error", JOptionPane.ERROR_MESSAGE);
             }
         } finally {
             session.close();

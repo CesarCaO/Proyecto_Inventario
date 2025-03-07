@@ -8,25 +8,25 @@ import java.util.Vector;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
-import models.Gabinete;
+import models.Marca;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 
-public class CRUDGabinete {
+public class CRUDMarca {
     
-    public void save(Gabinete newGabinete){
+    public void save(Marca newMarca){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         
          try {
             System.out.println("Transaction iniciada");
             transaction = session.beginTransaction();
-            System.out.println("Guardando producto en el catalogo");
-            session.persist(newGabinete);
+            System.out.println("Guardando registro");
+            session.persist(newMarca);
             transaction.commit();
-             System.out.println("Se guardo el producto en el catalogo");
+             System.out.println("Se guardo el registro");
         } catch (Exception err) {
 
             if (transaction != null) {
@@ -39,14 +39,38 @@ public class CRUDGabinete {
         }
     }
     
-    public void update(Gabinete newGabinete, int numOldGabinete){
+    public void delete(String nombre){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction transaction = null;
+        
+        try{
+            Marca delmarca= new Marca();
+            System.out.println("Transaction iniciada");
+            delmarca.setIdMarca(ToID(nombre));
+            transaction = session.beginTransaction();
+            System.out.println("Eliminar administrador");
+            session.remove(delmarca);
+            transaction.commit();
+            System.out.println("Se eliminó administrador");
+        }catch(Exception err){
+            if(transaction!=null){
+                transaction.rollback();
+                System.out.println("Hubo un problema al eliminar "+err+ " Error: UpdateCRUD");
+            }
+        }finally{
+            session.close();
+        }
+         
+     }
+    
+    public void update(Marca newMarca, String nombre){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         try {
             
-            newGabinete.setIdGabinete(NumToID(numOldGabinete));
+            newMarca.setIdMarca(ToID(nombre));
             transaction = session.beginTransaction();
-            session.merge(newGabinete);
+            session.merge(newMarca);
             transaction.commit();
             
 
@@ -61,39 +85,16 @@ public class CRUDGabinete {
         }
     }
     
-     public void delete(int numero){
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction transaction = null;
-        
-        try{
-            Gabinete delGab= new Gabinete();
-            System.out.println("Transaction iniciada");
-            delGab.setIdGabinete(NumToID(numero));
-            transaction = session.beginTransaction();
-            System.out.println("Eliminar administrador");
-            session.remove(delGab);
-            transaction.commit();
-            System.out.println("Se eliminó administrador");
-        }catch(Exception err){
-            if(transaction!=null){
-                transaction.rollback();
-                System.out.println("Hubo un problema al eliminar "+err+ " Error: UpdateCRUD");
-            }
-        }finally{
-            session.close();
-        }
-         
-     }
-    public int NumToID(int numero){
+    public int ToID(String marca){
           Session session= HibernateUtil.getSessionFactory().openSession();
           Query<Integer>query;
           int idGabinete=-1;
           try{
-              query=session.createQuery("SELECT idGabinete FROM Gabinete WHERE numGabinete =: numero",Integer.class);
-              query.setParameter("numero",numero );
+              query=session.createQuery("SELECT idMarca FROM Marca WHERE nombreMarca =: marca",Integer.class);
+              query.setParameter("marca",marca);
               idGabinete=query.uniqueResult();
           }catch(Exception err){
-                JOptionPane.showMessageDialog(null,"Error al encontrar el id del Gabinete"+err+" Error: IDGAB", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Error al encontrar el ID\n "+err+" \nError: ToID", "Error", JOptionPane.ERROR_MESSAGE);
           }finally{
               session.close();
           }
@@ -101,52 +102,51 @@ public class CRUDGabinete {
           return idGabinete;
     }
     
-    public boolean validarGabinete(int numero){
+    public boolean ValidarExistencia(String nombre){
         Session session= HibernateUtil.getSessionFactory().openSession();
         
-        Gabinete foundGabinete;
+        Marca foundMarca;
         boolean encontrado=false;
-        
         try{
-             Query<Gabinete> query=session.createQuery("FROM Gabinete WHERE numGabinete= :numero", Gabinete.class);
-            query.setParameter("numero",numero);
-            foundGabinete=query.uniqueResult();
-            if(foundGabinete!= null){
+            Query<Marca> query=session.createQuery("FROM Marca WHERE nombreMarca= :nombre", Marca.class);
+            query.setParameter("nombre",nombre);
+            foundMarca=query.uniqueResult();
+            if(foundMarca!= null){
                 encontrado=true;
                 return encontrado;
             }
+            
         }catch(Exception err){
-            JOptionPane.showMessageDialog(null,"Error al validar existencia del Gabinete "+err+" Error: ValCAT", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Error al validar existencia del la marca "+err+" Error: ValCAT", "Error", JOptionPane.ERROR_MESSAGE);
         }finally{
             session.close();
         }
         
         return encontrado;
+        
     }
     
-    
-    //*******************************************  Metodos para buscar y crear la tabla ******************************************//
     public List opRead(String crit, String field){//Este metodo recupera los registros de la base de datos mediante consultas
         Session session=HibernateUtil.getSessionFactory().openSession();
         System.out.println(crit);
-        List<Gabinete> listcatpro=null;
-        Query<Gabinete> query;
+        List<Marca> listresults=null;
+        Query<Marca> query;
          try{
             if(crit.equals("")){
-                query=session.createQuery("FROM Gabinete", Gabinete.class);
-                listcatpro=query.getResultList();
+                query=session.createQuery("FROM Marca", Marca.class);
+                listresults=query.getResultList();
 
             }else{
-                query=session.createQuery("FROM Gabinete WHERE CAST("+ field +" AS string) LIKE :crit",Gabinete.class);
+                query=session.createQuery("FROM Marca WHERE "+ field +"  LIKE :crit",Marca.class);
                 query.setParameter("crit",crit+"%");
-                listcatpro=query.getResultList();
-                System.out.println(listcatpro);
+                listresults=query.getResultList();
+                System.out.println(listresults);
             }
         }catch(Exception err){
              
-             JOptionPane.showMessageDialog(null,"Error al leer el gabinete "+err+" Error: opRead", "Error", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(null,"Error al leer las marcas "+err+" Error: opRead", "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return listcatpro; 
+        return listresults; 
     }
     
     public TableModel ListTo(List results){///Este metodo crea la tabla de la interfaz
@@ -155,19 +155,16 @@ public class CRUDGabinete {
         Vector columnNames=new Vector();
         Vector rows=new Vector();
         
-        Gabinete gabinete;
+        Marca marca;
         
-        columnNames.addElement("Número de gabinete");
-        columnNames.addElement("Descripción del gabinete");
-        
+        columnNames.addElement("Nombre de la marca");
        
-        Iterator itGabinete=results.iterator();
+        Iterator itMarca=results.iterator();
         
-        while(itGabinete.hasNext()){
-            gabinete=(Gabinete)itGabinete.next();
+        while(itMarca.hasNext()){
+            marca=(Marca)itMarca.next();
             Vector newRow=new Vector();
-            newRow.addElement(gabinete.getNumGabinete());
-            newRow.addElement(gabinete.getDescripcion());
+            newRow.addElement(marca.getNombreMarca());
             rows.addElement(newRow);
         }
      return new DefaultTableModel(rows,columnNames){
@@ -180,9 +177,10 @@ public class CRUDGabinete {
     
    public TableModel opBuscar(String field, String crit){
         TableModel tm=null;
-        List<Gabinete> results;
+        List<Marca> results;
         results=opRead(crit,field);
         tm=ListTo(results);
         return tm;
     }
+    
 }

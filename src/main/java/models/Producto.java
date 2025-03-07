@@ -50,17 +50,19 @@ public class Producto {
     @Column(name="fechaRegistro")
     private Date fechaRegistro;
     
+    @Column(name="barcode")
+    private byte[] barcode;
     @Column(name="imagen")
-    private Object image;
+    private byte[] image;
     
     @ManyToOne
     @JoinColumn(name="idAdmin",foreignKey=@ForeignKey(name="idAdmin"),nullable=false)
     private Administrador administrador;
 
-    public Producto(int idProducto, int numInventario, CatalogoProductos catalogProducto, Marca marca, TipoProducto tipoProducto, Gabinete gabinete, EstadoProducto estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtulizada, Date fechaRegistro, Object image, Administrador administrador) {
+    public Producto(int idProducto, int numInventario, CatalogoProductos catalogoProducto, Marca marca, TipoProducto tipoProducto, Gabinete gabinete, EstadoProducto estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtilizada, Date fechaRegistro, byte[] barcode, byte[] image, Administrador administrador) {
         this.idProducto = idProducto;
         this.numInventario = numInventario;
-        this.catalogoProducto = catalogProducto;
+        this.catalogoProducto = catalogoProducto;
         this.marca = marca;
         this.tipoProducto = tipoProducto;
         this.gabinete = gabinete;
@@ -68,12 +70,14 @@ public class Producto {
         this.descripcion = descripcion;
         this.cantidadStock = cantidadStock;
         this.cantidadPrestada = cantidadPrestada;
-        this.cantidadUtilizada = cantidadUtulizada;
+        this.cantidadUtilizada = cantidadUtilizada;
         this.fechaRegistro = fechaRegistro;
+        this.barcode = barcode;
         this.image = image;
         this.administrador = administrador;
     }
 
+    
     public Producto(){}
 
     public void setIdProducto(int idProducto) {
@@ -84,8 +88,8 @@ public class Producto {
         this.numInventario = numInventario;
     }
 
-    public void setCatalogProducto(CatalogoProductos catalogProducto) {
-        this.catalogoProducto = catalogProducto;
+    public void setCatalogoProducto(CatalogoProductos catalogoProducto) {
+        this.catalogoProducto = catalogoProducto;
     }
 
     public void setMarca(Marca marca) {
@@ -116,15 +120,19 @@ public class Producto {
         this.cantidadPrestada = cantidadPrestada;
     }
 
-    public void setCantidadUtulizada(int cantidadUtulizada) {
-        this.cantidadUtilizada = cantidadUtulizada;
+    public void setCantidadUtilizada(int cantidadUtilizada) {
+        this.cantidadUtilizada = cantidadUtilizada;
     }
 
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public void setImage(Object image) {
+    public void setBarcode(byte[] barcode) {
+        this.barcode = barcode;
+    }
+
+    public void setImage(byte[] image) {
         this.image = image;
     }
 
@@ -140,7 +148,7 @@ public class Producto {
         return numInventario;
     }
 
-    public CatalogoProductos getCatalogProducto() {
+    public CatalogoProductos getCatalogoProducto() {
         return catalogoProducto;
     }
 
@@ -172,7 +180,7 @@ public class Producto {
         return cantidadPrestada;
     }
 
-    public int getCantidadUtulizada() {
+    public int getCantidadUtilizada() {
         return cantidadUtilizada;
     }
 
@@ -180,15 +188,19 @@ public class Producto {
         return fechaRegistro;
     }
 
-    public Object getImage() {
+    public byte[] getBarcode() {
+        return barcode;
+    }
+
+    public byte[] getImage() {
         return image;
     }
 
     public Administrador getAdministrador() {
         return administrador;
     }
-    
 
+   
  
     @Override
     public String toString(){

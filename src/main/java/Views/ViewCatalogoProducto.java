@@ -24,6 +24,11 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
         createTableCatPro();
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
+        btnAdd.setEnabled(false);
+        btnCancel.setEnabled(false);
+        pnlPrincipal.requestFocus();
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
         
         
     }
@@ -51,6 +56,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
         txtProducto = new javax.swing.JTextField();
         btnAdd = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -149,6 +155,11 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
                 txtProductoActionPerformed(evt);
             }
         });
+        txtProducto.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtProductoKeyReleased(evt);
+            }
+        });
 
         btnAdd.setText("Agregar");
         btnAdd.addActionListener(new java.awt.event.ActionListener() {
@@ -158,6 +169,13 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
         });
 
         jButton1.setText("Regresar");
+
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
         pnlPrincipal.setLayout(pnlPrincipalLayout);
@@ -178,6 +196,8 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCancel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnUpdate)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnDelete)
@@ -204,7 +224,8 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete)
-                    .addComponent(jButton1))
+                    .addComponent(jButton1)
+                    .addComponent(btnCancel))
                 .addContainerGap())
         );
 
@@ -252,12 +273,16 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
             cleanFields();
         }
 
-        if(!bandera){
+        if (!bandera) {
             newcatpro.setNombre_producto(txtProducto.getText());
-            
-            crudCatPro.save(newcatpro);
-            cleanFields();
-            createTableCatPro();
+            if (JOptionPane.showConfirmDialog(null, "¿Desea agregar este articulo al catalogo?\n" + newcatpro.getNombre_producto(), "Confirm", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
+                crudCatPro.save(newcatpro);
+                JOptionPane.showMessageDialog(null,"Se registros el producto en el catalogo","Info", JOptionPane.INFORMATION_MESSAGE);
+                cleanFields();
+                createTableCatPro();
+                btnAdd.setEnabled(false);
+                btnCancel.setEnabled(false);
+            }
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -266,6 +291,8 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
         txtProducto.setText(tblcatpro.getValueAt(tblcatpro.getSelectedRow(),0).toString());
         btnUpdate.setEnabled(true);
         btnDelete.setEnabled(true);
+        btnAdd.setEnabled(false);
+        btnCancel.setEnabled(true);
         update=true;
         
     }//GEN-LAST:event_tblcatproMouseClicked
@@ -298,6 +325,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased
         createTableCatPro();
+        
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -345,9 +373,28 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
             cleanFields();
             btnUpdate.setEnabled(false);
             btnDelete.setEnabled(false);
-            update=false;
+  
         }
     }//GEN-LAST:event_txtBuscarFocusGained
+
+    private void txtProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProductoKeyReleased
+        if(txtProducto.getText().isEmpty()||update){
+            btnAdd.setEnabled(false);
+        }else{
+            btnAdd.setEnabled(true);
+            btnCancel.setEnabled(true);
+        }
+    }//GEN-LAST:event_txtProductoKeyReleased
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        cleanFields();
+        btnAdd.setEnabled(false);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
+        btnCancel.setEnabled(false);
+        update=false;
+        
+    }//GEN-LAST:event_btnCancelActionPerformed
     
     
     //Crear getters y setters asegura que la interfaz solo muestre y los datos sean enviados al controlador
@@ -363,6 +410,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnCancel;
     public javax.swing.JButton btnDelete;
     public javax.swing.JButton btnUpdate;
     private javax.swing.JButton jButton1;

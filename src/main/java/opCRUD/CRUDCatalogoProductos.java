@@ -45,13 +45,15 @@ public class CRUDCatalogoProductos {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
+        CatalogoProductos updateCatPro;
         try {
             
-            newcatpro.setId_catpro(NameToID(oldcatproName));
             transaction = session.beginTransaction();
-            session.merge(newcatpro);
+            updateCatPro=session.get(CatalogoProductos.class, ToID(oldcatproName));
+            updateCatPro.setNombre_producto(newcatpro.getNombre_producto());
+            session.flush();
+            session.clear();
             transaction.commit();
-            
 
         } catch (Exception err) {
 
@@ -65,17 +67,21 @@ public class CRUDCatalogoProductos {
     
     }
     
-    public boolean delete(CatalogoProductos delcatpro,String oldcatproName){
+    public boolean delete(String oldcatproName){
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         boolean completado=false;
+        CatalogoProductos delcatpro;
         try{
-            delcatpro.setId_catpro(NameToID(oldcatproName));
             transaction = session.beginTransaction();
+            System.out.println("Transaction iniciada");
+            delcatpro=session.find(CatalogoProductos.class, ToID(oldcatproName));
+            System.out.println("Eliminar registro");
             session.remove(delcatpro);
+            session.flush();
+            session.clear();
             transaction.commit();
-            completado=true;
 
             
         }catch(Exception err){
@@ -176,7 +182,7 @@ public class CRUDCatalogoProductos {
         return encontrado;
     }
     
-    public int NameToID(String name){
+    public int ToID(String name){
           Session session= HibernateUtil.getSessionFactory().openSession();
           Query<Integer>query;
           int idcatpro=-1;

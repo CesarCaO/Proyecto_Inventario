@@ -42,14 +42,16 @@ public class CRUDEstadoProducto {
     public void update(EstadoProducto newEstPro, String nombre){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
+        EstadoProducto updateEstPro;
         try {
-            
-            newEstPro.setIdEstadoProducto(ToID(nombre));
+           
             transaction = session.beginTransaction();
-            session.merge(newEstPro);
+            updateEstPro=session.get(EstadoProducto.class, ToID(nombre));
+            updateEstPro.setEstado(newEstPro.getEstado());
+            session.flush();
+            session.clear();
             transaction.commit();
             
-
         } catch (Exception err) {
 
             if (transaction != null) {
@@ -64,19 +66,20 @@ public class CRUDEstadoProducto {
     public void delete(String estado){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
+        EstadoProducto delEstPro;
         try{
-            EstadoProducto delEstPro=new EstadoProducto();
-            System.out.println("Transaction iniciada");
-            delEstPro.setIdEstadoProducto(ToID(estado));
             transaction = session.beginTransaction();
-            System.out.println("Eliminar administrador");
+            System.out.println("Transaction iniciada");
+            delEstPro=session.find(EstadoProducto.class, ToID(estado));
+            System.out.println("Eliminar registro");
             session.remove(delEstPro);
+            session.flush();
+            session.clear();
             transaction.commit();
-            System.out.println("Se eliminó administrador");
         }catch(Exception err){
             if(transaction!=null){
                 transaction.rollback();
-                System.out.println("Hubo un problema al eliminar "+err+ " Error: UpdateCRUD");
+                System.out.println("Hubo un problema al eliminar "+err+ " Error: DeteleCRUD");
             }
         }finally{
             session.close();
@@ -113,7 +116,7 @@ public class CRUDEstadoProducto {
             }
             
         }catch(Exception err){
-            JOptionPane.showMessageDialog(null,"Error al validar existencia del Estado Producto "+err+" Error: ValCAT", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null,"Error al validar existencia del Estado Producto "+err+" Error: ValExt", "Error", JOptionPane.ERROR_MESSAGE);
         }finally{
             session.close();
         }

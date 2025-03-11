@@ -42,16 +42,16 @@ public class CRUDMarca {
     public void delete(String nombre){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        
+        Marca delmarca;
         try{
-            Marca delmarca= new Marca();
-            System.out.println("Transaction iniciada");
-            delmarca.setIdMarca(ToID(nombre));
             transaction = session.beginTransaction();
-            System.out.println("Eliminar administrador");
+            System.out.println("Transaction iniciada");
+            delmarca=session.find(Marca.class, ToID(nombre));
+            System.out.println("Eliminar registro");
             session.remove(delmarca);
+            session.flush();
+            session.clear();
             transaction.commit();
-            System.out.println("Se eliminó administrador");
         }catch(Exception err){
             if(transaction!=null){
                 transaction.rollback();
@@ -66,14 +66,14 @@ public class CRUDMarca {
     public void update(Marca newMarca, String nombre){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        try {
-            
-            newMarca.setIdMarca(ToID(nombre));
+        Marca updateMarca;
+        try {  
             transaction = session.beginTransaction();
-            session.merge(newMarca);
+            updateMarca=session.get(Marca.class, ToID(nombre));
+            updateMarca.setNombreMarca(newMarca.getNombreMarca());
+            session.flush();
+            session.clear();
             transaction.commit();
-            
-
         } catch (Exception err) {
 
             if (transaction != null) {

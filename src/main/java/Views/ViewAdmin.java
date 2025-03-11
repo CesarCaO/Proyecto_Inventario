@@ -16,8 +16,6 @@ public class ViewAdmin extends javax.swing.JFrame {
 
     CRUDAdmin crudAdmin=new CRUDAdmin();
     Administrador admin=null;
-    private int cuentaLogin;
-    private String nombreAdmin;
     private boolean updateDelete;
     
     public ViewAdmin(Administrador admin) {

@@ -13,7 +13,7 @@ public class TipoProducto {
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="idTipoProducto")
-    private int id_tipoProducto;
+    private int idTipoProducto;
     
     @Column(name="tipo")
     private String tipo;
@@ -21,15 +21,15 @@ public class TipoProducto {
     @OneToMany(mappedBy="tipoProducto", cascade=CascadeType.ALL,orphanRemoval=true)
     private List<Producto> producto= new ArrayList<>();
 
-    public TipoProducto(int id_tipoProducto, String tipo) {
-        this.id_tipoProducto = id_tipoProducto;
+    public TipoProducto(int idTipoProducto, String tipo) {
+        this.idTipoProducto = idTipoProducto;
         this.tipo = tipo;
     }
 
     public TipoProducto(){}
 
-    public void setId_tipoProducto(int id_tipoProducto) {
-        this.id_tipoProducto = id_tipoProducto;
+    public void setIdTipoProducto(int idTipoProducto) {
+        this.idTipoProducto = idTipoProducto;
     }
 
     public void setTipo(String tipo) {
@@ -40,8 +40,8 @@ public class TipoProducto {
         this.producto = producto;
     }
 
-    public int getId_tipoProducto() {
-        return id_tipoProducto;
+    public int getIdTipoProducto() {
+        return idTipoProducto;
     }
 
     public String getTipo() {
@@ -53,11 +53,10 @@ public class TipoProducto {
     }
     
     
-    
  @Override
     public String toString(){
         return "Tipo producto\n"+
-                "ID: "+id_tipoProducto+"\n"+
+                "ID: "+idTipoProducto+"\n"+
                 "Tipo: "+tipo+"\n";
     }
     

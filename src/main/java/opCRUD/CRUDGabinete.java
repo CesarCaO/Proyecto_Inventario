@@ -42,11 +42,15 @@ public class CRUDGabinete {
     public void update(Gabinete newGabinete, int numOldGabinete){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
+        Gabinete updateGabinete;
         try {
             
-            newGabinete.setIdGabinete(NumToID(numOldGabinete));
             transaction = session.beginTransaction();
-            session.merge(newGabinete);
+            updateGabinete=session.get(Gabinete.class, ToID(numOldGabinete));
+            updateGabinete.setNumGabinete(newGabinete.getNumGabinete());
+            updateGabinete.setDescripcion(newGabinete.getDescripcion());
+            session.flush();
+            session.clear();
             transaction.commit();
             
 
@@ -64,16 +68,16 @@ public class CRUDGabinete {
      public void delete(int numero){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        
+        Gabinete delGab;
         try{
-            Gabinete delGab= new Gabinete();
-            System.out.println("Transaction iniciada");
-            delGab.setIdGabinete(NumToID(numero));
             transaction = session.beginTransaction();
-            System.out.println("Eliminar administrador");
+            System.out.println("Transaction iniciada");
+            delGab=session.find(Gabinete.class, ToID(numero));
+            System.out.println("Eliminar registro");
             session.remove(delGab);
+            session.flush();
+            session.clear();
             transaction.commit();
-            System.out.println("Se eliminó administrador");
         }catch(Exception err){
             if(transaction!=null){
                 transaction.rollback();
@@ -84,7 +88,7 @@ public class CRUDGabinete {
         }
          
      }
-    public int NumToID(int numero){
+    public int ToID(int numero){
           Session session= HibernateUtil.getSessionFactory().openSession();
           Query<Integer>query;
           int idGabinete=-1;

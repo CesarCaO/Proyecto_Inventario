@@ -42,18 +42,22 @@ public class CRUDAdmin {
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        Administrador oldadmin= new Administrador();
+        Administrador updateAdmin;
         
         try{
             System.out.println("Transaction iniciada");
-            newadmin.setIdAdmin(ToID(numCuenta));
-            if(newadmin.getContrasenia()==null){
-                oldadmin=session.get(Administrador.class, newadmin.getIdAdmin());
-                newadmin.setContrasenia(oldadmin.getContrasenia());
-            }
             transaction = session.beginTransaction();
+            updateAdmin=session.get(Administrador.class, ToID(numCuenta));//NO es necesario hacer merge si usa get
+            updateAdmin.setApellidoPaterno(newadmin.getApellidoPaterno());
+            updateAdmin.setApellidoMaterno(newadmin.getApellidoMaterno());
+            updateAdmin.setNombre(newadmin.getNombre());
+            updateAdmin.setCuentaAdmin(newadmin.getCuentaAdmin());
+            updateAdmin.setCorreo(newadmin.getCorreo());
+            updateAdmin.setTelefono(newadmin.getTelefono());
+            if(newadmin.getContrasenia()!=null && !newadmin.getContrasenia().isEmpty()){
+                updateAdmin.setContrasenia(newadmin.getContrasenia());
+            }
             System.out.println("Actualizar administrador");
-            session.merge(newadmin);
             transaction.commit();
             System.out.println("Se actualizó administrador");
         }catch(Exception err){
@@ -69,12 +73,12 @@ public class CRUDAdmin {
      public void delete(int numCuenta){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        
+        Administrador deladmin;
         try{
-            Administrador deladmin=new Administrador();
+            
             System.out.println("Transaction iniciada");
-            deladmin.setIdAdmin(ToID(numCuenta));
             transaction = session.beginTransaction();
+            deladmin=session.find(Administrador.class, ToID(numCuenta));
             System.out.println("Eliminar administrador");
             session.remove(deladmin);
             transaction.commit();

@@ -17,6 +17,8 @@ public class ViewGabinete extends javax.swing.JFrame {
         createTable();
         btnUpdate.setEnabled(false);
         btnDelete.setEnabled(false);
+        btnAdd.setEnabled(false);
+        btnCancel.setEnabled(false);
     }
     
     public void createTable(){
@@ -68,9 +70,19 @@ public class ViewGabinete extends javax.swing.JFrame {
                 txtNumeroActionPerformed(evt);
             }
         });
+        txtNumero.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNumeroKeyReleased(evt);
+            }
+        });
 
         txtDescripcion.setColumns(20);
         txtDescripcion.setRows(5);
+        txtDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDescripcionKeyReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(txtDescripcion);
 
         jLabel1.setText("Número de gabinete");
@@ -85,6 +97,11 @@ public class ViewGabinete extends javax.swing.JFrame {
         });
 
         btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
@@ -130,6 +147,14 @@ public class ViewGabinete extends javax.swing.JFrame {
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Buscar"));
 
+        txtBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtBuscarFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtBuscarFocusLost(evt);
+            }
+        });
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtBuscarKeyReleased(evt);
@@ -246,7 +271,7 @@ public class ViewGabinete extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtNumeroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtNumeroActionPerformed
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_txtNumeroActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -306,6 +331,7 @@ public class ViewGabinete extends javax.swing.JFrame {
         update=true;
         btnUpdate.setEnabled(true);
         btnDelete.setEnabled(true);
+        btnCancel.setEnabled(true);
         
     }//GEN-LAST:event_tblGabineteMouseClicked
 
@@ -347,6 +373,8 @@ public class ViewGabinete extends javax.swing.JFrame {
                 } else {
                     newgabinete.setDescripcion(descripcion);
                     crudGabinete.update(newgabinete, Integer.parseInt(tblGabinete.getValueAt(tblGabinete.getSelectedRow(),0).toString()));
+                    btnUpdate.setEnabled(false);
+                    btnDelete.setEnabled(false);
                     limpiarCampos();
                     createTable();
                 }
@@ -373,12 +401,50 @@ public class ViewGabinete extends javax.swing.JFrame {
 
     private void tblGabineteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblGabineteFocusLost
         
-            limpiarCampos();
-            update=false;
-            btnUpdate.setEnabled(false);
-            btnDelete.setEnabled(false);
         
     }//GEN-LAST:event_tblGabineteFocusLost
+
+    private void txtNumeroKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumeroKeyReleased
+        if(txtNumero.getText().isEmpty()||update){
+            btnAdd.setEnabled(false);
+            btnCancel.setEnabled(false);
+        }else{
+            btnAdd.setEnabled(true);
+            btnCancel.setEnabled(true);
+        }
+    }//GEN-LAST:event_txtNumeroKeyReleased
+
+    private void txtDescripcionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyReleased
+        if(txtDescripcion.getText().isEmpty()||update){
+            btnAdd.setEnabled(false);
+            btnCancel.setEnabled(false);
+        }else{
+            btnAdd.setEnabled(true);
+            btnCancel.setEnabled(true);
+        }
+    }//GEN-LAST:event_txtDescripcionKeyReleased
+
+    private void txtBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusLost
+        update=false;
+    }//GEN-LAST:event_txtBuscarFocusLost
+
+    private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
+         if(update){
+            limpiarCampos();
+            btnUpdate.setEnabled(false);
+            btnDelete.setEnabled(false);
+            pnlPrincipal.requestFocus();
+  
+        }
+    }//GEN-LAST:event_txtBuscarFocusGained
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        limpiarCampos();
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
+        btnAdd.setEnabled(false);
+        btnCancel.setEnabled(false);
+    }//GEN-LAST:event_btnCancelActionPerformed
 
    
     public static void main(String args[]) {

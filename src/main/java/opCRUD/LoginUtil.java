@@ -38,7 +38,6 @@ public class LoginUtil {
                  JOptionPane.showMessageDialog(null, "La contraseña es incorrecta", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
         }catch(Exception err){
-            
             JOptionPane.showMessageDialog(null, "Error al validar la contraseña", "ERROR", JOptionPane.ERROR_MESSAGE);
         }finally{
             inputPassword=null;

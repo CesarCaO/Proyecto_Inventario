@@ -16,23 +16,23 @@ public class Producto {
     private int numInventario;
     
     @ManyToOne
-    @JoinColumn(name="idCatpro", foreignKey=@ForeignKey(name="id_catpro"), nullable=false)
+    @JoinColumn(name="idCatpro", foreignKey=@ForeignKey(name="idCatpro"), nullable=false)
     private CatalogoProductos catalogoProducto;
     
     @ManyToOne
-    @JoinColumn(name="idMarca", foreignKey=@ForeignKey(name="id_marca"),nullable=false)
+    @JoinColumn(name="idMarca", foreignKey=@ForeignKey(name="idMarca"),nullable=false)
     private Marca marca;
     
     @ManyToOne
-    @JoinColumn(name="idTipoProducto", foreignKey=@ForeignKey(name="id_TipoProducto"),nullable=false)
+    @JoinColumn(name="idTipoProducto", foreignKey=@ForeignKey(name="idTipoProducto"),nullable=false)
     private TipoProducto tipoProducto;
     
     @ManyToOne
-    @JoinColumn(name="idGabinete", foreignKey=@ForeignKey(name="id_gabinete"),nullable=false)
+    @JoinColumn(name="idGabinete", foreignKey=@ForeignKey(name="idGabinete"),nullable=false)
     private Gabinete gabinete;
     
     @ManyToOne
-    @JoinColumn(name="idEstadoProducto", foreignKey=@ForeignKey(name="id_estadoProducto"),nullable=false)
+    @JoinColumn(name="idEstadoProducto", foreignKey=@ForeignKey(name="idEstadoProducto"),nullable=false)
     private EstadoProducto estadoProducto;
     
     @Column(name="descripcion")
@@ -54,12 +54,8 @@ public class Producto {
     private byte[] barcode;
     @Column(name="imagen")
     private byte[] image;
-    
-    @ManyToOne
-    @JoinColumn(name="idAdmin",foreignKey=@ForeignKey(name="idAdmin"),nullable=false)
-    private Administrador administrador;
 
-    public Producto(int idProducto, int numInventario, CatalogoProductos catalogoProducto, Marca marca, TipoProducto tipoProducto, Gabinete gabinete, EstadoProducto estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtilizada, Date fechaRegistro, byte[] barcode, byte[] image, Administrador administrador) {
+    public Producto(int idProducto, int numInventario, CatalogoProductos catalogoProducto, Marca marca, TipoProducto tipoProducto, Gabinete gabinete, EstadoProducto estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtilizada, Date fechaRegistro, byte[] barcode, byte[] image) {
         this.idProducto = idProducto;
         this.numInventario = numInventario;
         this.catalogoProducto = catalogoProducto;
@@ -74,9 +70,11 @@ public class Producto {
         this.fechaRegistro = fechaRegistro;
         this.barcode = barcode;
         this.image = image;
-        this.administrador = administrador;
     }
+    
 
+    
+   
     
     public Producto(){}
 
@@ -136,10 +134,6 @@ public class Producto {
         this.image = image;
     }
 
-    public void setAdministrador(Administrador administrador) {
-        this.administrador = administrador;
-    }
-
     public int getIdProducto() {
         return idProducto;
     }
@@ -184,6 +178,8 @@ public class Producto {
         return cantidadUtilizada;
     }
 
+    
+
     public Date getFechaRegistro() {
         return fechaRegistro;
     }
@@ -196,9 +192,6 @@ public class Producto {
         return image;
     }
 
-    public Administrador getAdministrador() {
-        return administrador;
-    }
 
    
  
@@ -214,8 +207,7 @@ public class Producto {
                 "Descripcion: "+descripcion+"\n"+
                 "Cantidad en stock: "+cantidadStock+"\n"+
                 "Cantidad prestada: "+cantidadPrestada+"\n"+
-                "Cantidad utilizada: "+cantidadUtilizada+"\n"+
-                "Administrador: "+administrador+"\n";
+                "Cantidad utilizada: "+cantidadUtilizada+"\n";
     }
 }
 

@@ -119,6 +119,9 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
             public void focusGained(java.awt.event.FocusEvent evt) {
                 txtBuscarFocusGained(evt);
             }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtBuscarFocusLost(evt);
+            }
         });
         txtBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -319,6 +322,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
                 crudCatPro.update(newcatpro,tblcatpro.getValueAt(tblcatpro.getSelectedRow(),0).toString());
                 cleanFields();
                 createTableCatPro();
+                update=false;
             }
         }         
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -330,22 +334,20 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         boolean bandera=false;
-        CatalogoProductos delcatpro= new CatalogoProductos();
+        
         if(txtProducto.getText()==null){
             
              JOptionPane.showMessageDialog(null,"No ha seleccionado un registro a eliminar","ERROR", JOptionPane.ERROR_MESSAGE);
              bandera=true;
         }
         if(!bandera){
-            delcatpro.setNombre_producto(tblcatpro.getValueAt(tblcatpro.getSelectedRow(),0).toString());
-            if(JOptionPane.showConfirmDialog(null,"Se eliminará "+ delcatpro.getNombre_producto()+" del catalogo\n ¿Desea continuar?","Confirmar Eliminación" ,JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
-                    delcatpro.setNombre_producto(txtProducto.getText());
-
-                    if(crudCatPro.delete(delcatpro,tblcatpro.getValueAt(tblcatpro.getSelectedRow(),0).toString()))
+            if(JOptionPane.showConfirmDialog(null,"Se eliminará "+tblcatpro.getValueAt(tblcatpro.getSelectedRow(),0).toString()+" del catalogo\n ¿Desea continuar?","Confirmar Eliminación" ,JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
+                    if(crudCatPro.delete(tblcatpro.getValueAt(tblcatpro.getSelectedRow(),0).toString())){
                         JOptionPane.showMessageDialog(null, "Se ha eliminado el registro correctamente","Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                        cleanFields();
+                        createTableCatPro();
+                    }
                     
-                    cleanFields();
-                    createTableCatPro();
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -355,7 +357,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
             cleanFields();
             pnlPrincipal.requestFocus();
             btnUpdate.setEnabled(false);
-            btnDelete.setEnabled(update);
+            btnDelete.setEnabled(false);
             update=false;
         }else{
             pnlPrincipal.requestFocus();
@@ -365,7 +367,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_pnlPrincipalMouseClicked
 
     private void tblcatproFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblcatproFocusLost
-        
+        cleanFields();
     }//GEN-LAST:event_tblcatproFocusLost
 
     private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained
@@ -380,6 +382,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
     private void txtProductoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtProductoKeyReleased
         if(txtProducto.getText().isEmpty()||update){
             btnAdd.setEnabled(false);
+            btnCancel.setEnabled(false);
         }else{
             btnAdd.setEnabled(true);
             btnCancel.setEnabled(true);
@@ -395,6 +398,10 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
         update=false;
         
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void txtBuscarFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusLost
+       update=false;
+    }//GEN-LAST:event_txtBuscarFocusLost
     
     
     //Crear getters y setters asegura que la interfaz solo muestre y los datos sean enviados al controlador

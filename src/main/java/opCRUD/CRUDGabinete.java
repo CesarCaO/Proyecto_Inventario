@@ -23,10 +23,10 @@ public class CRUDGabinete {
          try {
             System.out.println("Transaction iniciada");
             transaction = session.beginTransaction();
-            System.out.println("Guardando producto en el catalogo");
+            System.out.println("Guardando registro");
             session.persist(newGabinete);
             transaction.commit();
-             System.out.println("Se guardo el producto en el catalogo");
+             System.out.println("Se guardo el registro");
         } catch (Exception err) {
 
             if (transaction != null) {

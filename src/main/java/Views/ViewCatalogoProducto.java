@@ -342,12 +342,10 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
         }
         if(!bandera){
             if(JOptionPane.showConfirmDialog(null,"Se eliminará "+tblcatpro.getValueAt(tblcatpro.getSelectedRow(),0).toString()+" del catalogo\n ¿Desea continuar?","Confirmar Eliminación" ,JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
-                    if(crudCatPro.delete(tblcatpro.getValueAt(tblcatpro.getSelectedRow(),0).toString())){
+                        crudCatPro.delete(tblcatpro.getValueAt(tblcatpro.getSelectedRow(),0).toString());
                         JOptionPane.showMessageDialog(null, "Se ha eliminado el registro correctamente","Mensaje", JOptionPane.INFORMATION_MESSAGE);
                         cleanFields();
-                        createTableCatPro();
-                    }
-                    
+                        createTableCatPro();     
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -358,6 +356,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
             pnlPrincipal.requestFocus();
             btnUpdate.setEnabled(false);
             btnDelete.setEnabled(false);
+            btnCancel.setEnabled(false);
             update=false;
         }else{
             pnlPrincipal.requestFocus();
@@ -367,7 +366,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_pnlPrincipalMouseClicked
 
     private void tblcatproFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_tblcatproFocusLost
-        cleanFields();
+       
     }//GEN-LAST:event_tblcatproFocusLost
 
     private void txtBuscarFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarFocusGained

@@ -67,11 +67,10 @@ public class CRUDCatalogoProductos {
     
     }
     
-    public boolean delete(String oldcatproName){
+    public void delete(String oldcatproName){
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        boolean completado=false;
         CatalogoProductos delcatpro;
         try{
             transaction = session.beginTransaction();
@@ -94,8 +93,6 @@ public class CRUDCatalogoProductos {
         }finally {
             session.close();
         }
-        return completado;
-
     }
     
     public List opRead(String crit){

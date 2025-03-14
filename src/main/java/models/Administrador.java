@@ -125,7 +125,6 @@ public class Administrador implements Serializable{
                 "Apellido Paterno: "+apellidoPaterno+
                 "Apellido Materno: "+apellidoMaterno+
                 "Nombre: "+nombre+"\n"+
-                "Contrasenia: "+contrasenia+"\n"+
                 "Telefono: "+telefono+"\n"+
                 "Correo: "+correo+"\n";
                 

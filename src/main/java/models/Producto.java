@@ -53,9 +53,9 @@ public class Producto {
     @Column(name="barcode")
     private byte[] barcode;
     @Column(name="imagen")
-    private byte[] image;
+    private byte[] imagen;
 
-    public Producto(int idProducto, int numInventario, CatalogoProductos catalogoProducto, Marca marca, TipoProducto tipoProducto, Gabinete gabinete, EstadoProducto estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtilizada, Date fechaRegistro, byte[] barcode, byte[] image) {
+    public Producto(int idProducto, int numInventario, CatalogoProductos catalogoProducto, Marca marca, TipoProducto tipoProducto, Gabinete gabinete, EstadoProducto estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtilizada, Date fechaRegistro, byte[] barcode, byte[] imagen) {
         this.idProducto = idProducto;
         this.numInventario = numInventario;
         this.catalogoProducto = catalogoProducto;
@@ -69,13 +69,9 @@ public class Producto {
         this.cantidadUtilizada = cantidadUtilizada;
         this.fechaRegistro = fechaRegistro;
         this.barcode = barcode;
-        this.image = image;
+        this.imagen = imagen;
     }
-    
-
-    
-   
-    
+ 
     public Producto(){}
 
     public void setIdProducto(int idProducto) {
@@ -130,8 +126,8 @@ public class Producto {
         this.barcode = barcode;
     }
 
-    public void setImage(byte[] image) {
-        this.image = image;
+    public void setImagen(byte[] imagen) {
+        this.imagen = imagen;
     }
 
     public int getIdProducto() {
@@ -178,8 +174,6 @@ public class Producto {
         return cantidadUtilizada;
     }
 
-    
-
     public Date getFechaRegistro() {
         return fechaRegistro;
     }
@@ -188,13 +182,10 @@ public class Producto {
         return barcode;
     }
 
-    public byte[] getImage() {
-        return image;
+    public byte[] getImagen() {
+        return imagen;
     }
 
-
-   
- 
     @Override
     public String toString(){
         return "Producto\n"+

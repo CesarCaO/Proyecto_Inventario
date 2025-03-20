@@ -117,7 +117,7 @@ public class CRUDProducto {
             updateProducto.setCantidadUtilizada(producto.getCantidadUtilizada());
             updateProducto.setFechaRegistro(producto.getFechaRegistro());
             updateProducto.setBarcode(producto.getBarcode());
-            updateProducto.setImage(producto.getImage());
+            updateProducto.setImagen(producto.getImagen());
             
             transaction.commit();
             
@@ -173,30 +173,30 @@ public class CRUDProducto {
         
        Session session=HibernateUtil.getSessionFactory().openSession();
         
-       List<Producto> listproducto=null;
-       Query<Producto> query;
-       try{
+       List<ProductoTableDTO> listproducto=null;
+       Query<ProductoTableDTO> query;
+        try {
             if (crit.equals("")) {
-                query = session.createQuery("SELECT NEW models.ProductoTableDTO(p.numInventario, cp.nombreProducto, m.nombreMarca, tp.tipo,"
-                        + "g.numGabinete, ep.estado, p.descripcion, p.cantidadStock,"
-                        + "p.cantidadPrestada, p.cantidadUtilizada, p.fechaRegistro, p.barcode, p.imagen) FROM Producto p"
-                        + "JOIN p.catalogoProducto cp"
-                        + "JOIN p.marca m"
-                        + "JOIN p.tipoProducto tp"
-                        + "JOIN p.gabinete g"
-                        + "JOIN p.estadoProducto ep", Producto.class);
-                listproducto=query.getResultList();
-            }else{
-                query = session.createQuery("SELECT NEW models.ProductoTableDTO(p.numInventario, cp.nombreProducto, m.nombreMarca, tp.tipo,"
-                        + "g.numGabinete, ep.estado, p.descripcion, p.cantidadStock,"
-                        + "p.cantidadPrestada, p.cantidadUtilizada, p.fechaRegistro, p.barcode, p.imagen) FROM Producto p"
-                        + "JOIN p.catalogoProducto cp"
-                        + "JOIN p.marca m"
-                        + "JOIN p.tipoProducto tp"
-                        + "JOIN p.gabinete g"
-                        + "JOIN p.estadoProducto ep"
-                        + "WHERE"
-                        + "CAST("+field+"AS string) LIKE :crit", Producto.class);
+                query = session.createQuery("SELECT NEW models.ProductoTableDTO(p.numInventario, cp.nombreProducto, m.nombreMarca, tp.tipo, "
+                        + "g.numGabinete, ep.estado, p.descripcion, p.cantidadStock, "
+                        + "p.cantidadPrestada, p.cantidadUtilizada, p.fechaRegistro, p.barcode, p.imagen) FROM Producto p "
+                        + "JOIN p.catalogoProducto cp "
+                        + "JOIN p.marca m "
+                        + "JOIN p.tipoProducto tp "
+                        + "JOIN p.gabinete g "
+                        + "JOIN p.estadoProducto ep ", ProductoTableDTO.class);
+                listproducto = query.getResultList();
+            } else {
+                query = session.createQuery("SELECT NEW models.ProductoTableDTO(p.numInventario, cp.nombreProducto, m.nombreMarca, tp.tipo, "
+                        + "g.numGabinete, ep.estado, p.descripcion, p.cantidadStock, "
+                        + "p.cantidadPrestada, p.cantidadUtilizada, p.fechaRegistro, p.barcode, p.imagen) FROM Producto p "
+                        + "JOIN p.catalogoProducto cp "
+                        + "JOIN p.marca m "
+                        + "JOIN p.tipoProducto tp "
+                        + "JOIN p.gabinete g "
+                        + "JOIN p.estadoProducto ep "
+                        + "WHERE "
+                        + "CAST(" + field + "AS string) LIKE :crit", ProductoTableDTO.class);
                 query.setParameter("crit",crit+"%");
                 listproducto=query.getResultList();
                 

@@ -13,7 +13,7 @@ public class Producto {
     private int idProducto;
     
     @Column(name="numInventario")
-    private int numInventario;
+    private String numInventario;
     
     @ManyToOne
     @JoinColumn(name="idCatpro", foreignKey=@ForeignKey(name="idCatpro"), nullable=false)
@@ -49,13 +49,11 @@ public class Producto {
     
     @Column(name="fechaRegistro")
     private Date fechaRegistro;
-    
-    @Column(name="barcode")
-    private byte[] barcode;
+
     @Column(name="imagen")
     private byte[] imagen;
 
-    public Producto(int idProducto, int numInventario, CatalogoProductos catalogoProducto, Marca marca, TipoProducto tipoProducto, Gabinete gabinete, EstadoProducto estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtilizada, Date fechaRegistro, byte[] barcode, byte[] imagen) {
+    public Producto(int idProducto, String numInventario, CatalogoProductos catalogoProducto, Marca marca, TipoProducto tipoProducto, Gabinete gabinete, EstadoProducto estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtilizada, Date fechaRegistro,byte[] imagen) {
         this.idProducto = idProducto;
         this.numInventario = numInventario;
         this.catalogoProducto = catalogoProducto;
@@ -68,7 +66,6 @@ public class Producto {
         this.cantidadPrestada = cantidadPrestada;
         this.cantidadUtilizada = cantidadUtilizada;
         this.fechaRegistro = fechaRegistro;
-        this.barcode = barcode;
         this.imagen = imagen;
     }
  
@@ -78,7 +75,7 @@ public class Producto {
         this.idProducto = idProducto;
     }
 
-    public void setNumInventario(int numInventario) {
+    public void setNumInventario(String numInventario) {
         this.numInventario = numInventario;
     }
 
@@ -122,10 +119,7 @@ public class Producto {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public void setBarcode(byte[] barcode) {
-        this.barcode = barcode;
-    }
-
+   
     public void setImagen(byte[] imagen) {
         this.imagen = imagen;
     }
@@ -134,7 +128,7 @@ public class Producto {
         return idProducto;
     }
 
-    public int getNumInventario() {
+    public String getNumInventario() {
         return numInventario;
     }
 
@@ -178,14 +172,11 @@ public class Producto {
         return fechaRegistro;
     }
 
-    public byte[] getBarcode() {
-        return barcode;
-    }
 
     public byte[] getImagen() {
         return imagen;
     }
-
+   
     @Override
     public String toString(){
         return "Producto\n"+

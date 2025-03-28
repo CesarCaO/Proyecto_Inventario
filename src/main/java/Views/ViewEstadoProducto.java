@@ -222,6 +222,10 @@ public class ViewEstadoProducto extends javax.swing.JFrame {
                 createTable();
                 txtEstado.setText("");
                 JOptionPane.showMessageDialog(null, "Registro eliminado");
+                btnUpdate.setEnabled(false);
+                btnDelete.setEnabled(false);
+                btnCancel.setEnabled(false);
+                updateDelete=false;
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -293,6 +297,7 @@ public class ViewEstadoProducto extends javax.swing.JFrame {
     private void txtEstadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEstadoKeyReleased
         if(txtEstado.getText().isEmpty()||updateDelete){
             btnAdd.setEnabled(false);
+            btnCancel.setEnabled(false);
         }else{
             btnAdd.setEnabled(true);
             btnCancel.setEnabled(true);

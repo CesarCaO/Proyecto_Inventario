@@ -2,12 +2,10 @@
 package opCRUD;
 
 import Util.HibernateUtil;
-import jakarta.persistence.LockModeType;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Vector;
 import javax.imageio.ImageIO;
@@ -68,7 +66,7 @@ public class CRUDProducto {
         }    
     }
     
-    public void update(Producto producto,  String marca, String tipoProducto, String catalogoProducto, int numGabinete, String estadoProducto, int numInv){
+    public void update(Producto producto, String marca, String tipoProducto, String catalogoProducto, int numGabinete, String estadoProducto, String numInventario){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         
@@ -76,9 +74,10 @@ public class CRUDProducto {
             System.out.println("Transaction iniciada");
             transaction = session.beginTransaction();
             
-            Producto updateProducto=session.get(Producto.class, ToID(numInv));
+            Producto updateProducto=session.get(Producto.class, ToID(numInventario));//Ubicar la instancia a actualizar
+            
             if(updateProducto== null){
-                throw new IllegalArgumentException("Producto con número de inventario " + numInv + " no existe.");
+                throw new IllegalArgumentException("Producto con número de inventario " + numInventario + " no existe.");
             }
             //Buscar los objetos a relacionar
             Marca relMarca = session.find(Marca.class, crudMarca.ToID(marca));
@@ -116,7 +115,6 @@ public class CRUDProducto {
             updateProducto.setCantidadPrestada(producto.getCantidadPrestada());
             updateProducto.setCantidadUtilizada(producto.getCantidadUtilizada());
             updateProducto.setFechaRegistro(producto.getFechaRegistro());
-            updateProducto.setBarcode(producto.getBarcode());
             updateProducto.setImagen(producto.getImagen());
             
             transaction.commit();
@@ -130,14 +128,14 @@ public class CRUDProducto {
         }
     }
     
-    public void delete(int numInv){
+    public void delete(String numInventario){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         Producto delProducto;
         
         try{
             transaction=session.beginTransaction();
-            delProducto=session.find(Producto.class, ToID(numInv));
+            delProducto=session.find(Producto.class, ToID(numInventario));
             session.remove(delProducto);
             session.flush();
             session.clear();
@@ -152,7 +150,7 @@ public class CRUDProducto {
         }
     }
     
-    public int ToID(int numInv){
+    public int ToID(String numInv){
           Session session= HibernateUtil.getSessionFactory().openSession();
           Query<Integer>query;
           int id=-1;
@@ -172,24 +170,26 @@ public class CRUDProducto {
     public List opRead(String crit, String field){
         
        Session session=HibernateUtil.getSessionFactory().openSession();
-        
+       System.out.println("El criterio es: "+crit);
+       System.out.println("El campo es: "+field);
        List<ProductoTableDTO> listproducto=null;
        Query<ProductoTableDTO> query;
         try {
             if (crit.equals("")) {
                 query = session.createQuery("SELECT NEW models.ProductoTableDTO(p.numInventario, cp.nombreProducto, m.nombreMarca, tp.tipo, "
                         + "g.numGabinete, ep.estado, p.descripcion, p.cantidadStock, "
-                        + "p.cantidadPrestada, p.cantidadUtilizada, p.fechaRegistro, p.barcode, p.imagen) FROM Producto p "
+                        + "p.cantidadPrestada, p.cantidadUtilizada, p.fechaRegistro, p.imagen) FROM Producto p "
                         + "JOIN p.catalogoProducto cp "
                         + "JOIN p.marca m "
                         + "JOIN p.tipoProducto tp "
                         + "JOIN p.gabinete g "
                         + "JOIN p.estadoProducto ep ", ProductoTableDTO.class);
                 listproducto = query.getResultList();
+                System.out.println("Productos encontrados (sin criterio): " + listproducto.size());
             } else {
                 query = session.createQuery("SELECT NEW models.ProductoTableDTO(p.numInventario, cp.nombreProducto, m.nombreMarca, tp.tipo, "
                         + "g.numGabinete, ep.estado, p.descripcion, p.cantidadStock, "
-                        + "p.cantidadPrestada, p.cantidadUtilizada, p.fechaRegistro, p.barcode, p.imagen) FROM Producto p "
+                        + "p.cantidadPrestada, p.cantidadUtilizada, p.fechaRegistro,p.imagen) FROM Producto p "
                         + "JOIN p.catalogoProducto cp "
                         + "JOIN p.marca m "
                         + "JOIN p.tipoProducto tp "
@@ -199,6 +199,7 @@ public class CRUDProducto {
                         + "CAST(" + field + "AS string) LIKE :crit", ProductoTableDTO.class);
                 query.setParameter("crit",crit+"%");
                 listproducto=query.getResultList();
+                System.out.println("Productos encontrados (con criterio): " + listproducto.size());
                 
             }
         } catch (Exception err) {
@@ -225,7 +226,6 @@ public class CRUDProducto {
         columnNames.add("Prestado");
         columnNames.add("Utilizado");
         columnNames.add("Fechas de registro");
-        columnNames.add("Código de barras");
         columnNames.add("Imagen");
 
         for (ProductoTableDTO dto : results) {
@@ -241,7 +241,6 @@ public class CRUDProducto {
             newRow.add(dto.getCantidadPrestada());
             newRow.add(dto.getCantidadUtilizada());
             newRow.add(dto.getFechaRegistro());
-            newRow.add(BytesToImage(dto.getBarcode()));
             newRow.add(BytesToImage(dto.getImagen()));
 
             rows.add(newRow);
@@ -250,7 +249,7 @@ public class CRUDProducto {
         return new DefaultTableModel(rows, columnNames) {
             @Override
             public Class<?> getColumnClass(int column){
-                if(column==11 || column==12){
+                if(column==11){
                     return ImageIcon.class;
                 }
        
@@ -296,19 +295,40 @@ public class CRUDProducto {
         return tm=listTo(results);
     }
     
-    public ImageIcon BytesToImage(byte[] imageBytes){
+    public ImageIcon BytesToImage(byte[] imageBytes) {
         
-        if (imageBytes == null || imageBytes.length == 0) {
-        return new ImageIcon(); // Icono vacío o placeholder
+        if(imageBytes == null  || imageBytes.length == 0){
+            return new ImageIcon();
         }
-        try(ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes)){
-            //Convertir los bytes en una Buffered Image
+        try(ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes))
+        {
             BufferedImage imagen = ImageIO.read(bis);
-            //Escalar la imagen
-            Image imagenEscalada= imagen.getScaledInstance(80,80,Image.SCALE_SMOOTH);
+            
+            int newWidth = 80;
+            int newHeight = (imagen.getHeight()*newWidth) / imagen.getWidth();
+            
+            Image imagenEscalada = imagen.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+            
             return new ImageIcon(imagenEscalada);
         }catch(IOException err){
-           return new ImageIcon();
-        }  
+            return new ImageIcon();
+        }
     }
+     public int getMaxID(){
+         Session session=HibernateUtil.getSessionFactory().openSession();
+         int idMax=-1;
+         
+         try{
+             idMax=session.createQuery("SELECT  max(p.idProducto) FROM Producto p", Integer.class).uniqueResult();
+             System.out.print("Id máximo encontrado "+ idMax);
+         }catch(Exception err){
+             System.out.print("Error al buscar el ID maximo");
+         }finally{
+             session.close();
+             
+         }
+         
+         return idMax;
+     }
+    
 }

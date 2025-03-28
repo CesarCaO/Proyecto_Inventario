@@ -118,7 +118,7 @@ public class CRUDTipoProducto {
               query.setParameter("tipo",tipoPro);
               idEstPro=query.uniqueResult();
           }catch(Exception err){
-                JOptionPane.showMessageDialog(null,"Error al encontrar el id del estado del producto"+err+" Error: IDGAB", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Error al encontrar el id del tipo del producto"+err+" Error: ToID", "Error", JOptionPane.ERROR_MESSAGE);
           }finally{
               session.close();
           }

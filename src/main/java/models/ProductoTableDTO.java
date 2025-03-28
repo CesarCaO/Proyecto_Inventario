@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class ProductoTableDTO {
     
-    private int numInventario;
+    private String numInventario;
     private String nombreProducto;
     private String marca;
     private String tipoProducto;
@@ -17,10 +17,9 @@ public class ProductoTableDTO {
     private int cantidadPrestada;
     private int cantidadUtilizada;
     private Date fechaRegistro;
-    private byte[] barcode;
     private byte[] imagen;
 
-    public ProductoTableDTO(int numInventario, String nombreProducto, String marca, String tipoProducto, int numGabinete, String estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtilizada, Date fechaRegistro, byte[] barcode, byte[] imagen) {
+    public ProductoTableDTO(String numInventario, String nombreProducto, String marca, String tipoProducto, int numGabinete, String estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtilizada, Date fechaRegistro,byte[] imagen) {
         this.numInventario = numInventario;
         this.nombreProducto = nombreProducto;
         this.marca = marca;
@@ -32,14 +31,13 @@ public class ProductoTableDTO {
         this.cantidadPrestada = cantidadPrestada;
         this.cantidadUtilizada = cantidadUtilizada;
         this.fechaRegistro = fechaRegistro;
-        this.barcode = barcode;
         this.imagen = imagen;
     }
 
     public ProductoTableDTO() {
     }
 
-    public void setNumInventario(int numInventario) {
+    public void setNumInventario(String numInventario) {
         this.numInventario = numInventario;
     }
 
@@ -83,15 +81,11 @@ public class ProductoTableDTO {
         this.fechaRegistro = fechaRegistro;
     }
 
-    public void setBarcode(byte[] barcode) {
-        this.barcode = barcode;
-    }
-
     public void setImagen(byte[] imagen) {
         this.imagen = imagen;
     }
 
-    public int getNumInventario() {
+    public String getNumInventario() {
         return numInventario;
     }
 
@@ -135,15 +129,7 @@ public class ProductoTableDTO {
         return fechaRegistro;
     }
 
-    public byte[] getBarcode() {
-        return barcode;
-    }
-
     public byte[] getImagen() {
         return imagen;
     }
-    
-    
-    
-    
 }

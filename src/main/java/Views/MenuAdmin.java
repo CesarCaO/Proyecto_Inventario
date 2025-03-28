@@ -164,9 +164,9 @@ public class MenuAdmin extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
-        ViewAdmin viewAdmin=new ViewAdmin(admin);
-        viewAdmin.setVisible(true);
-        dispose();
+        //ViewAdmin viewAdmin=new ViewAdmin(admin);
+        //viewAdmin.setVisible(true);
+        //dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

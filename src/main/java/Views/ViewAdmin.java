@@ -15,11 +15,11 @@ import opCRUD.CRUDAdmin;
 public class ViewAdmin extends javax.swing.JFrame {
 
     CRUDAdmin crudAdmin=new CRUDAdmin();
-    Administrador admin=null;
+    //Administrador admin=null;
     private boolean updateDelete;
     
-    public ViewAdmin(Administrador admin) {
-        this.admin=admin;
+    public ViewAdmin() {
+        //this.admin=admin;
         initComponents();
         createTable();
         ///////////////////////////////////
@@ -27,14 +27,14 @@ public class ViewAdmin extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         ///////////////////////////////////
         btnDelete.setEnabled(false);
-        lblNumCuenta.setText(String.valueOf(admin.getCuentaAdmin()));
-        String nombreCompleto=admin.getNombre()+" "+admin.getApellidoPaterno()+" "+admin.getApellidoMaterno();
-        lblNombre.setText(nombreCompleto);
+        //lblNumCuenta.setText(String.valueOf(admin.getCuentaAdmin()));
+        //String nombreCompleto=admin.getNombre()+" "+admin.getApellidoPaterno()+" "+admin.getApellidoMaterno();
+        //lblNombre.setText(nombreCompleto);
         pnlPrincipal.requestFocus();
         
     }
     
-    public ViewAdmin(){}
+    //public ViewAdmin(){}
     
     public void createTable(){
         tblAdmin.setModel(crudAdmin.opBuscar(cmbBuscar.getSelectedItem().toString(), txtBuscar.getText()));
@@ -673,7 +673,7 @@ public class ViewAdmin extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         
-        
+ /***       
         if(txtCuenta.getText().isEmpty()){     
             JOptionPane.showMessageDialog(null, "Debe seleccionar un registro para eliminarlo", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
@@ -705,7 +705,7 @@ public class ViewAdmin extends javax.swing.JFrame {
             }
         }
 
-        
+ ***/    
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void passwordONEFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordONEFocusLost

@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class ProductoTableDTO {
     
+    private int idProducto;
     private String numInventario;
     private String nombreProducto;
     private String marca;
@@ -19,7 +20,11 @@ public class ProductoTableDTO {
     private Date fechaRegistro;
     private byte[] imagen;
 
-    public ProductoTableDTO(String numInventario, String nombreProducto, String marca, String tipoProducto, int numGabinete, String estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtilizada, Date fechaRegistro,byte[] imagen) {
+    public ProductoTableDTO() {
+    }
+
+    public ProductoTableDTO(int idProducto, String numInventario, String nombreProducto, String marca, String tipoProducto, int numGabinete, String estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtilizada, Date fechaRegistro, byte[] imagen) {
+        this.idProducto = idProducto;
         this.numInventario = numInventario;
         this.nombreProducto = nombreProducto;
         this.marca = marca;
@@ -34,7 +39,8 @@ public class ProductoTableDTO {
         this.imagen = imagen;
     }
 
-    public ProductoTableDTO() {
+    public void setIdProducto(int idProducto) {
+        this.idProducto = idProducto;
     }
 
     public void setNumInventario(String numInventario) {
@@ -85,6 +91,10 @@ public class ProductoTableDTO {
         this.imagen = imagen;
     }
 
+    public int getIdProducto() {
+        return idProducto;
+    }
+
     public String getNumInventario() {
         return numInventario;
     }
@@ -132,4 +142,6 @@ public class ProductoTableDTO {
     public byte[] getImagen() {
         return imagen;
     }
+
+   
 }

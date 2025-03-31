@@ -176,18 +176,18 @@ public class CRUDProducto {
        Query<ProductoTableDTO> query;
         try {
             if (crit.equals("")) {
-                query = session.createQuery("SELECT NEW models.ProductoTableDTO(p.numInventario, cp.nombreProducto, m.nombreMarca, tp.tipo, "
+                query = session.createQuery("SELECT NEW models.ProductoTableDTO(p.idProducto,p.numInventario, cp.nombreProducto, m.nombreMarca, tp.tipo, "
                         + "g.numGabinete, ep.estado, p.descripcion, p.cantidadStock, "
                         + "p.cantidadPrestada, p.cantidadUtilizada, p.fechaRegistro, p.imagen) FROM Producto p "
                         + "JOIN p.catalogoProducto cp "
                         + "JOIN p.marca m "
                         + "JOIN p.tipoProducto tp "
                         + "JOIN p.gabinete g "
-                        + "JOIN p.estadoProducto ep ", ProductoTableDTO.class);
+                        + "JOIN p.estadoProducto ep ORDER BY p.idProducto DESC", ProductoTableDTO.class);
                 listproducto = query.getResultList();
                 System.out.println("Productos encontrados (sin criterio): " + listproducto.size());
             } else {
-                query = session.createQuery("SELECT NEW models.ProductoTableDTO(p.numInventario, cp.nombreProducto, m.nombreMarca, tp.tipo, "
+                query = session.createQuery("SELECT NEW models.ProductoTableDTO(p.idProducto, p.numInventario, cp.nombreProducto, m.nombreMarca, tp.tipo, "
                         + "g.numGabinete, ep.estado, p.descripcion, p.cantidadStock, "
                         + "p.cantidadPrestada, p.cantidadUtilizada, p.fechaRegistro,p.imagen) FROM Producto p "
                         + "JOIN p.catalogoProducto cp "
@@ -196,7 +196,7 @@ public class CRUDProducto {
                         + "JOIN p.gabinete g "
                         + "JOIN p.estadoProducto ep "
                         + "WHERE "
-                        + "CAST(" + field + "AS string) LIKE :crit", ProductoTableDTO.class);
+                        + "CAST(" + field + "AS string) LIKE :crit ORDER BY p.idProducto DESC", ProductoTableDTO.class);
                 query.setParameter("crit",crit+"%");
                 listproducto=query.getResultList();
                 System.out.println("Productos encontrados (con criterio): " + listproducto.size());

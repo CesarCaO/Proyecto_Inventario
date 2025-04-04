@@ -40,20 +40,14 @@ public class Producto {
     
     @Column(name="cantidadStock")
     private int cantidadStock;
-    
-    @Column(name="cantidadPrestada")
-    private int cantidadPrestada;
-    
-    @Column(name="cantidadUtilizada")
-    private int cantidadUtilizada;
-    
+        
     @Column(name="fechaRegistro")
     private Date fechaRegistro;
 
     @Column(name="imagen")
     private byte[] imagen;
 
-    public Producto(int idProducto, String numInventario, CatalogoProductos catalogoProducto, Marca marca, TipoProducto tipoProducto, Gabinete gabinete, EstadoProducto estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtilizada, Date fechaRegistro,byte[] imagen) {
+    public Producto(int idProducto, String numInventario, CatalogoProductos catalogoProducto, Marca marca, TipoProducto tipoProducto, Gabinete gabinete, EstadoProducto estadoProducto, String descripcion, int cantidadStock, Date fechaRegistro,byte[] imagen) {
         this.idProducto = idProducto;
         this.numInventario = numInventario;
         this.catalogoProducto = catalogoProducto;
@@ -63,8 +57,6 @@ public class Producto {
         this.estadoProducto = estadoProducto;
         this.descripcion = descripcion;
         this.cantidadStock = cantidadStock;
-        this.cantidadPrestada = cantidadPrestada;
-        this.cantidadUtilizada = cantidadUtilizada;
         this.fechaRegistro = fechaRegistro;
         this.imagen = imagen;
     }
@@ -107,14 +99,7 @@ public class Producto {
         this.cantidadStock = cantidadStock;
     }
 
-    public void setCantidadPrestada(int cantidadPrestada) {
-        this.cantidadPrestada = cantidadPrestada;
-    }
-
-    public void setCantidadUtilizada(int cantidadUtilizada) {
-        this.cantidadUtilizada = cantidadUtilizada;
-    }
-
+    
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
@@ -160,13 +145,6 @@ public class Producto {
         return cantidadStock;
     }
 
-    public int getCantidadPrestada() {
-        return cantidadPrestada;
-    }
-
-    public int getCantidadUtilizada() {
-        return cantidadUtilizada;
-    }
 
     public Date getFechaRegistro() {
         return fechaRegistro;
@@ -187,9 +165,7 @@ public class Producto {
                 "Tipo de producto: "+tipoProducto+"\n"+
                 "Estado del producto: "+estadoProducto+"\n"+
                 "Descripcion: "+descripcion+"\n"+
-                "Cantidad en stock: "+cantidadStock+"\n"+
-                "Cantidad prestada: "+cantidadPrestada+"\n"+
-                "Cantidad utilizada: "+cantidadUtilizada+"\n";
+                "Cantidad en stock: "+cantidadStock+"\n";
     }
 }
 

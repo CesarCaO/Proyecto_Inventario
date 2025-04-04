@@ -15,15 +15,13 @@ public class ProductoTableDTO {
     private String estadoProducto;
     private String descripcion;
     private int cantidadStock;
-    private int cantidadPrestada;
-    private int cantidadUtilizada;
     private Date fechaRegistro;
     private byte[] imagen;
 
     public ProductoTableDTO() {
     }
 
-    public ProductoTableDTO(int idProducto, String numInventario, String nombreProducto, String marca, String tipoProducto, int numGabinete, String estadoProducto, String descripcion, int cantidadStock, int cantidadPrestada, int cantidadUtilizada, Date fechaRegistro, byte[] imagen) {
+    public ProductoTableDTO(int idProducto, String numInventario, String nombreProducto, String marca, String tipoProducto, int numGabinete, String estadoProducto, String descripcion, int cantidadStock, Date fechaRegistro, byte[] imagen) {
         this.idProducto = idProducto;
         this.numInventario = numInventario;
         this.nombreProducto = nombreProducto;
@@ -33,8 +31,6 @@ public class ProductoTableDTO {
         this.estadoProducto = estadoProducto;
         this.descripcion = descripcion;
         this.cantidadStock = cantidadStock;
-        this.cantidadPrestada = cantidadPrestada;
-        this.cantidadUtilizada = cantidadUtilizada;
         this.fechaRegistro = fechaRegistro;
         this.imagen = imagen;
     }
@@ -73,14 +69,6 @@ public class ProductoTableDTO {
 
     public void setCantidadStock(int cantidadStock) {
         this.cantidadStock = cantidadStock;
-    }
-
-    public void setCantidadPrestada(int cantidadPrestada) {
-        this.cantidadPrestada = cantidadPrestada;
-    }
-
-    public void setCantidadUtilizada(int cantidadUtilizada) {
-        this.cantidadUtilizada = cantidadUtilizada;
     }
 
     public void setFechaRegistro(Date fechaRegistro) {
@@ -125,14 +113,6 @@ public class ProductoTableDTO {
 
     public int getCantidadStock() {
         return cantidadStock;
-    }
-
-    public int getCantidadPrestada() {
-        return cantidadPrestada;
-    }
-
-    public int getCantidadUtilizada() {
-        return cantidadUtilizada;
     }
 
     public Date getFechaRegistro() {

@@ -16,17 +16,18 @@ import org.hibernate.query.Query;
 
 public class CRUDAdmin {
     
-    public void save(Administrador newadmin){
+    public boolean save(Administrador newadmin){
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        
+        boolean completado = false;
         try{
             System.out.println("Transaction iniciada");
             transaction = session.beginTransaction();
             System.out.println("Guardando administrador");
             session.persist(newadmin);
             transaction.commit();
+            completado = true;
             System.out.println("Se guardo administrador");
         }catch(Exception err){
             if(transaction!=null){
@@ -36,13 +37,15 @@ public class CRUDAdmin {
         }finally{
             session.close();
         }
+        return completado;
     }
     
-     public void update(Administrador newadmin, int numCuenta){
+     public boolean  update(Administrador newadmin, int numCuenta){
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         Administrador updateAdmin;
+        boolean completado = false;
         
         try{
             System.out.println("Transaction iniciada");
@@ -59,6 +62,7 @@ public class CRUDAdmin {
             }
             System.out.println("Actualizar administrador");
             transaction.commit();
+            completado = true;
             System.out.println("Se actualizó administrador");
         }catch(Exception err){
             if(transaction!=null){
@@ -68,12 +72,14 @@ public class CRUDAdmin {
         }finally{
             session.close();
         }
+       return completado;
     }
     
-     public void delete(int numCuenta){
+     public boolean delete(int numCuenta){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         Administrador deladmin;
+        boolean completado = false;
         try{
             
             System.out.println("Transaction iniciada");
@@ -82,6 +88,7 @@ public class CRUDAdmin {
             System.out.println("Eliminar administrador");
             session.remove(deladmin);
             transaction.commit();
+            completado = true;
             System.out.println("Se eliminó administrador");
         }catch(Exception err){
             if(transaction!=null){
@@ -91,7 +98,7 @@ public class CRUDAdmin {
         }finally{
             session.close();
         }
-         
+       return completado;
      }
     
     public boolean ValidarAdministrador(int numAdmin){

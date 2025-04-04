@@ -1,3 +1,5 @@
 root
 KD8LY0qOld_rH)yZ
 
+Contraseña del administrador
+$2a$10$ZbKnHKRzGXXxjpGyYG55ZOlVd7kOuXYbG10wzK6VvWCHTrUIIa7ES

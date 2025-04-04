@@ -114,8 +114,6 @@ public class CRUDProducto {
             updateProducto.setNumInventario(producto.getNumInventario());
             updateProducto.setDescripcion(producto.getDescripcion());
             updateProducto.setCantidadStock(producto.getCantidadStock());
-            updateProducto.setCantidadPrestada(producto.getCantidadPrestada());
-            updateProducto.setCantidadUtilizada(producto.getCantidadUtilizada());
             updateProducto.setFechaRegistro(producto.getFechaRegistro());
             
             if(producto.getImagen()!=null){
@@ -184,7 +182,7 @@ public class CRUDProducto {
             if (crit.equals("")) {
                 query = session.createQuery("SELECT NEW models.ProductoTableDTO(p.idProducto,p.numInventario, cp.nombreProducto, m.nombreMarca, tp.tipo, "
                         + "g.numGabinete, ep.estado, p.descripcion, p.cantidadStock, "
-                        + "p.cantidadPrestada, p.cantidadUtilizada, p.fechaRegistro, p.imagen) FROM Producto p "
+                        + "p.fechaRegistro, p.imagen) FROM Producto p "
                         + "JOIN p.catalogoProducto cp "
                         + "JOIN p.marca m "
                         + "JOIN p.tipoProducto tp "
@@ -195,7 +193,7 @@ public class CRUDProducto {
             } else {
                 query = session.createQuery("SELECT NEW models.ProductoTableDTO(p.idProducto, p.numInventario, cp.nombreProducto, m.nombreMarca, tp.tipo, "
                         + "g.numGabinete, ep.estado, p.descripcion, p.cantidadStock, "
-                        + "p.cantidadPrestada, p.cantidadUtilizada, p.fechaRegistro,p.imagen) FROM Producto p "
+                        + "p.fechaRegistro,p.imagen) FROM Producto p "
                         + "JOIN p.catalogoProducto cp "
                         + "JOIN p.marca m "
                         + "JOIN p.tipoProducto tp "
@@ -229,8 +227,6 @@ public class CRUDProducto {
         columnNames.add("Estado");
         columnNames.add("Descripción");
         columnNames.add("Stock");
-        columnNames.add("Prestado");
-        columnNames.add("Utilizado");
         columnNames.add("Fechas de registro");
         columnNames.add("Imagen");
 
@@ -244,8 +240,6 @@ public class CRUDProducto {
             newRow.add(dto.getEstadoProducto());
             newRow.add(dto.getDescripcion());
             newRow.add(dto.getCantidadStock());
-            newRow.add(dto.getCantidadPrestada());
-            newRow.add(dto.getCantidadUtilizada());
             newRow.add(dto.getFechaRegistro());
             newRow.add(BytesToImage(dto.getImagen()));
 

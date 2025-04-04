@@ -153,6 +153,11 @@ public class ViewCambiarContrasenia extends javax.swing.JFrame {
         );
 
         jButton1.setText("Regresar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -226,13 +231,19 @@ public class ViewCambiarContrasenia extends javax.swing.JFrame {
                 } else {
                     hashedPasswordONE = PasswordEncryption.encryptionPassword(StringPasswordONE);
                     admin.setContrasenia(hashedPasswordONE);
-                    crudAdmin.update(admin,admin.getCuentaAdmin());
-                    JOptionPane.showMessageDialog(null,"Se cambio la contraseña de la cuenta de administrador: "+admin.getCuentaAdmin(),"INFO",JOptionPane.INFORMATION_MESSAGE);
-                    Arrays.fill(passwordCharsONE, '\0');//Liempieza de caracteres de la contraseña
-                    Arrays.fill(passwordCharsConfirm, '\0');//Limpieza de caracteres de la contraseña
-                    char[]hashedPasswordChars=hashedPasswordONE.toCharArray();//Convertir la hashesPassword en carateres para limpiarlo
-                    Arrays.fill(hashedPasswordChars, '\0');//Limpiar la contraseña encriptada
-                    
+                    if (JOptionPane.showConfirmDialog(null, "Adminsitrador con el número de cuenta: " + admin.getCuentaAdmin() + "\n¿Esta seguro de cambiar su contraseña?") == JOptionPane.YES_OPTION) {
+                        if (crudAdmin.update(admin, admin.getCuentaAdmin())) {
+                            JOptionPane.showMessageDialog(null, "Se cambio la contraseña de la cuenta de administrador", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                            Arrays.fill(passwordCharsONE, '\0');//Liempieza de caracteres de la contraseña
+                            Arrays.fill(passwordCharsConfirm, '\0');//Limpieza de caracteres de la contraseña
+                            char[] hashedPasswordChars = hashedPasswordONE.toCharArray();//Convertir la hashesPassword en carateres para limpiarlo
+                            Arrays.fill(hashedPasswordChars, '\0');//Limpiar la contraseña encriptada
+                            new ViewLogin().setVisible(true);
+                            dispose();
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Hubo un error en el cambio de contraseña", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
                 }
                 
             }
@@ -261,6 +272,11 @@ public class ViewCambiarContrasenia extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnValidarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        new ViewLogin().setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

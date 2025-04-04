@@ -18,7 +18,6 @@ public class HibernateUtil {
             
             cfg.addAnnotatedClass(models.Administrador.class);
             cfg.addAnnotatedClass(models.CatalogoProductos.class);
-            cfg.addAnnotatedClass(models.EstadoPrestamo.class);
             cfg.addAnnotatedClass(models.EstadoProducto.class);
             cfg.addAnnotatedClass(models.Gabinete.class);
             cfg.addAnnotatedClass(models.Marca.class);

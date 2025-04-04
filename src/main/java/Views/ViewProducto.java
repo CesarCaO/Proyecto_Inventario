@@ -142,12 +142,11 @@ public class ViewProducto extends javax.swing.JFrame {
         cmbGabinete.setSelectedIndex(0);
         cmbEstadoPro.setSelectedIndex(0);
         tblProducto.clearSelection();
+        txtBuscar.setText("");
     }
     
     public byte[] generarCodigoBarras(String data) throws IOException, Exception{
         try{
-           
-            
             int width = 10 * data.length();
             int height = 100;
             BitMatrix bitMatrix = new MultiFormatWriter().encode(data, BarcodeFormat.CODE_128,width,height);
@@ -228,7 +227,7 @@ public class ViewProducto extends javax.swing.JFrame {
         cmbBuscar = new javax.swing.JComboBox<>();
         txtBuscar = new javax.swing.JTextField();
         btnUpdate = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
 
@@ -376,7 +375,12 @@ public class ViewProducto extends javax.swing.JFrame {
             }
         });
 
-        jButton2.setText("Eliminar");
+        btnDelete.setText("Eliminar");
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Regresar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -415,7 +419,7 @@ public class ViewProducto extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btnUpdate)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton2)
+                                .addComponent(btnDelete)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnCancelar))
                             .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -504,7 +508,7 @@ public class ViewProducto extends javax.swing.JFrame {
                         .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnAdd)
                             .addComponent(btnUpdate)
-                            .addComponent(jButton2)
+                            .addComponent(btnDelete)
                             .addComponent(btnCancelar)))
                     .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 671, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(29, Short.MAX_VALUE))
@@ -648,6 +652,7 @@ public class ViewProducto extends javax.swing.JFrame {
         cmbGabinete.setSelectedItem(tblProducto.getValueAt(tblProducto.getSelectedRow(), 4).toString());
         txtDescripcion.setText(tblProducto.getValueAt(tblProducto.getSelectedRow(), 6).toString());
         spnCantidad.setValue(tblProducto.getValueAt(tblProducto.getSelectedRow(), 7));
+        
     }//GEN-LAST:event_tblProductoMouseClicked
 
     private void cmbCatProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbCatProActionPerformed
@@ -673,7 +678,7 @@ public class ViewProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_pnlPrincipalMouseClicked
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-        boolean bandera = false;
+        boolean bandera = false, cambioImagen=false;
 
         if (cmbCatPro.getSelectedIndex() == 0) {
 
@@ -703,33 +708,34 @@ public class ViewProducto extends javax.swing.JFrame {
 
         if (!bandera) {
             System.out.print(tblProducto.getSelectedRow());
-            if (tblProducto.getSelectedRow() != 0) {
-                int maxID = crudProducto.getMaxID(), numGabinete = Integer.parseInt(cmbGabinete.getSelectedItem().toString());
+             int row=-1;
+             row=tblProducto.getSelectedRow();
+            if (row != -1) {
+                int numGabinete = Integer.parseInt(cmbGabinete.getSelectedItem().toString());
                 String catpro = cmbCatPro.getSelectedItem().toString(),
                         marca = cmbMarca.getSelectedItem().toString(),
                         tipoPro = cmbTipoPro.getSelectedItem().toString(),
                         estadoPro = cmbEstadoPro.getSelectedItem().toString(),
-                        numInventario = generarNumInventario(maxID + 1);
+                        numInventario=tblProducto.getValueAt(tblProducto.getSelectedRow(), 0).toString();
                 byte[] barcodeBytes = null;
 
                 Producto newProducto = new Producto();
 
                 newProducto.setNumInventario(numInventario);
                 newProducto.setDescripcion(txtDescripcion.getText());
-                newProducto.setCantidadStock(spnCantidad.getComponentCount());
+                newProducto.setCantidadStock(Integer.valueOf(spnCantidad.getValue().toString()));
                 newProducto.setFechaRegistro(obtenerFechaActual());
                 if (!txtDireccion.getText().isEmpty()) {
                     try {
                         newProducto.setImagen(ToBytes(selectFile));
                     } catch (IOException ex) {
-                        JOptionPane.showMessageDialog(null, "Erro al generar el código de barras /n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+                        
                     }
                 }
-
                 try {
                     barcodeBytes = generarCodigoBarras(numInventario);
                 } catch (Exception ex) {
-
+                    JOptionPane.showMessageDialog(null, "Erro al generar el código de barras /n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
                 if (JOptionPane.showConfirmDialog(null, "El siguiente producto se agregara al inventario\n"
                         + "Nombre: " + catpro + "\n"
@@ -738,14 +744,34 @@ public class ViewProducto extends javax.swing.JFrame {
                         + "Tipo de producto: " + tipoPro + "\n"
                 ) == JOptionPane.YES_OPTION) {
                     crudProducto.update(newProducto, marca, tipoPro, catpro, numGabinete, estadoPro, tblProducto.getValueAt(tblProducto.getSelectedRow(), 0).toString());
+                    createTable();
+                    limpiarCampos();
+                    ViewBarcode viewBarcode = new ViewBarcode(barcodeBytes, numInventario);
+                    viewBarcode.setVisible(true);
                 }
-                createTable();
-                limpiarCampos();
-                ViewBarcode viewBarcode = new ViewBarcode(barcodeBytes, numInventario);
-                viewBarcode.setVisible(true);
+                
             }
         }
     }//GEN-LAST:event_btnUpdateActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        int row=-1;
+        row=tblProducto.getSelectedRow();
+        if (row == -1) {
+            JOptionPane.showMessageDialog(null, "Debe de seleccionar un producto para eliminarlo", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+            /**
+            if(JOptionPane.showConfirmDialog(null,"¿Desea eliminar el siguiente producto?: \n"+
+                    "Número de inventario: "+ tblProducto.getValueAt(tblProducto.getSelectedRow(), 0)+"\n"+
+                    "Nombre del producto: "+ tblProducto.getValueAt(tblProducto.getSelectedRow(), 1)+"\n"+
+                    )== JOptionPane.YES_OPTION){
+            **/   
+            crudProducto.delete(tblProducto.getValueAt(tblProducto.getSelectedRow(), 0).toString());
+            limpiarCampos();
+            createTable();  
+            
+        }
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     /**
      * @param args the command line arguments
@@ -786,6 +812,7 @@ public class ViewProducto extends javax.swing.JFrame {
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnExplorar;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JComboBox<String> cmbBuscar;
@@ -794,7 +821,6 @@ public class ViewProducto extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cmbGabinete;
     private javax.swing.JComboBox<String> cmbMarca;
     private javax.swing.JComboBox<String> cmbTipoPro;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;

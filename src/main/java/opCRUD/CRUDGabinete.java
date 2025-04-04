@@ -16,33 +16,35 @@ import org.hibernate.query.Query;
 
 public class CRUDGabinete {
     
-    public void save(Gabinete newGabinete){
+    public boolean save(Gabinete newGabinete){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        
+        boolean completado=false;
          try {
             System.out.println("Transaction iniciada");
             transaction = session.beginTransaction();
             System.out.println("Guardando registro");
             session.persist(newGabinete);
             transaction.commit();
+            completado=true;
              System.out.println("Se guardo el registro");
         } catch (Exception err) {
 
             if (transaction != null) {
                 transaction.rollback();
-                System.out.println("El error en el metodo de guardar es: "+err);
-                JOptionPane.showMessageDialog(null,"Hubo un error al dar de alta el registro\n"+err+"\n Error SAVECRUD", "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println("Hubo un error al dar de alta el registro\n"+err+"\n Error SAVECRUD");
             }
         } finally {
             session.close();
         }
+        return completado;
     }
     
-    public void update(Gabinete newGabinete, int numOldGabinete){
+    public boolean update(Gabinete newGabinete, int numOldGabinete){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         Gabinete updateGabinete;
+        boolean completado = false; 
         try {
             
             transaction = session.beginTransaction();
@@ -52,6 +54,7 @@ public class CRUDGabinete {
             session.flush();
             session.clear();
             transaction.commit();
+            completado = true;
             
 
         } catch (Exception err) {
@@ -63,13 +66,17 @@ public class CRUDGabinete {
         } finally {
             session.close();
         }
+        
+        return completado;
     }
     
-     public void delete(int numero){
+     public boolean delete(int numero){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         Gabinete delGab;
+        boolean completado = false; 
         try{
+            
             transaction = session.beginTransaction();
             System.out.println("Transaction iniciada");
             delGab=session.find(Gabinete.class, ToID(numero));
@@ -78,15 +85,23 @@ public class CRUDGabinete {
             session.flush();
             session.clear();
             transaction.commit();
+            completado = true;
+            
         }catch(Exception err){
+            
             if(transaction!=null){
                 transaction.rollback();
                 System.out.println("Hubo un problema al eliminar "+err+ " Error: UpdateCRUD");
             }
+            
         }finally{
+            
             session.close();
+            
         }
-         
+        
+       return completado;
+       
      }
     public int ToID(int numero){
           Session session= HibernateUtil.getSessionFactory().openSession();

@@ -4,6 +4,9 @@
  */
 package Views;
 
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.FocusTraversalPolicy;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -29,7 +32,6 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
         pnlPrincipal.requestFocus();
         this.setResizable(false);
         this.setLocationRelativeTo(null);
-        
         
     }
     
@@ -266,7 +268,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
         CatalogoProductos newcatpro= new CatalogoProductos();
         if(txtProducto.getText()==null || !txtProducto.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")){
             
-             JOptionPane.showMessageDialog(null,"Algo esta mal en el nombre del producto (No se permiten números en este campo)","ERROR", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(null,"Algo esta mal en el nombre del producto (Solo se permiten letras en este campo)","ERROR", JOptionPane.ERROR_MESSAGE);
              bandera=true;
         }
         
@@ -279,12 +281,20 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
         if (!bandera) {
             newcatpro.setNombre_producto(txtProducto.getText());
             if (JOptionPane.showConfirmDialog(null, "¿Desea agregar este articulo al catalogo?\n" + newcatpro.getNombre_producto(), "Confirm", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
-                crudCatPro.save(newcatpro);
-                JOptionPane.showMessageDialog(null,"Se registros el producto en el catalogo","Info", JOptionPane.INFORMATION_MESSAGE);
-                cleanFields();
-                createTableCatPro();
-                btnAdd.setEnabled(false);
-                btnCancel.setEnabled(false);
+                
+                if(crudCatPro.save(newcatpro)){
+                    
+                    JOptionPane.showMessageDialog(null,"Se registros el producto en el catalogo","Info", JOptionPane.INFORMATION_MESSAGE);
+                    cleanFields();
+                    createTableCatPro();
+                    btnAdd.setEnabled(false);
+                    btnCancel.setEnabled(false);
+                    pnlPrincipal.requestFocus();
+                    JOptionPane.showMessageDialog(null, "Registro completado", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                    
+                }else{
+                    JOptionPane.showMessageDialog(null, "Hubo un error en el registro", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed
@@ -303,13 +313,13 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         boolean bandera=false;
         CatalogoProductos newcatpro= new CatalogoProductos();
-        if(txtProducto.getText()==null || !txtProducto.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")){
+        if(txtProducto.getText()==null || !txtProducto.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")){//Validar que solo se metan letras al nombre de los productos
             
-             JOptionPane.showMessageDialog(null,"Algo esta mal en el nombre del producto (No se permiten números en este campo)","ERROR", JOptionPane.ERROR_MESSAGE);
+             JOptionPane.showMessageDialog(null,"Algo esta mal en el nombre del producto (Solo se permiten letras en este campo)","ERROR", JOptionPane.ERROR_MESSAGE);
              bandera=true;
         }
         
-        if(crudCatPro.ValidarCatalogo(txtProducto.getText())){
+        if(crudCatPro.ValidarCatalogo(txtProducto.getText())){//Una forma de validar la exitencia del nombre del producto en el sistema
             JOptionPane.showMessageDialog(null,"El producto ya fue dado de alta en el sistema","ERROR", JOptionPane.ERROR_MESSAGE);
             bandera=true;
             cleanFields();
@@ -319,10 +329,14 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
              newcatpro.setNombre_producto(txtProducto.getText());
             if(JOptionPane.showConfirmDialog(null,"Se actualizará el registro de "+ tblcatpro.getValueAt(tblcatpro.getSelectedRow(),0).toString()+" por "+ newcatpro.getNombre_producto() +" del catalogo\n ¿Desea continuar?","Confirmar Eliminación" ,JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
                 JOptionPane.showMessageDialog(null, "Actualización completa");
-                crudCatPro.update(newcatpro,tblcatpro.getValueAt(tblcatpro.getSelectedRow(),0).toString());
+                if(crudCatPro.update(newcatpro,tblcatpro.getValueAt(tblcatpro.getSelectedRow(),0).toString())){
                 cleanFields();
                 createTableCatPro();
                 update=false;
+                JOptionPane.showMessageDialog(null, "Actualización completa");
+                }else{
+                    JOptionPane.showMessageDialog(null, "Hubo un error en la actualización", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }         
     }//GEN-LAST:event_btnUpdateActionPerformed
@@ -333,19 +347,24 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_txtBuscarKeyReleased
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        boolean bandera=false;
-        
-        if(txtProducto.getText()==null){
-            
-             JOptionPane.showMessageDialog(null,"No ha seleccionado un registro a eliminar","ERROR", JOptionPane.ERROR_MESSAGE);
-             bandera=true;
+        boolean bandera = false;
+
+        if (txtProducto.getText() == null) {
+
+            JOptionPane.showMessageDialog(null, "No ha seleccionado un registro a eliminar", "ERROR", JOptionPane.ERROR_MESSAGE);
+            bandera = true;
         }
-        if(!bandera){
-            if(JOptionPane.showConfirmDialog(null,"Se eliminará "+tblcatpro.getValueAt(tblcatpro.getSelectedRow(),0).toString()+" del catalogo\n ¿Desea continuar?","Confirmar Eliminación" ,JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){
-                        crudCatPro.delete(tblcatpro.getValueAt(tblcatpro.getSelectedRow(),0).toString());
-                        JOptionPane.showMessageDialog(null, "Se ha eliminado el registro correctamente","Mensaje", JOptionPane.INFORMATION_MESSAGE);
-                        cleanFields();
-                        createTableCatPro();     
+        if (!bandera) {
+            if (JOptionPane.showConfirmDialog(null, "Se eliminará " + tblcatpro.getValueAt(tblcatpro.getSelectedRow(), 0).toString() + " del catalogo\n" + "Si elimina este registros, todo lo relacionado a él dentro del "
+                    + "Inventario DESAPARECERAN \n" + " ¿Desea continuar?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
+                if (crudCatPro.delete(tblcatpro.getValueAt(tblcatpro.getSelectedRow(), 0).toString())) {
+                    JOptionPane.showMessageDialog(null, "Se ha eliminado el registro correctamente", "Mensaje", JOptionPane.INFORMATION_MESSAGE);
+                    cleanFields();
+                    createTableCatPro();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Hubo un error en al eliminar el registro", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed

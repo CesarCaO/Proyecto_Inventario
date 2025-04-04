@@ -9,7 +9,7 @@ import opCRUD.CRUDGabinete;
 public class ViewGabinete extends javax.swing.JFrame {
 
    CRUDGabinete crudGabinete=new CRUDGabinete();
-   boolean update=false;
+   boolean update=false;//Variable para la activación de los botones
     public ViewGabinete() {
         initComponents();
         txtDescripcion.setLineWrap(true);
@@ -19,6 +19,9 @@ public class ViewGabinete extends javax.swing.JFrame {
         btnDelete.setEnabled(false);
         btnAdd.setEnabled(false);
         btnCancel.setEnabled(false);
+        this.setResizable(false);
+        this.setLocationRelativeTo(null);
+        pnlPrincipal.requestFocus();
     }
     
     public void createTable(){
@@ -64,6 +67,11 @@ public class ViewGabinete extends javax.swing.JFrame {
         });
 
         jPanel4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel4MouseClicked(evt);
+            }
+        });
 
         txtNumero.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,6 +154,11 @@ public class ViewGabinete extends javax.swing.JFrame {
         );
 
         jPanel5.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Buscar"));
+        jPanel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jPanel5MouseClicked(evt);
+            }
+        });
 
         txtBuscar.addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusGained(java.awt.event.FocusEvent evt) {
@@ -276,25 +289,30 @@ public class ViewGabinete extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         
-        if(txtNumero.getText().isEmpty()){
-           JOptionPane.showMessageDialog(null, "Debe elegir un registro para eliminarlo", "ERROR", JOptionPane.ERROR_MESSAGE);
-        }else{
-            crudGabinete.delete(Integer.parseInt(tblGabinete.getValueAt(tblGabinete.getSelectedRow(),0).toString()));
-            createTable();
-            limpiarCampos();
+        if (txtNumero.getText().isEmpty()) {//Validación para que el usuario elija un registro a eliminar
+            JOptionPane.showMessageDialog(null, "Debe elegir un registro para eliminarlo", "ERROR", JOptionPane.ERROR_MESSAGE);
+        } else {
+            if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de eliminar este registro?.\n Todos los registros del inventario relacionados a él se eliminaran") == JOptionPane.YES_OPTION) {
+                if (crudGabinete.delete(Integer.parseInt(tblGabinete.getValueAt(tblGabinete.getSelectedRow(), 0).toString()))) {
+                    createTable();
+                    limpiarCampos();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Hubo un error en al eliminar el registro", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+            }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
-        boolean bandera=false;
-        int numGabinete=0;
+        boolean bandera=false;//Bandera de errores
+        int numGabinete=-1;
         String descripcion=null;
         
-        if(txtNumero.getText().isEmpty()){
+        if(txtNumero.getText().isEmpty()){//Si esta vacio el texto del número
            JOptionPane.showMessageDialog(null, "Debe asignar un número al gabinete", "ERROR", JOptionPane.ERROR_MESSAGE);
            bandera=true;
         }else{
-            try{
+            try{//Try para valida que el texto introducido sea un texto
                 numGabinete=Integer.parseInt(txtNumero.getText());
             }catch(NumberFormatException err){
                 JOptionPane.showMessageDialog(null, "El número de gabinete debe de ser entero, sin letras ni signos", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -316,13 +334,26 @@ public class ViewGabinete extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Este gabinete ya esta dado de alta", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
                 newgabinete.setDescripcion(descripcion);
-                crudGabinete.save(newgabinete);
-                limpiarCampos();
-                createTable();
+                if (JOptionPane.showConfirmDialog(null, "¿Desea agregar el siguiente gabiente?:\n" + newgabinete.getNumGabinete() + "\n" + newgabinete.getDescripcion() + "\n") == JOptionPane.YES_OPTION) {
+                    
+                    if (crudGabinete.save(newgabinete)) {
+                        
+                        limpiarCampos();
+                        btnAdd.setEnabled(false);
+                        btnCancel.setEnabled(false);
+                        createTable();
+                        JOptionPane.showMessageDialog(null, "Registro completado", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                        
+                    } else {
+                        
+                        JOptionPane.showMessageDialog(null, "Hubo un error en el registro", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        
+                    }
+                } 
             }
         }
-        
-        
+
+
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void tblGabineteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblGabineteMouseClicked
@@ -360,23 +391,58 @@ public class ViewGabinete extends javax.swing.JFrame {
         }
         
         if (!bandera) {
+            
             Gabinete newgabinete = new Gabinete();
             newgabinete.setNumGabinete(numGabinete);
-            if(newgabinete.getNumGabinete()==Integer.parseInt(tblGabinete.getValueAt(tblGabinete.getSelectedRow(),0).toString())){
+            if(newgabinete.getNumGabinete()==Integer.parseInt(tblGabinete.getValueAt(tblGabinete.getSelectedRow(),0).toString())){//Si el número del gabinete selección entonces solo sea agrega la descripción y se guarda 
+                
                 newgabinete.setDescripcion(descripcion);
-                crudGabinete.update(newgabinete,Integer.parseInt(tblGabinete.getValueAt(tblGabinete.getSelectedRow(),0).toString()));
-                limpiarCampos();
-                createTable();
-            }else {
-                if (crudGabinete.validarGabinete(newgabinete.getNumGabinete())) {
+                if(JOptionPane.showConfirmDialog(null, "¿Desea cambiar el gabinete\n"
+                            + "Número de Gabinete: "+tblGabinete.getValueAt(tblGabinete.getSelectedRow(),0)+"\n"+
+                            "Descripción: "+tblGabinete.getValueAt(tblGabinete.getSelectedRow(),1)+"\n"+
+                            "Por\n"+
+                            newgabinete,"Confirmar Actualización",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){//Confirmación de actualización
+                        
+                        if (crudGabinete.update(newgabinete, Integer.parseInt(tblGabinete.getValueAt(tblGabinete.getSelectedRow(), 0).toString()))) {//Si todo sale bien en la acualización
+                            btnUpdate.setEnabled(false);
+                            btnDelete.setEnabled(false);
+                            limpiarCampos();
+                            createTable();
+                            JOptionPane.showMessageDialog(null, "Registro actualizado", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                            
+                        }else{//Si hubo un error en la actualización
+                            
+                            JOptionPane.showMessageDialog(null, "Hubo un error en el registro", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            
+                        }
+                    }
+            }else {///Si el número del gabinete es distinto hay que verificar si el nuevo número no ha sido introducido en el sistema
+                
+                if (crudGabinete.validarGabinete(newgabinete.getNumGabinete())) {//Validar la existencia del gabinete. Verdadero: El gabinete ya esta en el sistema
                     JOptionPane.showMessageDialog(null, "Este gabinete ya esta dado de alta", "ERROR", JOptionPane.ERROR_MESSAGE);
-                } else {
+                    System.out.print("Dentro del IF de la validación del gabinete");
+                } else {//Si no esta dadod de alta en el sistema inicia el proceso de actualización
                     newgabinete.setDescripcion(descripcion);
-                    crudGabinete.update(newgabinete, Integer.parseInt(tblGabinete.getValueAt(tblGabinete.getSelectedRow(),0).toString()));
-                    btnUpdate.setEnabled(false);
-                    btnDelete.setEnabled(false);
-                    limpiarCampos();
-                    createTable();
+                    System.out.print("Dentro del else de la validación del gabinete");
+                    if(JOptionPane.showConfirmDialog(null, "¿Desea cambiar el gabinete\n"
+                            + "Número de Gabinete: "+tblGabinete.getValueAt(tblGabinete.getSelectedRow(),0)+
+                            "Descripción: "+tblGabinete.getValueAt(tblGabinete.getSelectedRow(),1)+
+                            "Por\n"+
+                            newgabinete,"Confirmar Actualización",JOptionPane.YES_NO_OPTION)==JOptionPane.YES_OPTION){//Confirmación de actualización
+                        
+                        if (crudGabinete.update(newgabinete, Integer.parseInt(tblGabinete.getValueAt(tblGabinete.getSelectedRow(), 0).toString()))) {//Si todo sale bien en la actualización se actualiza el registro
+                            btnUpdate.setEnabled(false);
+                            btnDelete.setEnabled(false);
+                            limpiarCampos();
+                            createTable();
+                            JOptionPane.showMessageDialog(null, "Registro acualizado", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+                            
+                        }else{//En caso de que haya un error en la actualización
+                            
+                            JOptionPane.showMessageDialog(null, "Hubo un error en el registro", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            
+                        }
+                    }
                 }
             }
         }
@@ -445,6 +511,14 @@ public class ViewGabinete extends javax.swing.JFrame {
         btnAdd.setEnabled(false);
         btnCancel.setEnabled(false);
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void jPanel4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel4MouseClicked
+        pnlPrincipal.requestFocus();
+    }//GEN-LAST:event_jPanel4MouseClicked
+
+    private void jPanel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanel5MouseClicked
+        pnlPrincipal.requestFocus();
+    }//GEN-LAST:event_jPanel5MouseClicked
 
    
     public static void main(String args[]) {

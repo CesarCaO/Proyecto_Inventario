@@ -66,9 +66,7 @@ public class Gabinete {
     
     @Override
     public String toString(){
-        return "Gabinete\n"+
-                "ID: "+idGabinete+"\n"+
-                "Numero de gabinete: "+numGabinete+"\n"+
+        return  "Numero de gabinete: "+numGabinete+"\n"+
                 "Descripcion: "+descripcion+"\n";
     }
     

@@ -14,10 +14,11 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 public class CRUDCatalogoProductos {
-    public void save(CatalogoProductos newcatpro) {
+    public boolean save(CatalogoProductos newcatpro) {
 
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
+        boolean completado = false;
          
 
         try {
@@ -25,6 +26,7 @@ public class CRUDCatalogoProductos {
             transaction = session.beginTransaction();
             System.out.println("Guardando producto en el catalogo");
             session.persist(newcatpro);
+            completado=true;
             transaction.commit();
              System.out.println("Se guardo el producto en el catalogo");
             
@@ -33,19 +35,20 @@ public class CRUDCatalogoProductos {
             if (transaction != null) {
                 transaction.rollback();
                 System.out.println("El error en el metodo de guardar es: "+err);
-                JOptionPane.showMessageDialog(null,"Hubo un error al dar de alta el registro\n"+err+"\n Error SAVECRUD", "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println("Hubo un error al dar de alta el registro\n"+err+"\n Error SAVECRUD");
             }
         } finally {
             session.close();
         }
-       
+       return completado;
     }
 
-    public void update(CatalogoProductos newcatpro, String oldcatproName) {
-
+    public boolean update(CatalogoProductos newcatpro, String oldcatproName) {
+        
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         CatalogoProductos updateCatPro;
+        boolean completado = false;
         try {
             
             transaction = session.beginTransaction();
@@ -59,19 +62,20 @@ public class CRUDCatalogoProductos {
 
             if (transaction != null) {
                 transaction.rollback();
-                JOptionPane.showMessageDialog(null,"Hubo un error al actualizar\n"+err+"\n Error UPDATECRUDAdmin", "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println("Hubo un error al actualizar el registro\n"+err+"\n Error UPDATECRUD");
             }
         } finally {
             session.close();
         }
-    
+    return completado;
     }
     
-    public void delete(String oldcatproName){
+    public boolean delete(String oldcatproName){
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         CatalogoProductos delcatpro;
+        boolean completado= false;
         try{
             transaction = session.beginTransaction();
             System.out.println("Transaction iniciada");
@@ -87,12 +91,13 @@ public class CRUDCatalogoProductos {
             
             if (transaction != null) {
                 transaction.rollback();
-                JOptionPane.showMessageDialog(null,"Hubo un error al eliminar\n"+err+"\n Error DElCRUDAdmin", "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println("Hubo un error al dar de baja el registro\n"+err+"\n Error DELETECRUD");
             }
             
         }finally {
             session.close();
         }
+       return completado;
     }
     
     public List opRead(String crit){
@@ -113,7 +118,7 @@ public class CRUDCatalogoProductos {
             }
         }catch(Exception err){
              
-             JOptionPane.showMessageDialog(null,"Error al leer los productos del catalogo "+err+" Error: opRead", "Error", JOptionPane.ERROR_MESSAGE);
+             System.out.println("Error al leer los productos del catalogo "+err+" Error: opRead");
         }
         return listcatpro;
     }
@@ -171,7 +176,7 @@ public class CRUDCatalogoProductos {
             }
             
         }catch(Exception err){
-            JOptionPane.showMessageDialog(null,"Error al validar existencia del producto dentro del catalogo "+err+" Error: ValCAT", "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Error al validar existencia del producto dentro del catalogo "+err+" Error: ValCRUD");
         }finally{
             session.close();
         }
@@ -188,7 +193,7 @@ public class CRUDCatalogoProductos {
               query.setParameter("nombre",name );
               idcatpro=query.uniqueResult();
           }catch(Exception err){
-                JOptionPane.showMessageDialog(null,"Error al encontrar el id del producto dentro del catalogo "+err+" Error: IDCAT", "Error", JOptionPane.ERROR_MESSAGE);
+                System.out.println("Error al encontrar el id del producto dentro del catalogo ");
           }finally{
               session.close();
           }

@@ -101,6 +101,8 @@ public class CRUDProducto {
                 throw new IllegalArgumentException("El estado del producto: " + estadoProducto + " no existe.");
             }
             
+           
+            
             //Hacer las relaciones
             updateProducto.setMarca(relMarca);
             updateProducto.setTipoProducto(relTipoPro);
@@ -115,7 +117,11 @@ public class CRUDProducto {
             updateProducto.setCantidadPrestada(producto.getCantidadPrestada());
             updateProducto.setCantidadUtilizada(producto.getCantidadUtilizada());
             updateProducto.setFechaRegistro(producto.getFechaRegistro());
-            updateProducto.setImagen(producto.getImagen());
+            
+            if(producto.getImagen()!=null){
+                System.out.print("Dentro de la validación de la imagen");
+                updateProducto.setImagen(producto.getImagen());
+            }
             
             transaction.commit();
             

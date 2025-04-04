@@ -356,7 +356,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
         }
         if (!bandera) {
             if (JOptionPane.showConfirmDialog(null, "Se eliminará " + tblcatpro.getValueAt(tblcatpro.getSelectedRow(), 0).toString() + " del catalogo\n" + "Si elimina este registros, todo lo relacionado a él dentro del "
-                    + "Inventario DESAPARECERAN \n" + " ¿Desea continuar?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    + "Inventario DESAPARECERÁ \n" + " ¿Desea continuar?", "Confirmar Eliminación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
                 if (crudCatPro.delete(tblcatpro.getValueAt(tblcatpro.getSelectedRow(), 0).toString())) {
                     JOptionPane.showMessageDialog(null, "Se ha eliminado el registro correctamente", "Mensaje", JOptionPane.INFORMATION_MESSAGE);

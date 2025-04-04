@@ -15,11 +15,11 @@ import opCRUD.CRUDAdmin;
 public class ViewAdmin extends javax.swing.JFrame {
 
     CRUDAdmin crudAdmin=new CRUDAdmin();
-    //Administrador admin=null;
+    Administrador admin=null;
     private boolean updateDelete;
     
-    public ViewAdmin() {
-        //this.admin=admin;
+    public ViewAdmin(Administrador admin) {
+        this.admin=admin;
         initComponents();
         createTable();
         ///////////////////////////////////
@@ -27,14 +27,14 @@ public class ViewAdmin extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);
         ///////////////////////////////////
         btnDelete.setEnabled(false);
-        //lblNumCuenta.setText(String.valueOf(admin.getCuentaAdmin()));
-        //String nombreCompleto=admin.getNombre()+" "+admin.getApellidoPaterno()+" "+admin.getApellidoMaterno();
-        //lblNombre.setText(nombreCompleto);
+        lblNumCuenta.setText(String.valueOf(admin.getCuentaAdmin()));
+        String nombreCompleto=admin.getNombre()+" "+admin.getApellidoPaterno()+" "+admin.getApellidoMaterno();
+        lblNombre.setText(nombreCompleto);
         pnlPrincipal.requestFocus();
         
     }
     
-    //public ViewAdmin(){}
+    public ViewAdmin(){}
     
     public void createTable(){
         tblAdmin.setModel(crudAdmin.opBuscar(cmbBuscar.getSelectedItem().toString(), txtBuscar.getText()));
@@ -293,6 +293,11 @@ public class ViewAdmin extends javax.swing.JFrame {
         );
 
         btnGoBack.setText("Regresar");
+        btnGoBack.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGoBackActionPerformed(evt);
+            }
+        });
 
         btnCancel.setText("Cancelar");
         btnCancel.addActionListener(new java.awt.event.ActionListener() {
@@ -790,6 +795,11 @@ public class ViewAdmin extends javax.swing.JFrame {
             updateDelete=false;
         }
     }//GEN-LAST:event_txtBuscarFocusGained
+
+    private void btnGoBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoBackActionPerformed
+        new MenuAdmin(admin).setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnGoBackActionPerformed
 
   
     public static void main(String args[]) {

@@ -196,14 +196,14 @@ public class CRUDProducto {
                         + "JOIN p.gabinete g "
                         + "JOIN p.estadoProducto ep "
                         + "WHERE "
-                        + "CAST(" + field + "AS string) LIKE :crit ORDER BY p.idProducto DESC", ProductoTableDTO.class);
+                        + "CAST( " + field + " AS string) LIKE :crit ORDER BY p.idProducto DESC", ProductoTableDTO.class);
                 query.setParameter("crit",crit+"%");
                 listproducto=query.getResultList();
                 System.out.println("Productos encontrados (con criterio): " + listproducto.size());
                 
             }
         } catch (Exception err) {
-            JOptionPane.showMessageDialog(null, "Error al leer los productos " + err + " Error: opRead", "Error", JOptionPane.ERROR_MESSAGE);
+            System.out.println("Error al leer los productos " + err + " Error: opRead");
         } finally {
             session.close();
         }

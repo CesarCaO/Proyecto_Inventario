@@ -16,16 +16,17 @@ import org.hibernate.query.Query;
 
 public class CRUDMarca {
     
-    public void save(Marca newMarca){
+    public boolean save(Marca newMarca){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
-        
+        boolean  completado = false;
          try {
             System.out.println("Transaction iniciada");
             transaction = session.beginTransaction();
             System.out.println("Guardando registro");
             session.persist(newMarca);
             transaction.commit();
+            completado = true;
              System.out.println("Se guardo el registro");
         } catch (Exception err) {
 
@@ -37,12 +38,14 @@ public class CRUDMarca {
         } finally {
             session.close();
         }
+     return completado;
     }
     
-    public void delete(String nombre){
+    public boolean delete(String nombre){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         Marca delmarca;
+        boolean completado = false;
         try{
             transaction = session.beginTransaction();
             System.out.println("Transaction iniciada");
@@ -52,6 +55,7 @@ public class CRUDMarca {
             session.flush();
             session.clear();
             transaction.commit();
+            completado=true;
         }catch(Exception err){
             if(transaction!=null){
                 transaction.rollback();
@@ -60,13 +64,15 @@ public class CRUDMarca {
         }finally{
             session.close();
         }
-         
+       
+       return completado;  
      }
     
-    public void update(Marca newMarca, String nombre){
+    public boolean update(Marca newMarca, String nombre){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         Marca updateMarca;
+        boolean complete = false;
         try {  
             transaction = session.beginTransaction();
             updateMarca=session.get(Marca.class, ToID(nombre));
@@ -74,6 +80,7 @@ public class CRUDMarca {
             session.flush();
             session.clear();
             transaction.commit();
+            complete = true;
         } catch (Exception err) {
 
             if (transaction != null) {
@@ -83,6 +90,7 @@ public class CRUDMarca {
         } finally {
             session.close();
         }
+      return complete;
     }
     
     public int ToID(String marca){
@@ -94,7 +102,7 @@ public class CRUDMarca {
               query.setParameter("marca",marca);
               idGabinete=query.uniqueResult();
           }catch(Exception err){
-                JOptionPane.showMessageDialog(null,"Error al encontrar el ID\n "+err+" \nError: ToID", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Error al encontrar el ID de la marca\n "+err+" \nError: ToID", "Error", JOptionPane.ERROR_MESSAGE);
           }finally{
               session.close();
           }

@@ -79,6 +79,7 @@ public class ViewProducto extends javax.swing.JFrame {
         spnCantidad.setModel(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
         scrollPane.requestFocusInWindow();
         btnAdd.setEnabled(false);
+        tblProducto.getTableHeader().setReorderingAllowed(false);
         
         
     }
@@ -712,8 +713,8 @@ public class ViewProducto extends javax.swing.JFrame {
                     crudProducto.update(newProducto, marca, tipoPro, catpro, numGabinete, estadoPro, tblProducto.getValueAt(tblProducto.getSelectedRow(), 0).toString());
                     createTable();
                     limpiarCampos();
-                    ViewBarcode viewBarcode = new ViewBarcode(barcodeBytes, numInventario);
-                    viewBarcode.setVisible(true);
+                    //ViewBarcode viewBarcode = new ViewBarcode(barcodeBytes, numInventario);
+                    //viewBarcode.setVisible(true);
                 }
                 
             }
@@ -798,11 +799,11 @@ public class ViewProducto extends javax.swing.JFrame {
             newProducto.setDescripcion(txtDescripcion.getText());
             newProducto.setCantidadStock(spnCantidad.getComponentCount());
             newProducto.setFechaRegistro(obtenerFechaActual());
-            if(!txtDireccion.getText().isEmpty()){
+            if (!txtDireccion.getText().isEmpty()) {
                 try {
                     newProducto.setImagen(ToBytes(selectFile));
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "Erro al generar el código de barras /n"+ex,"ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Erro al generar el código de barras /n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
 
@@ -811,17 +812,19 @@ public class ViewProducto extends javax.swing.JFrame {
             } catch (Exception ex) {
 
             }
-            if(JOptionPane.showConfirmDialog(null,"El siguiente producto se agregara al inventario\n"
-                + "Nombre: "+catpro+"\n"
-                +"Numero de inventario: " +numInventario+"\n"
-                + "Marca: "+marca+"\n"
-                + "Tipo de producto: "+tipoPro+"\n"
-            )==JOptionPane.YES_OPTION)
-            crudProducto.save(newProducto, marca, tipoPro, catpro, numGabinete, estadoPro);
-            createTable();
-            limpiarCampos();
-            ViewBarcode viewBarcode = new ViewBarcode(barcodeBytes, numInventario);
-            viewBarcode.setVisible(true);
+            if (JOptionPane.showConfirmDialog(null, "El siguiente producto se agregara al inventario\n"
+                    + "Nombre: " + catpro + "\n"
+                    + "Numero de inventario: " + numInventario + "\n"
+                    + "Marca: " + marca + "\n"
+                    + "Tipo de producto: " + tipoPro + "\n"
+            ) == JOptionPane.YES_OPTION) {
+                crudProducto.save(newProducto, marca, tipoPro, catpro, numGabinete, estadoPro);
+                createTable();
+                limpiarCampos();
+                ViewBarcode viewBarcode = new ViewBarcode(barcodeBytes, numInventario);
+                viewBarcode.setVisible(true);
+            }
+            
 
         }
     }//GEN-LAST:event_btnAddActionPerformed

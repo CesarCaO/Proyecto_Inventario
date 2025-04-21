@@ -15,8 +15,15 @@ import opCRUD.CRUDTipoProducto;
 public class ViewTipoProducto extends javax.swing.JFrame {
 
     CRUDTipoProducto crudTipoPro = new CRUDTipoProducto();
+    boolean updateDelete=false;
     public ViewTipoProducto() {
         initComponents();
+        this.setLocationRelativeTo(null);
+        this.setResizable(false);
+        btnAdd.setEnabled(false);
+        btnUpdate.setEnabled(false);
+        btnCancel.setEnabled(false);
+        btnDelete.setEnabled(false);
         createTable();
     }
 
@@ -37,7 +44,7 @@ public class ViewTipoProducto extends javax.swing.JFrame {
         txtTipo = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         btnAdd = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblTipoPro = new javax.swing.JTable();
         btnUpdate = new javax.swing.JButton();
@@ -59,7 +66,7 @@ public class ViewTipoProducto extends javax.swing.JFrame {
             }
         });
 
-        btnCancelar.setText("Cancelar");
+        btnCancel.setText("Cancelar");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -73,7 +80,7 @@ public class ViewTipoProducto extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnAdd)
-                    .addComponent(btnCancelar))
+                    .addComponent(btnCancel))
                 .addGap(22, 22, 22))
         );
         jPanel2Layout.setVerticalGroup(
@@ -84,7 +91,7 @@ public class ViewTipoProducto extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(btnAdd)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCancelar)
+                        .addComponent(btnCancel)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1)
@@ -239,6 +246,7 @@ public class ViewTipoProducto extends javax.swing.JFrame {
 
     private void tblTipoProMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblTipoProMouseClicked
         txtTipo.setText(tblTipoPro.getValueAt(tblTipoPro.getSelectedRow(),0).toString());
+        
     }//GEN-LAST:event_tblTipoProMouseClicked
 
     /**
@@ -278,7 +286,7 @@ public class ViewTipoProducto extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
-    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JButton jButton5;

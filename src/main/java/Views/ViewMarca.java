@@ -11,6 +11,7 @@ public class ViewMarca extends javax.swing.JFrame {
     boolean updateDelete=false;
     Administrador admin;
     public ViewMarca(Administrador admin) {
+        this.admin=admin;
         initComponents();
         createTable();
         this.admin=admin;
@@ -296,22 +297,26 @@ public class ViewMarca extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         String nombreMarca;
-        if(txtNombre.getText().isEmpty()){
-            JOptionPane.showMessageDialog(null, "Debe introducir el nombre de la marca","Error",JOptionPane.ERROR_MESSAGE);
-        }else{
-            Marca newMarca=new Marca();
-            nombreMarca=txtNombre.getText();
+        if (txtNombre.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Debe introducir el nombre de la marca", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            Marca newMarca = new Marca();
+            nombreMarca = txtNombre.getText();
             newMarca.setNombreMarca(nombreMarca);
-            if(crudMarca.ValidarExistencia(newMarca.getNombreMarca())){
-                JOptionPane.showMessageDialog(null, "La marca ya fue dada de alta en el sistema","Error",JOptionPane.ERROR_MESSAGE);
-            }else{
-                crudMarca.save(newMarca);
-                createTable();
-                limpiarCampos();
-                btnAdd.setEnabled(false);
+            if (crudMarca.ValidarExistencia(newMarca.getNombreMarca())) {
+                JOptionPane.showMessageDialog(null, "La marca ya fue dada de alta en el sistema", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (JOptionPane.showConfirmDialog(null, "Esta seguro de agregar la marca: " + newMarca.getNombreMarca(), "Confirmación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    if (crudMarca.save(newMarca)) {
+                        createTable();
+                        limpiarCampos();
+                        btnAdd.setEnabled(false);
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Hubo un error al dar de alta el registro", "Error", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
-            
-            
+
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
@@ -340,6 +345,7 @@ public class ViewMarca extends javax.swing.JFrame {
                 if (crudMarca.ValidarExistencia(newMarca.getNombreMarca())) {
                     JOptionPane.showMessageDialog(null, "La marca ya fue dada de alta en el sistema", "Error", JOptionPane.ERROR_MESSAGE);
                 } else {
+                    
                     crudMarca.update(newMarca,tblMarca.getValueAt(tblMarca.getSelectedRow(), 0).toString());
                     createTable();
                     limpiarCampos();
@@ -372,6 +378,7 @@ public class ViewMarca extends javax.swing.JFrame {
             limpiarCampos();
             btnUpdate.setEnabled(false);
             btnDelete.setEnabled(false);
+            btnCancel.setEnabled(false);
             pnlPrincipal.requestFocus();
         }else{
             pnlPrincipal.requestFocus();
@@ -379,7 +386,9 @@ public class ViewMarca extends javax.swing.JFrame {
     }//GEN-LAST:event_pnlPrincipalMouseClicked
 
     private void txtNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyReleased
-        if(txtNombre.getText().isEmpty()){
+        if(updateDelete){
+            btnAdd.setEnabled(false);
+        }else if(txtNombre.getText().isEmpty()){
             btnAdd.setEnabled(false);
             btnCancel.setEnabled(false);
         }else{

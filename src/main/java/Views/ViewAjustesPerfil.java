@@ -407,15 +407,26 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMaternoFocusGained
 
     private void txtPaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPaternoKeyReleased
-        btnUpdate.setEnabled(true);
+
+        if(!admin.getApellidoPaterno().equals(txtPaterno.getText())){
+            btnUpdate.setEnabled(true);
+        }else{
+            btnUpdate.setEnabled(false);
+        }
     }//GEN-LAST:event_txtPaternoKeyReleased
 
     private void txtMaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaternoKeyReleased
-        btnUpdate.setEnabled(true);
+
+        if(admin.getApellidoMaterno().equals(txtMaterno.getText())){
+            btnUpdate.setEnabled(true);
+        }else{
+            btnUpdate.setEnabled(false);
+        }
     }//GEN-LAST:event_txtMaternoKeyReleased
 
     private void txtNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyReleased
         btnUpdate.setEnabled(true);
+        
     }//GEN-LAST:event_txtNombreKeyReleased
 
     private void txtCuentaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCuentaKeyReleased
@@ -596,22 +607,27 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
                 passwordConfirm.setEnabled(false);
                 
             }else{
-                 if (crudAdmin.ValidarAdministrador(newAdmin.getCuentaAdmin())) {
-                JOptionPane.showMessageDialog(null, "El administrador ya esta dado de alta en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
-                }else{
-                     newAdmin.setApellidoPaterno(apellidoPaterno);
-                     newAdmin.setApellidoMaterno(apellidoMaterno);
-                     newAdmin.setNombre(nombre);
-                     newAdmin.setTelefono(telefono);
-                     newAdmin.setCorreo(correo);
-                     newAdmin.setContrasenia(hashedPasswordONE);
-                     crudAdmin.update(newAdmin,admin.getCuentaAdmin());
-                     admin=newAdmin;
-                     rellenarCampos();
-                     btnUpdate.setEnabled(false);
-                     passwordONE.setEnabled(false);
-                     passwordConfirm.setEnabled(false);
-                     
+                if (crudAdmin.ValidarAdministrador(newAdmin.getCuentaAdmin())) {
+                    JOptionPane.showMessageDialog(null, "El administrador ya esta dado de alta en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de cambiar los datos de su perfil?", "INFO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        newAdmin.setApellidoPaterno(apellidoPaterno);
+                        newAdmin.setApellidoMaterno(apellidoMaterno);
+                        newAdmin.setNombre(nombre);
+                        newAdmin.setTelefono(telefono);
+                        newAdmin.setCorreo(correo);
+                        newAdmin.setContrasenia(hashedPasswordONE);
+                        if (crudAdmin.update(newAdmin, admin.getCuentaAdmin())) {
+                            admin = newAdmin;
+                            rellenarCampos();
+                            btnUpdate.setEnabled(false);
+                            passwordONE.setEnabled(false);
+                            passwordConfirm.setEnabled(false);
+                            JOptionPane.showMessageDialog(null, "Los datos del administrador se han actualizado", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Hubo un error en al acualización de los datos del administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } 
                  }
             }
         }

@@ -249,7 +249,7 @@ public class CRUDProducto {
         return new DefaultTableModel(rows, columnNames) {
             @Override
             public Class<?> getColumnClass(int column){
-                if(column==11){
+                if(column==9){
                     return ImageIcon.class;
                 }
        

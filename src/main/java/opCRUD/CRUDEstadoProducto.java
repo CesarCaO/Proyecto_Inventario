@@ -16,17 +16,18 @@ import org.hibernate.query.Query;
 
 public class CRUDEstadoProducto {
     
-    public void save(EstadoProducto newEstPro){
+    public boolean save(EstadoProducto newEstPro){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
+        boolean completado=false;
         
          try {
             System.out.println("Transaction iniciada");
             transaction = session.beginTransaction();
-            System.out.println("Guardando producto en el catalogo");
             session.persist(newEstPro);
             transaction.commit();
-             System.out.println("Se guardo el producto en el catalogo");
+            completado=true;
+             
         } catch (Exception err) {
 
             if (transaction != null) {
@@ -37,12 +38,15 @@ public class CRUDEstadoProducto {
         } finally {
             session.close();
         }
+        
+         return completado;
     }
     
-    public void update(EstadoProducto newEstPro, String nombre){
+    public boolean update(EstadoProducto newEstPro, String nombre){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         EstadoProducto updateEstPro;
+        boolean completado=false;
         try {
            
             transaction = session.beginTransaction();
@@ -51,6 +55,7 @@ public class CRUDEstadoProducto {
             session.flush();
             session.clear();
             transaction.commit();
+            completado=true;
             
         } catch (Exception err) {
 
@@ -61,12 +66,14 @@ public class CRUDEstadoProducto {
         } finally {
             session.close();
         }
+        return completado;
     }
     
-    public void delete(String estado){
+    public boolean delete(String estado){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         EstadoProducto delEstPro;
+        boolean completado = false;
         try{
             transaction = session.beginTransaction();
             System.out.println("Transaction iniciada");
@@ -76,6 +83,7 @@ public class CRUDEstadoProducto {
             session.flush();
             session.clear();
             transaction.commit();
+            completado = true;
         }catch(Exception err){
             if(transaction!=null){
                 transaction.rollback();
@@ -84,6 +92,7 @@ public class CRUDEstadoProducto {
         }finally{
             session.close();
         }
+        return completado;
     }
     public int ToID(String estado){
         Session session= HibernateUtil.getSessionFactory().openSession();

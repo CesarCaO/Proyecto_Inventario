@@ -2,6 +2,7 @@
 package Views;
 
 import javax.swing.JOptionPane;
+import models.Administrador;
 import models.EstadoProducto;
 import opCRUD.CRUDEstadoProducto;
 
@@ -10,7 +11,9 @@ public class ViewEstadoProducto extends javax.swing.JFrame {
     
     CRUDEstadoProducto crudEstPro = new CRUDEstadoProducto();
     boolean updateDelete=false;
-    public ViewEstadoProducto() {
+    Administrador admin;
+    public ViewEstadoProducto(Administrador admin) {
+        this.admin=admin;
         initComponents();
         createTable();
         btnUpdate.setEnabled(false);
@@ -20,8 +23,13 @@ public class ViewEstadoProducto extends javax.swing.JFrame {
         btnAdd.setEnabled(false);
         btnCancel.setEnabled(false);
         pnlPrincipal.requestFocus();
+        lblNumCuenta.setText(String.valueOf(admin.getCuentaAdmin()));
+        String nombreCompleto=admin.getNombre()+" "+admin.getApellidoPaterno()+" "+admin.getApellidoMaterno();
+        lblNombre.setText(nombreCompleto);
         
     }
+    
+    public ViewEstadoProducto(){}
 
     public void createTable(){
         tblEstPro.setModel(crudEstPro.opBuscar("estado", ""));
@@ -48,6 +56,11 @@ public class ViewEstadoProducto extends javax.swing.JFrame {
         btnDelete = new javax.swing.JButton();
         btnGoBack = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        lblNumCuenta = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -145,32 +158,76 @@ public class ViewEstadoProducto extends javax.swing.JFrame {
             }
         });
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+        jLabel2.setText("Cuenta:");
+
+        jLabel4.setText("Nombre:");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblNumCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 77, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(lblNumCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblNombre, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
         pnlPrincipal.setLayout(pnlPrincipalLayout);
         pnlPrincipalLayout.setHorizontalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                        .addComponent(btnAdd)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnUpdate))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
-                        .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnGoBack)
-                            .addComponent(btnCancel))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnDelete)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                                .addComponent(btnAdd)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnUpdate))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPrincipalLayout.createSequentialGroup()
+                                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnGoBack)
+                                    .addComponent(btnCancel))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnDelete)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         pnlPrincipalLayout.setVerticalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -232,40 +289,64 @@ public class ViewEstadoProducto extends javax.swing.JFrame {
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         
-        if(txtEstado.getText().isEmpty() || !txtEstado.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")){
+        if (txtEstado.getText().isEmpty() || !txtEstado.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
             JOptionPane.showMessageDialog(null, "No se puede dar de alta ese estado de un producto en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
-        }else{
-            EstadoProducto estpro=new EstadoProducto();
+        } else {
+            EstadoProducto estpro = new EstadoProducto();
             estpro.setEstado(txtEstado.getText());
-            if(crudEstPro.ValidarEstadoProducto(estpro.getEstado())){
-               JOptionPane.showMessageDialog(null, "El estado ya esta dado de alta en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE); 
-            }else{
-                crudEstPro.save(estpro);
-                createTable();
-                limpiarCampos();
+            if (crudEstPro.ValidarEstadoProducto(estpro.getEstado())) {
+                JOptionPane.showMessageDialog(null, "El estado ya esta dado de alta en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+            } else {
+                if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de agregar el estado " + estpro.getEstado() + " al sistema?", "INFO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    if (crudEstPro.save(estpro)) {
+                        createTable();
+                        limpiarCampos();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Hubo un problema en el registro", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
             }
         }
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         if (txtEstado.getText().isEmpty() || !txtEstado.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+            
             JOptionPane.showMessageDialog(null, "No se puede dar de alta ese estado de un producto en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+            
         } else {
+            
             EstadoProducto estpro = new EstadoProducto();
             estpro.setEstado(txtEstado.getText());
-            if (estpro.getEstado().equals(tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0).toString())) {
-                crudEstPro.update(estpro, tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0).toString());
-                createTable();
-                limpiarCampos();
-            } else {
+            
+            if (estpro.getEstado().equals(tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0).toString())) {//Validación si es necesario validar la existencia del estado
+                
+                if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de actualizar el registro?", "INFO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                    
+                    if (crudEstPro.update(estpro, tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0).toString())) {
+                        createTable();
+                        limpiarCampos();
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Hubo un problema en la actualización", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                    
+                }
+                
+            } else {//Validación si es necesario validar la existencia del estado
+                
                 if (crudEstPro.ValidarEstadoProducto(estpro.getEstado())) {
+                    
                     JOptionPane.showMessageDialog(null, "El estado ya esta dado de alta en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    
                 } else {
+                    
                     crudEstPro.update(estpro, tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0).toString());
                     createTable();
                     btnCancel.setEnabled(false);
                     limpiarCampos();
+                    
                 }
+                
             }
 
         }
@@ -295,7 +376,9 @@ public class ViewEstadoProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_pnlPrincipalMouseClicked
 
     private void txtEstadoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtEstadoKeyReleased
-        if(txtEstado.getText().isEmpty()||updateDelete){
+        if(updateDelete){
+            btnAdd.setEnabled(false);
+        }else if(txtEstado.getText().isEmpty()){
             btnAdd.setEnabled(false);
             btnCancel.setEnabled(false);
         }else{
@@ -353,8 +436,13 @@ public class ViewEstadoProducto extends javax.swing.JFrame {
     private javax.swing.JButton btnGoBack;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblNumCuenta;
     private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JTable tblEstPro;
     private javax.swing.JTextField txtEstado;

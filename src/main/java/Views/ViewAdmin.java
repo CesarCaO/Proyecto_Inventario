@@ -8,6 +8,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
+import javax.swing.UIManager;
 import models.Administrador;
 import opCRUD.CRUDAdmin;
 
@@ -32,6 +33,11 @@ public class ViewAdmin extends javax.swing.JFrame {
         lblNombre.setText(nombreCompleto);
         pnlPrincipal.requestFocus();
         
+        try{
+        UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+        }catch(Exception err){
+            err.printStackTrace();
+        }
     }
     
     public ViewAdmin(){}

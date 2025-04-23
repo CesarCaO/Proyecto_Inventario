@@ -417,7 +417,7 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
 
     private void txtMaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaternoKeyReleased
 
-        if(admin.getApellidoMaterno().equals(txtMaterno.getText())){
+        if(!admin.getApellidoMaterno().equals(txtMaterno.getText())){
             btnUpdate.setEnabled(true);
         }else{
             btnUpdate.setEnabled(false);
@@ -425,16 +425,31 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMaternoKeyReleased
 
     private void txtNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyReleased
-        btnUpdate.setEnabled(true);
+        
+        if(!admin.getNombre().equals(txtNombre.getText())){
+            btnUpdate.setEnabled(true);
+        }else{
+            btnUpdate.setEnabled(false);
+        }
         
     }//GEN-LAST:event_txtNombreKeyReleased
 
     private void txtCuentaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCuentaKeyReleased
-        btnUpdate.setEnabled(true);
+
+        if(admin.getCuentaAdmin()== Integer.parseInt(txtCuenta.getText())){
+            btnUpdate.setEnabled(true);
+        }else{
+            btnUpdate.setEnabled(false);
+        }
     }//GEN-LAST:event_txtCuentaKeyReleased
 
     private void txtCorreoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorreoKeyReleased
-        btnUpdate.setEnabled(true);
+
+        if(!admin.getCorreo().equals(txtCorreo.getText())){
+            btnUpdate.setEnabled(true);
+        }else{
+        btnUpdate.setEnabled(false);
+    }
     }//GEN-LAST:event_txtCorreoKeyReleased
 
     private void txtTelefonoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyReleased
@@ -580,7 +595,7 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
                     passwordConfirm.setText("");
                 } else {
                     hashedPasswordONE = PasswordEncryption.encryptionPassword(StringPasswordONE);
-                    newAdmin.setContrasenia(hashedPasswordONE);
+                    newAdmin.setContrasenia(hashedPasswordONE);//Aquí se guarda la nueva contraseña
                     Arrays.fill(passwordCharsONE, '\0');//Liempieza de caracteres de la contraseña
                     Arrays.fill(passwordCharsConfirm, '\0');//Limpieza de caracteres de la contraseña
                     char[]hashedPasswordChars=hashedPasswordONE.toCharArray();//Convertir la hashesPassword en carateres para limpiarlo
@@ -590,34 +605,44 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
             }
         }
  
-        if (!bandera) {
+        if (!bandera) {//Validación si hubo errores
             newAdmin.setCuentaAdmin(numCuenta);
-            if(newAdmin.getCuentaAdmin()==admin.getCuentaAdmin()){
-                newAdmin.setApellidoPaterno(apellidoPaterno);
-                newAdmin.setApellidoMaterno(apellidoMaterno);
-                newAdmin.setNombre(nombre);
-                newAdmin.setTelefono(telefono);
-                newAdmin.setCorreo(correo);
-                newAdmin.setContrasenia(hashedPasswordONE);
-                crudAdmin.update(newAdmin,admin.getCuentaAdmin());
-                admin=newAdmin;
-                rellenarCampos();
-                btnUpdate.setEnabled(false);
-                passwordONE.setEnabled(false);
-                passwordConfirm.setEnabled(false);
-                
-            }else{
-                if (crudAdmin.ValidarAdministrador(newAdmin.getCuentaAdmin())) {
-                    JOptionPane.showMessageDialog(null, "El administrador ya esta dado de alta en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de cambiar los datos de su perfil?", "INFO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            if (newAdmin.getCuentaAdmin() == admin.getCuentaAdmin()) {//Validar si en necesario valiar la existencía del administrador
+                if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de cambiar los datos de su perfil?", "INFO", 
+                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {//Confirmación de actualización
+                    if (crudAdmin.update(newAdmin, admin.getCuentaAdmin())) {
+                        
                         newAdmin.setApellidoPaterno(apellidoPaterno);
                         newAdmin.setApellidoMaterno(apellidoMaterno);
                         newAdmin.setNombre(nombre);
                         newAdmin.setTelefono(telefono);
                         newAdmin.setCorreo(correo);
                         newAdmin.setContrasenia(hashedPasswordONE);
+                        admin = newAdmin;
+                        rellenarCampos();
+                        btnUpdate.setEnabled(false);
+                        passwordONE.setEnabled(false);
+                        passwordConfirm.setEnabled(false);
+                        JOptionPane.showMessageDialog(null, "Los datos del administrador se han actualizado", "INFO", JOptionPane.INFORMATION_MESSAGE);
+
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Hubo un error en al acualización de los datos del administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+            } else {//Validar si es necesario validar la existencia del administrador
+                if (crudAdmin.ValidarAdministrador(newAdmin.getCuentaAdmin())) {
+                    JOptionPane.showMessageDialog(null, "El administrador ya esta dado de alta en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de cambiar los datos de su perfil?", "INFO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+
                         if (crudAdmin.update(newAdmin, admin.getCuentaAdmin())) {
+                            newAdmin.setApellidoPaterno(apellidoPaterno);
+                            newAdmin.setApellidoMaterno(apellidoMaterno);
+                            newAdmin.setNombre(nombre);
+                            newAdmin.setTelefono(telefono);
+                            newAdmin.setCorreo(correo);
+                            newAdmin.setContrasenia(hashedPasswordONE);
                             admin = newAdmin;
                             rellenarCampos();
                             btnUpdate.setEnabled(false);
@@ -627,10 +652,10 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
                         } else {
                             JOptionPane.showMessageDialog(null, "Hubo un error en al acualización de los datos del administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
                         }
-                    } 
-                 }
+                    }
+                }
             }
-        }
+        }//Validación de errores
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnCambiarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarContraseñaActionPerformed
@@ -642,7 +667,10 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         passwordONE.setText("");
         passwordConfirm.setText("");
+        passwordONE.setEnabled(false);
+        passwordConfirm.setEnabled(false);
         btnUpdate.setEnabled(false);
+       
         rellenarCampos();
     }//GEN-LAST:event_btnCancelActionPerformed
 

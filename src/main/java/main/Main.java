@@ -1,8 +1,9 @@
 
 package main;
 
+import Views.ViewLogin;
 
-import Views.MainMenu;
+
 
 
 public class Main {
@@ -10,7 +11,7 @@ public class Main {
     public static void main(String [] args){
         java.awt.EventQueue.invokeLater(new Runnable(){
             public void run(){
-                new MainMenu().setVisible(true);
+                new ViewLogin().setVisible(true);
             }
         });
     }

@@ -55,7 +55,6 @@ public class EstadoProducto {
     @Override
     public String toString(){
         return "Estado Producto\n"+
-                "ID: "+idEstadoProducto+"\n"+
                 "Estado: "+estado+"\n";
     }
     

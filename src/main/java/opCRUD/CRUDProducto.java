@@ -31,10 +31,11 @@ public class CRUDProducto {
     CRUDTipoProducto crudTipoPro= new CRUDTipoProducto();
     CRUDEstadoProducto crudEstPro= new CRUDEstadoProducto();
     
-    public void save(Producto producto, String marca, String tipoProducto, String catalogoProducto, int numGabinete, String estadoProducto){
+    public boolean save(Producto producto, String marca, String tipoProducto, String catalogoProducto, int numGabinete, String estadoProducto){
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
+        boolean completado=false;
 
         try {
             System.out.println("Transaction iniciada");
@@ -56,19 +57,21 @@ public class CRUDProducto {
             session.persist(producto);
             transaction.commit();
             System.out.println("Se guardo el registro");
-
+            completado=true;
         } catch (Exception err) {
             if (transaction != null) {
                 transaction.rollback();
             }
         } finally {
             session.close();
-        }    
+        } 
+        return completado;
     }
     
-    public void update(Producto producto, String marca, String tipoProducto, String catalogoProducto, int numGabinete, String estadoProducto, String numInventario){
+    public boolean update(Producto producto, String marca, String tipoProducto, String catalogoProducto, int numGabinete, String estadoProducto, String numInventario){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
+        boolean completado=false;
         
         try{
             System.out.println("Transaction iniciada");
@@ -122,7 +125,7 @@ public class CRUDProducto {
             }
             
             transaction.commit();
-            
+            completado = true;
         }catch(Exception err){
             if (transaction != null) {
                 transaction.rollback();
@@ -130,12 +133,14 @@ public class CRUDProducto {
         }finally{
             session.close();
         }
+        return completado;
     }
     
-    public void delete(String numInventario){
+    public boolean delete(String numInventario){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction transaction = null;
         Producto delProducto;
+        boolean completado=false;
         
         try{
             transaction=session.beginTransaction();
@@ -144,7 +149,7 @@ public class CRUDProducto {
             session.flush();
             session.clear();
             transaction.commit();
-  
+            completado=true;
         }catch(Exception err){
             if (transaction != null) {
                 transaction.rollback();
@@ -152,6 +157,7 @@ public class CRUDProducto {
         }finally{
             session.close();
         }
+        return completado;
     }
     
     public int ToID(String numInv){

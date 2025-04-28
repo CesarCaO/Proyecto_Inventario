@@ -266,23 +266,36 @@ public class ViewEstadoProducto extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGoBackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGoBackActionPerformed
-        
+        new MenuAdmin(admin).setVisible(true);
+        dispose();
     }//GEN-LAST:event_btnGoBackActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         
         if (txtEstado.getText().isEmpty()) {
+            
             JOptionPane.showMessageDialog(null, "Debe de seleccionar un registros para dar de baja", "ERROR", JOptionPane.ERROR_MESSAGE);
+            
         } else {
+            
             if (JOptionPane.showConfirmDialog(null, "El estado " + tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0) + "\n" + "¿Desea continuar?", "Warning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                crudEstPro.delete(tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0).toString());
-                createTable();
-                txtEstado.setText("");
-                JOptionPane.showMessageDialog(null, "Registro eliminado");
-                btnUpdate.setEnabled(false);
-                btnDelete.setEnabled(false);
-                btnCancel.setEnabled(false);
-                updateDelete=false;
+                
+                if (crudEstPro.delete(tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0).toString())) {
+                    
+                    createTable();
+                    txtEstado.setText("");
+                    btnUpdate.setEnabled(false);
+                    btnDelete.setEnabled(false);
+                    btnCancel.setEnabled(false);
+                    updateDelete = false;
+                    JOptionPane.showMessageDialog(null, "Registro eliminado");
+                    
+                } else {
+                    
+                    JOptionPane.showMessageDialog(null, "Hubo un problema en la eliminación", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    
+                }
+
             }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed

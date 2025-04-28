@@ -48,7 +48,7 @@ public class CRUDAdmin {
         boolean completado = false;
         
         try{
-            System.out.println("Transaction iniciada");
+            System.out.println(newadmin);
             transaction = session.beginTransaction();
             updateAdmin=session.get(Administrador.class, ToID(numCuenta));//NO es necesario hacer merge si usa get
             updateAdmin.setApellidoPaterno(newadmin.getApellidoPaterno());

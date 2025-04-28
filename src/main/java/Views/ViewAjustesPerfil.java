@@ -23,7 +23,7 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
         pnlPrincipal.requestFocus();
         passwordONE.setEnabled(false);
         passwordConfirm.setEnabled(false);
-        btnUpdate.setEnabled(false);
+
     }
    
     public ViewAjustesPerfil(){}
@@ -85,7 +85,7 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        btnCambiarContraseña = new javax.swing.JButton();
+        btnCambiarContrasenia = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
@@ -312,11 +312,16 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
         );
 
         jButton1.setText("Regresar");
-
-        btnCambiarContraseña.setText("Cambiar Contraseña");
-        btnCambiarContraseña.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCambiarContraseñaActionPerformed(evt);
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        btnCambiarContrasenia.setText("Cambiar Contraseña");
+        btnCambiarContrasenia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCambiarContraseniaActionPerformed(evt);
             }
         });
 
@@ -346,7 +351,7 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 53, Short.MAX_VALUE)
-                        .addComponent(btnCambiarContraseña)
+                        .addComponent(btnCambiarContrasenia)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnCancel)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -364,7 +369,7 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
-                    .addComponent(btnCambiarContraseña)
+                    .addComponent(btnCambiarContrasenia)
                     .addComponent(btnUpdate)
                     .addComponent(btnCancel))
                 .addContainerGap())
@@ -408,60 +413,34 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
 
     private void txtPaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtPaternoKeyReleased
 
-        if(!admin.getApellidoPaterno().equals(txtPaterno.getText())){
-            btnUpdate.setEnabled(true);
-        }else{
-            btnUpdate.setEnabled(false);
-        }
     }//GEN-LAST:event_txtPaternoKeyReleased
 
     private void txtMaternoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtMaternoKeyReleased
 
-        if(!admin.getApellidoMaterno().equals(txtMaterno.getText())){
-            btnUpdate.setEnabled(true);
-        }else{
-            btnUpdate.setEnabled(false);
-        }
     }//GEN-LAST:event_txtMaternoKeyReleased
 
     private void txtNombreKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyReleased
-        
-        if(!admin.getNombre().equals(txtNombre.getText())){
-            btnUpdate.setEnabled(true);
-        }else{
-            btnUpdate.setEnabled(false);
-        }
-        
+
     }//GEN-LAST:event_txtNombreKeyReleased
 
     private void txtCuentaKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCuentaKeyReleased
 
-        if(admin.getCuentaAdmin()== Integer.parseInt(txtCuenta.getText())){
-            btnUpdate.setEnabled(true);
-        }else{
-            btnUpdate.setEnabled(false);
-        }
     }//GEN-LAST:event_txtCuentaKeyReleased
 
     private void txtCorreoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtCorreoKeyReleased
 
-        if(!admin.getCorreo().equals(txtCorreo.getText())){
-            btnUpdate.setEnabled(true);
-        }else{
-        btnUpdate.setEnabled(false);
-    }
     }//GEN-LAST:event_txtCorreoKeyReleased
 
     private void txtTelefonoKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtTelefonoKeyReleased
-        btnUpdate.setEnabled(true);
+        
     }//GEN-LAST:event_txtTelefonoKeyReleased
 
     private void passwordONEKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordONEKeyReleased
-        btnUpdate.setEnabled(true);
+        
     }//GEN-LAST:event_passwordONEKeyReleased
 
     private void passwordConfirmKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_passwordConfirmKeyReleased
-        btnUpdate.setEnabled(true);
+        
     }//GEN-LAST:event_passwordConfirmKeyReleased
 
     private void txtPaternoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtPaternoFocusLost
@@ -499,67 +478,67 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         System.out.println("Iniciando actualización");
         boolean bandera = false;
-        String nombre = null, apellidoPaterno = null, apellidoMaterno = null, telefono = null, correo = null, hashedPasswordONE = null, StringPasswordONE=null,
-        StringPasswordConfirm=null;
+        String nombre = null, apellidoPaterno = null, apellidoMaterno = null, telefono = null, correo = null, hashedPasswordONE = null, StringPasswordONE = null,
+                StringPasswordConfirm = null;
         int numCuenta = -1;
-        Administrador newAdmin=new Administrador();
-         ///////////////////////////////////////Apellido Materno/////////////////////////////////////////////////////////////////////////////
-         if(txtMaterno.getText().isEmpty()||!txtMaterno.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")){
-           JOptionPane.showMessageDialog(null, "Debe de introducir su apellido materno correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
-           bandera=true;
-           rellenarCampos();
-        }else{
-            apellidoMaterno=txtMaterno.getText();
+        Administrador newAdmin = new Administrador();
+        ///////////////////////////////////////Apellido Materno/////////////////////////////////////////////////////////////////////////////
+        if (txtMaterno.getText().isEmpty() || !txtMaterno.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+            JOptionPane.showMessageDialog(null, "Debe de introducir su apellido materno correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
+            bandera = true;
+            rellenarCampos();
+        } else {
+            apellidoMaterno = txtMaterno.getText();
             System.out.println("Apellido Materno adquirido");
         }
-         ///////////////////////////////////////Apellido Paterno/////////////////////////////////////////////////////////////////////////////
-         if(txtPaterno.getText().isEmpty()||!txtPaterno.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")){
-           JOptionPane.showMessageDialog(null, "Debe de introducir su apellido paterno correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
-           bandera=true;
-           rellenarCampos();
-        }else{
-            apellidoPaterno=txtPaterno.getText();
+        ///////////////////////////////////////Apellido Paterno/////////////////////////////////////////////////////////////////////////////
+        if (txtPaterno.getText().isEmpty() || !txtPaterno.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+            JOptionPane.showMessageDialog(null, "Debe de introducir su apellido paterno correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
+            bandera = true;
+            rellenarCampos();
+        } else {
+            apellidoPaterno = txtPaterno.getText();
             System.out.println("Apellido Paterno adquirido");
         }
-         ///////////////////////////////////////Nombre/////////////////////////////////////////////////////////////////////////////
-        if(txtNombre.getText().isEmpty()||!txtNombre.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")){
-           JOptionPane.showMessageDialog(null, "Debe de introducir su nombre(s) correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
-           bandera=true;
-           rellenarCampos();
-        }else{
-            nombre=txtNombre.getText();
+        ///////////////////////////////////////Nombre/////////////////////////////////////////////////////////////////////////////
+        if (txtNombre.getText().isEmpty() || !txtNombre.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
+            JOptionPane.showMessageDialog(null, "Debe de introducir su nombre(s) correctamente", "ERROR", JOptionPane.ERROR_MESSAGE);
+            bandera = true;
+            rellenarCampos();
+        } else {
+            nombre = txtNombre.getText();
             System.out.println("Nombre adquirido");
         }
-         ///////////////////////////////////////Telefono/////////////////////////////////////////////////////////////////////////////
-        if(txtTelefono.getText().isEmpty()){
+        ///////////////////////////////////////Telefono/////////////////////////////////////////////////////////////////////////////
+        if (txtTelefono.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe de instroducir un número de teléfono\n", "ERROR", JOptionPane.ERROR_MESSAGE);
-            bandera=true;
+            bandera = true;
             rellenarCampos();
-        }else{
-            if(validarTelefono(txtTelefono.getText(),checkExtension.isSelected())){
-                telefono=txtTelefono.getText();
+        } else {
+            if (validarTelefono(txtTelefono.getText(), checkExtension.isSelected())) {
+                telefono = txtTelefono.getText();
                 System.out.println("Telefono adquirido");
-            }else{
+            } else {
                 JOptionPane.showMessageDialog(null, "El número de telefono es incorrecto", "ERROR", JOptionPane.ERROR_MESSAGE);
-                bandera=true;
+                bandera = true;
             }
         }
-         ///////////////////////////////////////Correo/////////////////////////////////////////////////////////////////////////////
-        if(txtCorreo.getText().isEmpty()){
+        ///////////////////////////////////////Correo/////////////////////////////////////////////////////////////////////////////
+        if (txtCorreo.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe de introducir un correo electrónico", "ERROR", JOptionPane.ERROR_MESSAGE);
-            bandera=true;
+            bandera = true;
             rellenarCampos();
-        }else{
-            correo=txtCorreo.getText();
-            
+        } else {
+            correo = txtCorreo.getText();
+
             System.out.println("Correo adquirido");
-            if(!validarCorreo(correo)){
+            if (!validarCorreo(correo)) {
                 JOptionPane.showMessageDialog(null, "El correo electrónico es invalido", "ERROR", JOptionPane.ERROR_MESSAGE);
-                bandera=true;
+                bandera = true;
                 rellenarCampos();
             }
         }
-         ///////////////////////////////////////Número de cuenta/////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////////////Número de cuenta/////////////////////////////////////////////////////////////////////////////
         if (txtCuenta.getText().isEmpty()) {
             JOptionPane.showMessageDialog(null, "Debe de introducir su número de cuenta", "Error", JOptionPane.ERROR_MESSAGE);
             bandera = true;
@@ -573,7 +552,7 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
                 bandera = true;
             }
         }
-        
+
         if (cambiarContrasenia) {
             char[] passwordCharsONE = passwordONE.getPassword();
             char[] passwordCharsConfirm = passwordConfirm.getPassword();
@@ -598,59 +577,72 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
                     newAdmin.setContrasenia(hashedPasswordONE);//Aquí se guarda la nueva contraseña
                     Arrays.fill(passwordCharsONE, '\0');//Liempieza de caracteres de la contraseña
                     Arrays.fill(passwordCharsConfirm, '\0');//Limpieza de caracteres de la contraseña
-                    char[]hashedPasswordChars=hashedPasswordONE.toCharArray();//Convertir la hashesPassword en carateres para limpiarlo
+                    char[] hashedPasswordChars = hashedPasswordONE.toCharArray();//Convertir la hashesPassword en carateres para limpiarlo
                     Arrays.fill(hashedPasswordChars, '\0');//Limpiar la contraseña encriptada
                 }
-                
+
             }
         }
- 
+
         if (!bandera) {//Validación si hubo errores
-            newAdmin.setCuentaAdmin(numCuenta);
-            if (newAdmin.getCuentaAdmin() == admin.getCuentaAdmin()) {//Validar si en necesario valiar la existencía del administrador
-                if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de cambiar los datos de su perfil?", "INFO", 
-                        JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {//Confirmación de actualización
-                    if (crudAdmin.update(newAdmin, admin.getCuentaAdmin())) {
-                        
+            if (admin.getApellidoPaterno().equals(txtPaterno.getText()) && admin.getApellidoMaterno().equals(txtMaterno.getText())
+                    && admin.getNombre().equals(txtNombre.getText()) && admin.getCorreo().equals(txtCorreo.getText())
+                    && admin.getTelefono().equals(txtTelefono.getText()) && !cambiarContrasenia) {
+                
+                JOptionPane.showMessageDialog(null, "No se detecto un cambio en los datos del perfil");
+            } else {
+
+                newAdmin.setApellidoPaterno(apellidoPaterno);
+                newAdmin.setApellidoMaterno(apellidoMaterno);
+                newAdmin.setNombre(nombre);
+                newAdmin.setTelefono(telefono);
+                newAdmin.setCorreo(correo);
+                newAdmin.setContrasenia(hashedPasswordONE);
+                newAdmin.setCuentaAdmin(numCuenta);
+                if (newAdmin.getCuentaAdmin() == admin.getCuentaAdmin()) {//Validar si en necesario valiar la existencía del administrador
+                    if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de cambiar los datos de su perfil?", "INFO",
+                            JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {//Confirmación de actualización
+                        if (crudAdmin.update(newAdmin, admin.getCuentaAdmin())) {
+
+                            admin = newAdmin;
+                            rellenarCampos();
+                            btnUpdate.setEnabled(false);
+                            passwordONE.setEnabled(false);
+                            passwordConfirm.setEnabled(false);
+                            passwordONE.setText("");
+                            passwordConfirm.setText("");
+                            JOptionPane.showMessageDialog(null, "Los datos del administrador se han actualizado", "INFO", JOptionPane.INFORMATION_MESSAGE);
+
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Hubo un error en al acualización de los datos del administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+
+                } else {//Validar si es necesario validar la existencia del administrador
+                    if (crudAdmin.ValidarAdministrador(newAdmin.getCuentaAdmin())) {
+                        JOptionPane.showMessageDialog(null, "El administrador ya esta dado de alta en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    } else {
                         newAdmin.setApellidoPaterno(apellidoPaterno);
                         newAdmin.setApellidoMaterno(apellidoMaterno);
                         newAdmin.setNombre(nombre);
                         newAdmin.setTelefono(telefono);
                         newAdmin.setCorreo(correo);
                         newAdmin.setContrasenia(hashedPasswordONE);
-                        admin = newAdmin;
-                        rellenarCampos();
-                        btnUpdate.setEnabled(false);
-                        passwordONE.setEnabled(false);
-                        passwordConfirm.setEnabled(false);
-                        JOptionPane.showMessageDialog(null, "Los datos del administrador se han actualizado", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                        if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de cambiar los datos de su perfil?", "INFO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
 
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Hubo un error en al acualización de los datos del administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
+                            if (crudAdmin.update(newAdmin, admin.getCuentaAdmin())) {
 
-            } else {//Validar si es necesario validar la existencia del administrador
-                if (crudAdmin.ValidarAdministrador(newAdmin.getCuentaAdmin())) {
-                    JOptionPane.showMessageDialog(null, "El administrador ya esta dado de alta en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de cambiar los datos de su perfil?", "INFO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-
-                        if (crudAdmin.update(newAdmin, admin.getCuentaAdmin())) {
-                            newAdmin.setApellidoPaterno(apellidoPaterno);
-                            newAdmin.setApellidoMaterno(apellidoMaterno);
-                            newAdmin.setNombre(nombre);
-                            newAdmin.setTelefono(telefono);
-                            newAdmin.setCorreo(correo);
-                            newAdmin.setContrasenia(hashedPasswordONE);
-                            admin = newAdmin;
-                            rellenarCampos();
-                            btnUpdate.setEnabled(false);
-                            passwordONE.setEnabled(false);
-                            passwordConfirm.setEnabled(false);
-                            JOptionPane.showMessageDialog(null, "Los datos del administrador se han actualizado", "INFO", JOptionPane.INFORMATION_MESSAGE);
-                        } else {
-                            JOptionPane.showMessageDialog(null, "Hubo un error en al acualización de los datos del administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
+                                admin = newAdmin;
+                                rellenarCampos();
+                                btnUpdate.setEnabled(false);
+                                passwordONE.setEnabled(false);
+                                passwordONE.setText("");
+                                passwordConfirm.setText("");
+                                passwordConfirm.setEnabled(false);
+                                JOptionPane.showMessageDialog(null, "Los datos del administrador se han actualizado", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                            } else {
+                                JOptionPane.showMessageDialog(null, "Hubo un error en al acualización de los datos del administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            }
                         }
                     }
                 }
@@ -658,21 +650,26 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
         }//Validación de errores
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btnCambiarContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarContraseñaActionPerformed
+    private void btnCambiarContraseniaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarContraseniaActionPerformed
         passwordONE.setEnabled(true);
         passwordConfirm.setEnabled(true);
         cambiarContrasenia=true;
-    }//GEN-LAST:event_btnCambiarContraseñaActionPerformed
+        btnCambiarContrasenia.setEnabled(false);
+    }//GEN-LAST:event_btnCambiarContraseniaActionPerformed
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         passwordONE.setText("");
         passwordConfirm.setText("");
         passwordONE.setEnabled(false);
         passwordConfirm.setEnabled(false);
-        btnUpdate.setEnabled(false);
-       
+        btnCambiarContrasenia.setEnabled(false);
         rellenarCampos();
     }//GEN-LAST:event_btnCancelActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        new MenuAdmin(admin).setVisible(true);
+        dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -710,7 +707,7 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnCambiarContraseña;
+    private javax.swing.JButton btnCambiarContrasenia;
     private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnUpdate;
     private javax.swing.JCheckBox checkExtension;

@@ -86,7 +86,7 @@ public class CRUDCatalogoProductos {
             session.flush();
             session.clear();
             transaction.commit();
-
+            completado=true;
             
         }catch(Exception err){
             

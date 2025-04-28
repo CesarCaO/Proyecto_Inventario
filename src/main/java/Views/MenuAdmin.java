@@ -87,6 +87,11 @@ public class MenuAdmin extends javax.swing.JFrame {
         });
 
         btnTipoPro.setText("Tipo de productos");
+        btnTipoPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTipoProActionPerformed(evt);
+            }
+        });
 
         jPanel2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -136,6 +141,11 @@ public class MenuAdmin extends javax.swing.JFrame {
         );
 
         btnProducto.setText("Inventario");
+        btnProducto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnProductoActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Salir");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -252,6 +262,16 @@ public class MenuAdmin extends javax.swing.JFrame {
         new ViewCatalogoProducto(admin).setVisible(true);
         dispose();
     }//GEN-LAST:event_btnCatProActionPerformed
+
+    private void btnProductoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnProductoActionPerformed
+        new ViewProducto(admin).setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnProductoActionPerformed
+
+    private void btnTipoProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTipoProActionPerformed
+        new ViewTipoProducto(admin).setVisible(true);
+        dispose();
+    }//GEN-LAST:event_btnTipoProActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

@@ -31,10 +31,14 @@ import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
 import javax.swing.JScrollBar;
+import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.TableColumn;
+import javax.swing.text.NumberFormatter;
+import models.Administrador;
 import models.CatalogoProductos;
 import models.EstadoProducto;
 import models.Gabinete;
@@ -59,11 +63,13 @@ public class ViewProducto extends javax.swing.JFrame {
     CRUDCatalogoProductos crudCatPro = new CRUDCatalogoProductos();
     CRUDTipoProducto crudTipPro = new CRUDTipoProducto();
     CRUDEstadoProducto crudEstPro = new CRUDEstadoProducto();
+    Administrador admin;
     public File selectFile;
     String updateNumInventario = null;
     boolean updateDelete=false;
-    public ViewProducto() {
+    public ViewProducto(Administrador admin) {
         initComponents();
+        this.admin=admin;
         createTable();
         rellenarCMBMarca();
         rellenarCatPro();
@@ -79,10 +85,24 @@ public class ViewProducto extends javax.swing.JFrame {
         spnCantidad.setModel(new SpinnerNumberModel(0, 0, Integer.MAX_VALUE, 1));
         scrollPane.requestFocusInWindow();
         btnAdd.setEnabled(false);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
+        btnCancel.setEnabled(false);
         tblProducto.getTableHeader().setReorderingAllowed(false);
+        ///Configuración de para que el spinner no acepte texto
+        JFormattedTextField ftf = ((JSpinner.NumberEditor)spnCantidad.getEditor()).getTextField();
+        NumberFormatter fmt= (NumberFormatter) ftf.getFormatter();
+        fmt.setAllowsInvalid(false);
+        /////////////////////////////////////////////////////////
         
-        
+        //Apartado de datos de la sesión del administrador
+        lblNumCuenta.setText(String.valueOf(admin.getCuentaAdmin()));
+        String nombreCompleto=admin.getNombre()+" "+admin.getApellidoPaterno()+" "+admin.getApellidoMaterno();
+        lblNombre.setText(nombreCompleto);
+        pnlPrincipal.requestFocus();
+    
     }
+    public ViewProducto(){} 
     
     public void createTable(){
         tblProducto.setModel(crudProducto.opBuscar(cmbBuscar.getSelectedItem().toString(),txtBuscar.getText()));
@@ -135,9 +155,12 @@ public class ViewProducto extends javax.swing.JFrame {
         cmbEstadoPro.setSelectedIndex(0);
         tblProducto.clearSelection();
         txtBuscar.setText("");
-       
+        btnUpdate.setEnabled(false);
+        btnCancel.setEnabled(false);
+        btnDelete.setEnabled(false);
+        btnAdd.setEnabled(false); 
     }
-    
+    /**
     public byte[] generarCodigoBarras(String data) throws IOException, Exception{
         try{
             int width = 10 * data.length();
@@ -154,7 +177,7 @@ public class ViewProducto extends javax.swing.JFrame {
             throw new Exception("Error al generar el código: " + err.getMessage());
         }
     }
-    
+    **/
     
     public byte[] ToBytes(File selectedFile) throws IOException{
         System.out.print("Dentro de la funcioon ToBytes");
@@ -223,7 +246,11 @@ public class ViewProducto extends javax.swing.JFrame {
         btnAdd = new javax.swing.JButton();
         btnUpdate = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        btnCancelar = new javax.swing.JButton();
+        btnCancel = new javax.swing.JButton();
+        jLabel9 = new javax.swing.JLabel();
+        lblNumCuenta = new javax.swing.JLabel();
+        jLabel12 = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -412,10 +439,10 @@ public class ViewProducto extends javax.swing.JFrame {
             }
         });
 
-        btnCancelar.setText("Cancelar");
-        btnCancelar.addActionListener(new java.awt.event.ActionListener() {
+        btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnCancelarActionPerformed(evt);
+                btnCancelActionPerformed(evt);
             }
         });
 
@@ -431,7 +458,7 @@ public class ViewProducto extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnDelete)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(btnCancelar)
+                .addComponent(btnCancel)
                 .addGap(19, 19, 19))
         );
         jPanel1Layout.setVerticalGroup(
@@ -440,11 +467,15 @@ public class ViewProducto extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnAdd)
-                    .addComponent(btnCancelar)
+                    .addComponent(btnCancel)
                     .addComponent(btnUpdate)
                     .addComponent(btnDelete))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
+
+        jLabel9.setText("Cuenta:");
+
+        jLabel12.setText("Nombre:");
 
         javax.swing.GroupLayout pnlPrincipalLayout = new javax.swing.GroupLayout(pnlPrincipal);
         pnlPrincipal.setLayout(pnlPrincipalLayout);
@@ -497,20 +528,40 @@ public class ViewProducto extends javax.swing.JFrame {
                         .addGap(19, 19, 19)
                         .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
-                            .addComponent(jButton3))))
+                            .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                                .addComponent(jButton3)
+                                .addGap(83, 83, 83)
+                                .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblNumCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 268, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(33, Short.MAX_VALUE))
         );
         pnlPrincipalLayout.setVerticalGroup(
             pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
                         .addGap(18, 18, 18)
                         .addComponent(jButton3)
                         .addGap(20, 20, 20)
                         .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(pnlPrincipalLayout.createSequentialGroup()
-                        .addGap(61, 61, 61)
+                        .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel9)
+                                    .addComponent(lblNumCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(pnlPrincipalLayout.createSequentialGroup()
+                                .addGap(16, 16, 16)
+                                .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel12)
+                                    .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(27, 27, 27)
                         .addComponent(jLabel5)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
@@ -560,7 +611,7 @@ public class ViewProducto extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1111, Short.MAX_VALUE))
+                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 1139, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -573,9 +624,9 @@ public class ViewProducto extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnCancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelarActionPerformed
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         limpiarCampos();
-    }//GEN-LAST:event_btnCancelarActionPerformed
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     private void btnExplorarbtnExplorarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExplorarbtnExplorarActionPerformed
         JFileChooser fileChooser = new JFileChooser();
@@ -619,6 +670,9 @@ public class ViewProducto extends javax.swing.JFrame {
         txtDescripcion.setText(tblProducto.getValueAt(tblProducto.getSelectedRow(), 6).toString());
         spnCantidad.setValue(tblProducto.getValueAt(tblProducto.getSelectedRow(), 7));
         updateDelete = true;
+        btnUpdate.setEnabled(true);
+        btnCancel.setEnabled(true);
+        btnDelete.setEnabled(true);
         
     }//GEN-LAST:event_tblProductoMouseClicked
 
@@ -699,22 +753,31 @@ public class ViewProducto extends javax.swing.JFrame {
                         
                     }
                 }
+                /**
+                //Generación del código de barras
                 try {
                     barcodeBytes = generarCodigoBarras(numInventario);
                 } catch (Exception ex) {
-                    JOptionPane.showMessageDialog(null, "Erro al generar el código de barras /n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error al generar el código de barras /n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
-                if (JOptionPane.showConfirmDialog(null, "El siguiente producto se agregara al inventario\n"
+                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                * */
+                if (JOptionPane.showConfirmDialog(null, "El siguiente producto se actualizará en el inventario\n"
                         + "Nombre: " + catpro + "\n"
                         + "Numero de inventario: " + numInventario + "\n"
                         + "Marca: " + marca + "\n"
                         + "Tipo de producto: " + tipoPro + "\n"
                 ) == JOptionPane.YES_OPTION) {
-                    crudProducto.update(newProducto, marca, tipoPro, catpro, numGabinete, estadoPro, tblProducto.getValueAt(tblProducto.getSelectedRow(), 0).toString());
-                    createTable();
+                    if(crudProducto.update(newProducto, marca, tipoPro, catpro, numGabinete, estadoPro, tblProducto.getValueAt(tblProducto.getSelectedRow(), 0).toString())){
+                        createTable();
                     limpiarCampos();
                     //ViewBarcode viewBarcode = new ViewBarcode(barcodeBytes, numInventario);
                     //viewBarcode.setVisible(true);
+                    JOptionPane.showMessageDialog(null,"Registro actualizado exitosamente", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        JOptionPane.showMessageDialog(null,"Hubo un error en la actualización del próducto", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                    
                 }
                 
             }
@@ -722,75 +785,82 @@ public class ViewProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
-        int row=-1;
-        row=tblProducto.getSelectedRow();
+        int row = -1;
+        row = tblProducto.getSelectedRow();
         if (row == -1) {
             JOptionPane.showMessageDialog(null, "Debe de seleccionar un producto para eliminarlo", "Error", JOptionPane.ERROR_MESSAGE);
-        }else{
-            /**
-            if(JOptionPane.showConfirmDialog(null,"¿Desea eliminar el siguiente producto?: \n"+
-                    "Número de inventario: "+ tblProducto.getValueAt(tblProducto.getSelectedRow(), 0)+"\n"+
-                    "Nombre del producto: "+ tblProducto.getValueAt(tblProducto.getSelectedRow(), 1)+"\n"+
-                    )== JOptionPane.YES_OPTION){
-            **/   
-            crudProducto.delete(tblProducto.getValueAt(tblProducto.getSelectedRow(), 0).toString());
-            limpiarCampos();
-            createTable();  
-            
+        } else {
+
+            if (JOptionPane.showConfirmDialog(null, "¿Desea eliminar el siguiente producto?: \n"
+                    + "Número de inventario: " + tblProducto.getValueAt(tblProducto.getSelectedRow(), 0) + "\n"
+                    + "Nombre del producto: " + tblProducto.getValueAt(tblProducto.getSelectedRow(), 1) + "\n"
+            ) == JOptionPane.YES_OPTION) {
+
+                if (crudProducto.delete(tblProducto.getValueAt(tblProducto.getSelectedRow(), 0).toString())) {
+                    limpiarCampos();
+                    createTable();
+                    JOptionPane.showMessageDialog(null, "El producto se eliminó correctamente", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Hubo un error en la eliminación del próducto", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
+
+            }
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void cmbCatProPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cmbCatProPopupMenuWillBecomeInvisible
-        if(cmbCatPro.getSelectedIndex()!=0 && !updateDelete){
+        if (cmbCatPro.getSelectedIndex() != 0 && !updateDelete) {
             btnAdd.setEnabled(true);
-        }else{
+            btnCancel.setEnabled(true);
+        } else {
             btnAdd.setEnabled(false);
+            btnCancel.setEnabled(false);
         }
     }//GEN-LAST:event_cmbCatProPopupMenuWillBecomeInvisible
 
     private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         boolean bandera = false;
 
-        if(cmbCatPro.getSelectedIndex() == 0){
+        if (cmbCatPro.getSelectedIndex() == 0) {
 
-            JOptionPane.showMessageDialog(null,"Debe elegir un nombre para el producto", "Error", JOptionPane.ERROR_MESSAGE);
-            bandera =true;
-        }
-        if(cmbMarca.getSelectedIndex() == 0){
-            JOptionPane.showMessageDialog(null,"Debe elegir una marca para el producto", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Debe elegir un nombre para el producto", "Error", JOptionPane.ERROR_MESSAGE);
             bandera = true;
         }
-        if(cmbTipoPro.getSelectedIndex() == 0){
-            JOptionPane.showMessageDialog(null,"Debe elegir el tipo del producto", "Error", JOptionPane.ERROR_MESSAGE);
+        if (cmbMarca.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Debe elegir una marca para el producto", "Error", JOptionPane.ERROR_MESSAGE);
             bandera = true;
         }
-        if(cmbGabinete.getSelectedIndex() == 0){
-            JOptionPane.showMessageDialog(null,"Debe elegir el gabinete donde el producto se ubicará", "Error", JOptionPane.ERROR_MESSAGE);
+        if (cmbTipoPro.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Debe elegir el tipo del producto", "Error", JOptionPane.ERROR_MESSAGE);
             bandera = true;
         }
-        if(spnCantidad.getValue().equals('0')){
-            JOptionPane.showMessageDialog(null,"La cantidad no es valida", "Error", JOptionPane.ERROR_MESSAGE);
+        if (cmbGabinete.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(null, "Debe elegir el gabinete donde el producto se ubicará", "Error", JOptionPane.ERROR_MESSAGE);
             bandera = true;
-        }else{
-            try{
+        }
+        if (spnCantidad.getValue().equals('0')) {
+            JOptionPane.showMessageDialog(null, "La cantidad no es valida", "Error", JOptionPane.ERROR_MESSAGE);
+            bandera = true;
+        } else {
+            try {
                 spnCantidad.getValue();
-            }catch(NumberFormatException err){
-                JOptionPane.showMessageDialog(null,"La cantidad no es valida", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (NumberFormatException err) {
+                JOptionPane.showMessageDialog(null, "La cantidad no es valida", "Error", JOptionPane.ERROR_MESSAGE);
                 bandera = true;
             }
         }
-        if(txtDescripcion.getText().equals("")){
-            JOptionPane.showMessageDialog(null,"Debe de agregar una descripción para el producto", "Error", JOptionPane.ERROR_MESSAGE);
+        if (txtDescripcion.getText().equals("")) {
+            JOptionPane.showMessageDialog(null, "Debe de agregar una descripción para el producto", "Error", JOptionPane.ERROR_MESSAGE);
             bandera = true;
         }
 
-        if(!bandera){
-            int maxID=crudProducto.getMaxID(), numGabinete = Integer.parseInt(cmbGabinete.getSelectedItem().toString());
+        if (!bandera) {
+            int maxID = crudProducto.getMaxID(), numGabinete = Integer.parseInt(cmbGabinete.getSelectedItem().toString());
             String catpro = cmbCatPro.getSelectedItem().toString(),
-            marca = cmbMarca.getSelectedItem().toString(),
-            tipoPro = cmbTipoPro.getSelectedItem().toString(),
-            estadoPro= cmbEstadoPro.getSelectedItem().toString(),
-            numInventario = generarNumInventario(maxID+1);
+                    marca = cmbMarca.getSelectedItem().toString(),
+                    tipoPro = cmbTipoPro.getSelectedItem().toString(),
+                    estadoPro = cmbEstadoPro.getSelectedItem().toString(),
+                    numInventario = generarNumInventario(maxID + 1);
             byte[] barcodeBytes = null;
 
             Producto newProducto = new Producto();
@@ -803,28 +873,34 @@ public class ViewProducto extends javax.swing.JFrame {
                 try {
                     newProducto.setImagen(ToBytes(selectFile));
                 } catch (IOException ex) {
-                    JOptionPane.showMessageDialog(null, "Erro al generar el código de barras /n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Error al obtener la imagen /n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
                 }
             }
-
+            /**
+            //Generar el código de barras
             try {
                 barcodeBytes = generarCodigoBarras(numInventario);
             } catch (Exception ex) {
-
+                JOptionPane.showMessageDialog(null, "Error al generar el código de barras /n" + ex, "ERROR", JOptionPane.ERROR_MESSAGE);
             }
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            **/
             if (JOptionPane.showConfirmDialog(null, "El siguiente producto se agregara al inventario\n"
                     + "Nombre: " + catpro + "\n"
                     + "Numero de inventario: " + numInventario + "\n"
                     + "Marca: " + marca + "\n"
                     + "Tipo de producto: " + tipoPro + "\n"
             ) == JOptionPane.YES_OPTION) {
-                crudProducto.save(newProducto, marca, tipoPro, catpro, numGabinete, estadoPro);
-                createTable();
-                limpiarCampos();
-                ViewBarcode viewBarcode = new ViewBarcode(barcodeBytes, numInventario);
-                viewBarcode.setVisible(true);
+                if (crudProducto.save(newProducto, marca, tipoPro, catpro, numGabinete, estadoPro)) {
+                    createTable();
+                    limpiarCampos();
+                    //ViewBarcode viewBarcode = new ViewBarcode(barcodeBytes, numInventario);
+                    //viewBarcode.setVisible(true);
+                    JOptionPane.showMessageDialog(null, "El producto se agregó correctamente", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(null, "Hubo un error en el registro del próducto", "ERROR", JOptionPane.ERROR_MESSAGE);
+                }
             }
-            
 
         }
     }//GEN-LAST:event_btnAddActionPerformed
@@ -833,8 +909,10 @@ public class ViewProducto extends javax.swing.JFrame {
        
         if (cmbMarca.getSelectedIndex() != 0 && !updateDelete) {
             btnAdd.setEnabled(true);
+            btnCancel.setEnabled(true);
         } else {
             btnAdd.setEnabled(false);
+            btnCancel.setEnabled(false);
         }
         
     }//GEN-LAST:event_cmbMarcaPopupMenuWillBecomeInvisible
@@ -842,8 +920,10 @@ public class ViewProducto extends javax.swing.JFrame {
     private void cmbTipoProPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cmbTipoProPopupMenuWillBecomeInvisible
         if (cmbTipoPro.getSelectedIndex() != 0 && !updateDelete) {
             btnAdd.setEnabled(true);
+            btnCancel.setEnabled(true);
         } else {
             btnAdd.setEnabled(false);
+            btnCancel.setEnabled(false);
         }
     }//GEN-LAST:event_cmbTipoProPopupMenuWillBecomeInvisible
 
@@ -885,7 +965,7 @@ public class ViewProducto extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
     private javax.swing.JButton btnBuscar;
-    private javax.swing.JButton btnCancelar;
+    private javax.swing.JButton btnCancel;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnExplorar;
     private javax.swing.JButton btnUpdate;
@@ -898,6 +978,7 @@ public class ViewProducto extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -905,11 +986,14 @@ public class ViewProducto extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel lblImagen;
+    private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblNumCuenta;
     private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JScrollPane scrollPane;
     private javax.swing.JSpinner spnCantidad;

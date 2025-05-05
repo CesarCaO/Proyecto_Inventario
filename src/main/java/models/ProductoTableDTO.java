@@ -14,6 +14,9 @@ public class ProductoTableDTO {
     private int numGabinete;
     private String estadoProducto;
     private String descripcion;
+    private String modelo;
+    private String serie;
+    private String inventario_institucional;
     private int cantidadStock;
     private Date fechaRegistro;
     private byte[] imagen;
@@ -21,7 +24,7 @@ public class ProductoTableDTO {
     public ProductoTableDTO() {
     }
 
-    public ProductoTableDTO(int idProducto, String numInventario, String nombreProducto, String marca, String tipoProducto, int numGabinete, String estadoProducto, String descripcion, int cantidadStock, Date fechaRegistro, byte[] imagen) {
+    public ProductoTableDTO(int idProducto, String numInventario, String nombreProducto, String marca, String tipoProducto, int numGabinete, String estadoProducto, String descripcion, String modelo, String serie, String inventario_institucional, int cantidadStock, Date fechaRegistro, byte[] imagen) {
         this.idProducto = idProducto;
         this.numInventario = numInventario;
         this.nombreProducto = nombreProducto;
@@ -30,6 +33,9 @@ public class ProductoTableDTO {
         this.numGabinete = numGabinete;
         this.estadoProducto = estadoProducto;
         this.descripcion = descripcion;
+        this.modelo = modelo;
+        this.serie = serie;
+        this.inventario_institucional = inventario_institucional;
         this.cantidadStock = cantidadStock;
         this.fechaRegistro = fechaRegistro;
         this.imagen = imagen;
@@ -65,6 +71,18 @@ public class ProductoTableDTO {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public void setSerie(String serie) {
+        this.serie = serie;
+    }
+
+    public void setInventario_institucional(String inventario_institucional) {
+        this.inventario_institucional = inventario_institucional;
     }
 
     public void setCantidadStock(int cantidadStock) {
@@ -111,6 +129,18 @@ public class ProductoTableDTO {
         return descripcion;
     }
 
+    public String getModelo() {
+        return modelo;
+    }
+
+    public String getSerie() {
+        return serie;
+    }
+
+    public String getInventario_institucional() {
+        return inventario_institucional;
+    }
+
     public int getCantidadStock() {
         return cantidadStock;
     }
@@ -122,6 +152,8 @@ public class ProductoTableDTO {
     public byte[] getImagen() {
         return imagen;
     }
-
+    
+    
+    
    
 }

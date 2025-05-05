@@ -38,6 +38,15 @@ public class Producto {
     @Column(name="descripcion")
     private String descripcion;
     
+    @Column(name="modelo")
+    private String modelo;
+    
+    @Column(name="serie")
+    private String serie;
+    
+    @Column(name="inventario_institucional")
+    private String inventario_institucional;
+    
     @Column(name="cantidadStock")
     private int cantidadStock;
         
@@ -47,7 +56,7 @@ public class Producto {
     @Column(name="imagen")
     private byte[] imagen;
 
-    public Producto(int idProducto, String numInventario, CatalogoProductos catalogoProducto, Marca marca, TipoProducto tipoProducto, Gabinete gabinete, EstadoProducto estadoProducto, String descripcion, int cantidadStock, Date fechaRegistro,byte[] imagen) {
+    public Producto(int idProducto, String numInventario, CatalogoProductos catalogoProducto, Marca marca, TipoProducto tipoProducto, Gabinete gabinete, EstadoProducto estadoProducto, String descripcion, String modelo, String serie, String inventario_institucional, int cantidadStock, Date fechaRegistro, byte[] imagen) {
         this.idProducto = idProducto;
         this.numInventario = numInventario;
         this.catalogoProducto = catalogoProducto;
@@ -56,12 +65,16 @@ public class Producto {
         this.gabinete = gabinete;
         this.estadoProducto = estadoProducto;
         this.descripcion = descripcion;
+        this.modelo = modelo;
+        this.serie = serie;
+        this.inventario_institucional = inventario_institucional;
         this.cantidadStock = cantidadStock;
         this.fechaRegistro = fechaRegistro;
         this.imagen = imagen;
     }
- 
-    public Producto(){}
+
+    public Producto() {
+    }
 
     public void setIdProducto(int idProducto) {
         this.idProducto = idProducto;
@@ -95,16 +108,26 @@ public class Producto {
         this.descripcion = descripcion;
     }
 
+    public void setModelo(String modelo) {
+        this.modelo = modelo;
+    }
+
+    public void setSerie(String serie) {
+        this.serie = serie;
+    }
+
+    public void setInventario_institucional(String inventario_institucional) {
+        this.inventario_institucional = inventario_institucional;
+    }
+
     public void setCantidadStock(int cantidadStock) {
         this.cantidadStock = cantidadStock;
     }
 
-    
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
 
-   
     public void setImagen(byte[] imagen) {
         this.imagen = imagen;
     }
@@ -141,19 +164,31 @@ public class Producto {
         return descripcion;
     }
 
+    public String getModelo() {
+        return modelo;
+    }
+
+    public String getSerie() {
+        return serie;
+    }
+
+    public String getInventario_institucional() {
+        return inventario_institucional;
+    }
+
     public int getCantidadStock() {
         return cantidadStock;
     }
-
 
     public Date getFechaRegistro() {
         return fechaRegistro;
     }
 
-
     public byte[] getImagen() {
         return imagen;
     }
+
+   
    
     @Override
     public String toString(){

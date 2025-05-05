@@ -116,6 +116,9 @@ public class CRUDProducto {
             
             updateProducto.setNumInventario(producto.getNumInventario());
             updateProducto.setDescripcion(producto.getDescripcion());
+            updateProducto.setModelo(producto.getModelo());
+            updateProducto.setSerie(producto.getSerie());
+            updateProducto.setInventario_institucional(producto.getInventario_institucional());
             updateProducto.setCantidadStock(producto.getCantidadStock());
             updateProducto.setFechaRegistro(producto.getFechaRegistro());
             
@@ -187,7 +190,7 @@ public class CRUDProducto {
         try {
             if (crit.equals("")) {
                 query = session.createQuery("SELECT NEW models.ProductoTableDTO(p.idProducto,p.numInventario, cp.nombreProducto, m.nombreMarca, tp.tipo, "
-                        + "g.numGabinete, ep.estado, p.descripcion, p.cantidadStock, "
+                        + "g.numGabinete, ep.estado, p.descripcion, p.modelo, p.serie, p.inventario_institucional, p.cantidadStock, "
                         + "p.fechaRegistro, p.imagen) FROM Producto p "
                         + "JOIN p.catalogoProducto cp "
                         + "JOIN p.marca m "
@@ -198,7 +201,7 @@ public class CRUDProducto {
                 System.out.println("Productos encontrados (sin criterio): " + listproducto.size());
             } else {
                 query = session.createQuery("SELECT NEW models.ProductoTableDTO(p.idProducto, p.numInventario, cp.nombreProducto, m.nombreMarca, tp.tipo, "
-                        + "g.numGabinete, ep.estado, p.descripcion, p.cantidadStock, "
+                        + "g.numGabinete, ep.estado, p.descripcion, p.modelo, p.serie, p.inventario_institucional, p.cantidadStock, "
                         + "p.fechaRegistro,p.imagen) FROM Producto p "
                         + "JOIN p.catalogoProducto cp "
                         + "JOIN p.marca m "
@@ -232,6 +235,9 @@ public class CRUDProducto {
         columnNames.add("Gabinete");
         columnNames.add("Estado");
         columnNames.add("Descripción");
+        columnNames.add("Modelo");
+        columnNames.add("Serie");
+        columnNames.add("Inventario UAEH");
         columnNames.add("Stock");
         columnNames.add("Fechas de registro");
         columnNames.add("Imagen");
@@ -245,6 +251,9 @@ public class CRUDProducto {
             newRow.add(dto.getNumGabinete());
             newRow.add(dto.getEstadoProducto());
             newRow.add(dto.getDescripcion());
+            newRow.add(dto.getModelo());
+            newRow.add(dto.getSerie());
+            newRow.add(dto.getInventario_institucional());
             newRow.add(dto.getCantidadStock());
             newRow.add(dto.getFechaRegistro());
             newRow.add(BytesToImage(dto.getImagen()));
@@ -255,7 +264,7 @@ public class CRUDProducto {
         return new DefaultTableModel(rows, columnNames) {
             @Override
             public Class<?> getColumnClass(int column){
-                if(column==9){
+                if(column==12){
                     return ImageIcon.class;
                 }
        
@@ -294,6 +303,18 @@ public class CRUDProducto {
             }
             case "Estado del producto"->{
                 results=opRead(crit,"estado");
+                break;
+            }
+            case "Modelo"->{
+                results=opRead(crit,"modelo");
+                break;
+            }
+            case "Número de serie"->{
+                results=opRead(crit, "serie");
+                break;
+            }
+            case "Número de inventario institucional"->{
+                results=opRead(crit,"inventario_institucional");
                 break;
             }
             

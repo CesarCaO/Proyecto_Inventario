@@ -40,6 +40,7 @@ public class ViewEstadoProducto extends javax.swing.JFrame {
         btnUpdate.setEnabled(false);
         btnAdd.setEnabled(false);
         btnDelete.setEnabled(false);
+        btnCancel.setEnabled(false);
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

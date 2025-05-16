@@ -1,5 +1,6 @@
 package Views;
 
+import javax.swing.ImageIcon;
 import javax.swing.UIManager;
 import models.Administrador;
 
@@ -21,7 +22,7 @@ public class MenuAdmin extends javax.swing.JFrame {
         }catch(Exception err){
             err.printStackTrace();
         }
-        
+        setIconImage(new ImageIcon(getClass().getResource("/garza.png")).getImage());
     }
     
     public MenuAdmin(){}

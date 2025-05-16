@@ -9,6 +9,7 @@ import java.awt.Container;
 import java.awt.FocusTraversalPolicy;
 import java.awt.event.ActionListener;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -37,6 +38,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
         lblNumCuenta.setText(String.valueOf(admin.getCuentaAdmin()));
         String nombreCompleto=admin.getNombre()+" "+admin.getApellidoPaterno()+" "+admin.getApellidoMaterno();
         lblNombre.setText(nombreCompleto);
+        setIconImage(new ImageIcon(getClass().getResource("/garza.png")).getImage());
         
     }
     public ViewCatalogoProducto(){}

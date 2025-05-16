@@ -324,10 +324,8 @@
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
                           <Component id="lblNombre" alignment="0" max="32767" attributes="0"/>
                           <Component id="jLabel3" max="32767" attributes="0"/>
-                          <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                              <Component id="jLabel2" max="32767" attributes="0"/>
-                              <Component id="lblNumCuenta" max="32767" attributes="0"/>
-                          </Group>
+                          <Component id="jLabel2" max="32767" attributes="0"/>
+                          <Component id="lblNumCuenta" max="32767" attributes="0"/>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>

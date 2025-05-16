@@ -3,6 +3,7 @@ package Views;
 
 import Util.PasswordEncryption;
 import java.util.Arrays;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import models.Administrador;
 import opCRUD.CRUDAdmin;
@@ -20,6 +21,7 @@ public class ViewCambiarContrasenia extends javax.swing.JFrame {
         passwordConfirm.setEnabled(false);
         this.setResizable(false);
         this.setLocationRelativeTo(null);
+        setIconImage(new ImageIcon(getClass().getResource("/garza.png")).getImage());
     }
     public void limpiarCampos(){
         txtCuenta.setText("");

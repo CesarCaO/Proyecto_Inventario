@@ -100,6 +100,8 @@ public class ViewProducto extends javax.swing.JFrame {
         String nombreCompleto=admin.getNombre()+" "+admin.getApellidoPaterno()+" "+admin.getApellidoMaterno();
         lblNombre.setText(nombreCompleto);
         pnlPrincipal.requestFocus();
+        
+        setIconImage(new ImageIcon(getClass().getResource("/garza.png")).getImage());
     
     }
     public ViewProducto(){} 
@@ -161,7 +163,10 @@ public class ViewProducto extends javax.swing.JFrame {
         btnAdd.setEnabled(false); 
         checkModelo.setSelected(false);
         checkSerie.setSelected(false);
-        checkInstitucional.setEnabled(false);
+        checkInstitucional.setSelected(false);
+        txtModelo.setText("");
+        txtNumSerie.setText("");
+        txtInstitucional.setText("");
     }
     /**
     public byte[] generarCodigoBarras(String data) throws IOException, Exception{
@@ -800,7 +805,8 @@ public class ViewProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbEstadoProActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        
+        new MenuAdmin(admin).setVisible(true);
+        dispose();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void tblProductoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblProductoMouseClicked
@@ -951,7 +957,7 @@ public class ViewProducto extends javax.swing.JFrame {
                     limpiarCampos();
                     checkModelo.setSelected(false);
                     checkSerie.setSelected(false);
-                    checkInstitucional.setEnabled(false);
+                    checkInstitucional.setSelected(false);
                     //ViewBarcode viewBarcode = new ViewBarcode(barcodeBytes, numInventario);
                     //viewBarcode.setVisible(true);
                     JOptionPane.showMessageDialog(null,"Registro actualizado exitosamente", "INFO", JOptionPane.INFORMATION_MESSAGE);

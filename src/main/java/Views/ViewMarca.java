@@ -1,6 +1,7 @@
 
 package Views;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import models.Administrador;
 import models.Marca;
@@ -28,6 +29,7 @@ public class ViewMarca extends javax.swing.JFrame {
         String nombreCompleto=admin.getNombre()+" "+admin.getApellidoPaterno()+" "+admin.getApellidoMaterno();
         lblNombre.setText(nombreCompleto);
         pnlPrincipal.requestFocus();
+        setIconImage(new ImageIcon(getClass().getResource("/garza.png")).getImage());
     }
     
     public ViewMarca(){}
@@ -39,7 +41,7 @@ public class ViewMarca extends javax.swing.JFrame {
     public void limpiarCampos(){
         txtNombre.setText("");
         tblMarca.clearSelection();
-        
+        updateDelete=false;
     }
 
    
@@ -311,6 +313,7 @@ public class ViewMarca extends javax.swing.JFrame {
                         createTable();
                         limpiarCampos();
                         btnAdd.setEnabled(false);
+                        
                     } else {
                         JOptionPane.showMessageDialog(null, "Hubo un error al dar de alta el registro", "Error", JOptionPane.ERROR_MESSAGE);
                     }

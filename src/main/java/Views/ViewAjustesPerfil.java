@@ -5,6 +5,7 @@ import Util.PasswordEncryption;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import models.Administrador;
 import opCRUD.CRUDAdmin;
@@ -23,6 +24,7 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
         pnlPrincipal.requestFocus();
         passwordONE.setEnabled(false);
         passwordConfirm.setEnabled(false);
+        setIconImage(new ImageIcon(getClass().getResource("/garza.png")).getImage());
 
     }
    

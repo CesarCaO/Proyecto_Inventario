@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import models.Administrador;
@@ -33,11 +34,17 @@ public class ViewAdmin extends javax.swing.JFrame {
         lblNombre.setText(nombreCompleto);
         pnlPrincipal.requestFocus();
         
+        
+        //////////////////////////////////////////////////
+        ImageIcon imgIcon = new ImageIcon("./Util_image/garza.png");
+        this.setIconImage(imgIcon.getImage());
+        
         try{
         UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
         }catch(Exception err){
             err.printStackTrace();
         }
+        setIconImage(new ImageIcon(getClass().getResource("/garza.png")).getImage());
     }
     
     public ViewAdmin(){}

@@ -4,6 +4,7 @@
  */
 package Views;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import models.Administrador;
 import models.TipoProducto;
@@ -35,6 +36,7 @@ public class ViewTipoProducto extends javax.swing.JFrame {
         String nombreCompleto=admin.getNombre()+" "+admin.getApellidoPaterno()+" "+admin.getApellidoMaterno();
         lblNombre.setText(nombreCompleto);
         ////////////////////////////////////////////
+        setIconImage(new ImageIcon(getClass().getResource("/garza.png")).getImage());
     }
     
     public ViewTipoProducto(){}
@@ -99,6 +101,11 @@ public class ViewTipoProducto extends javax.swing.JFrame {
         });
 
         btnCancel.setText("Cancelar");
+        btnCancel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCancelActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -387,6 +394,11 @@ public class ViewTipoProducto extends javax.swing.JFrame {
         new MenuAdmin(admin).setVisible(true);
         dispose();
     }//GEN-LAST:event_btnGoBackActionPerformed
+
+    private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
+        limpiarCampos();
+        
+    }//GEN-LAST:event_btnCancelActionPerformed
 
     /**
      * @param args the command line arguments

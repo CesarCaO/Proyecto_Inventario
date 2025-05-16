@@ -4,6 +4,7 @@
  */
 package Views;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import models.Administrador;
@@ -25,6 +26,9 @@ public class ViewLogin extends javax.swing.JFrame {
         }catch(Exception err){
             err.printStackTrace();
         }
+        setIconImage(new ImageIcon(getClass().getResource("/garza.png")).getImage());
+        
+      
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

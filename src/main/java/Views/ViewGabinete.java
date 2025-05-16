@@ -1,6 +1,7 @@
 
 package Views;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import models.Administrador;
 import models.Gabinete;
@@ -28,6 +29,7 @@ public class ViewGabinete extends javax.swing.JFrame {
         lblNumCuenta.setText(String.valueOf(admin.getCuentaAdmin()));
         String nombreCompleto=admin.getNombre()+" "+admin.getApellidoPaterno()+" "+admin.getApellidoMaterno();
         lblNombre.setText(nombreCompleto);
+        setIconImage(new ImageIcon(getClass().getResource("/garza.png")).getImage());
     }
     public ViewGabinete(){}
     public void createTable(){

@@ -42,6 +42,10 @@ public class ViewMarca extends javax.swing.JFrame {
         txtNombre.setText("");
         tblMarca.clearSelection();
         updateDelete=false;
+        btnAdd.setEnabled(false);
+        btnUpdate.setEnabled(false);
+        btnDelete.setEnabled(false);
+        btnCancel.setEnabled(false);
     }
 
    
@@ -308,12 +312,11 @@ public class ViewMarca extends javax.swing.JFrame {
             if (crudMarca.ValidarExistencia(newMarca.getNombreMarca())) {
                 JOptionPane.showMessageDialog(null, "La marca ya fue dada de alta en el sistema", "Error", JOptionPane.ERROR_MESSAGE);
             } else {
-                if (JOptionPane.showConfirmDialog(null, "Esta seguro de agregar la marca: " + newMarca.getNombreMarca(), "Confirmación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de agregar la marca: '" + newMarca.getNombreMarca()+"' al sistema ?", "Confirmación", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     if (crudMarca.save(newMarca)) {
                         createTable();
-                        limpiarCampos();
-                        btnAdd.setEnabled(false);
-                        
+                        limpiarCampos(); 
+                        JOptionPane.showMessageDialog(null, "Registro completado","INFO",JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(null, "Hubo un error al dar de alta el registro", "Error", JOptionPane.ERROR_MESSAGE);
                     }
@@ -341,9 +344,7 @@ public class ViewMarca extends javax.swing.JFrame {
             nombreMarca = txtNombre.getText();
             newMarca.setNombreMarca(nombreMarca);
             if (newMarca.getNombreMarca().equals(tblMarca.getValueAt(tblMarca.getSelectedRow(), 0).toString())) {
-                crudMarca.save(newMarca);
-                createTable();
-                limpiarCampos();
+                JOptionPane.showMessageDialog(null, "No se han encontrado cambios en el registro","ERROR",JOptionPane.ERROR_MESSAGE);
             } else {
                 if (crudMarca.ValidarExistencia(newMarca.getNombreMarca())) {
                     JOptionPane.showMessageDialog(null, "La marca ya fue dada de alta en el sistema", "Error", JOptionPane.ERROR_MESSAGE);
@@ -366,12 +367,19 @@ public class ViewMarca extends javax.swing.JFrame {
         if(selected==-1){
              JOptionPane.showMessageDialog(null, "Debe de elegir un resigistro para eliminarlo", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
-            crudMarca.delete(tblMarca.getValueAt(tblMarca.getSelectedRow(),0).toString());
-            createTable();
-            limpiarCampos();
-            btnUpdate.setEnabled(false);
-            btnDelete.setEnabled(false);
-            btnAdd.setEnabled(false);
+            if(JOptionPane.showConfirmDialog(null, "La marca: '"+tblMarca.getValueAt(tblMarca.getSelectedRow(),0).toString() +"' será elimnada junto con todo lo relacionado a ella en el inventario\n¿Desea continuar?",
+            "COnfirmación",JOptionPane.YES_NO_CANCEL_OPTION)==JOptionPane.YES_OPTION){
+                if(crudMarca.delete(tblMarca.getValueAt(tblMarca.getSelectedRow(),0).toString())){
+                    createTable();
+                    limpiarCampos();
+                    JOptionPane.showMessageDialog(null, "Registro elimando","INFO",JOptionPane.INFORMATION_MESSAGE);
+                }else{
+                    JOptionPane.showMessageDialog(null, "Hubo un error al eliminar el registro", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            
+           
+            }
+            
             
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -402,10 +410,6 @@ public class ViewMarca extends javax.swing.JFrame {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         limpiarCampos();
-        btnAdd.setEnabled(false);
-        btnUpdate.setEnabled(false);
-        btnDelete.setEnabled(false);
-        btnCancel.setEnabled(false);
     }//GEN-LAST:event_btnCancelActionPerformed
 
     private void txtBuscarKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarKeyReleased

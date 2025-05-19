@@ -25,6 +25,7 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
         passwordONE.setEnabled(false);
         passwordConfirm.setEnabled(false);
         setIconImage(new ImageIcon(getClass().getResource("/garza.png")).getImage());
+        this.setLocationRelativeTo(null);
 
     }
    
@@ -608,11 +609,12 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
 
                             admin = newAdmin;
                             rellenarCampos();
-                            btnUpdate.setEnabled(false);
+                          
                             passwordONE.setEnabled(false);
                             passwordConfirm.setEnabled(false);
                             passwordONE.setText("");
                             passwordConfirm.setText("");
+                            btnCambiarContrasenia.setEnabled(true);
                             JOptionPane.showMessageDialog(null, "Los datos del administrador se han actualizado", "INFO", JOptionPane.INFORMATION_MESSAGE);
 
                         } else {
@@ -636,11 +638,12 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
 
                                 admin = newAdmin;
                                 rellenarCampos();
-                                btnUpdate.setEnabled(false);
+                                
                                 passwordONE.setEnabled(false);
                                 passwordONE.setText("");
                                 passwordConfirm.setText("");
                                 passwordConfirm.setEnabled(false);
+                                btnCambiarContrasenia.setEnabled(true);
                                 JOptionPane.showMessageDialog(null, "Los datos del administrador se han actualizado", "INFO", JOptionPane.INFORMATION_MESSAGE);
                             } else {
                                 JOptionPane.showMessageDialog(null, "Hubo un error en al acualización de los datos del administrador", "ERROR", JOptionPane.ERROR_MESSAGE);

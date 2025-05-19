@@ -4,39 +4,26 @@
  */
 package Views;
 
-import Views.ViewBarcode;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.MultiFormatWriter;
-import com.google.zxing.WriterException;
-import com.google.zxing.client.j2se.MatrixToImageWriter;
-import com.google.zxing.common.BitMatrix;
+
 import java.awt.Component;
-import java.awt.Dimension;
+
 import java.awt.Image;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
-import java.io.ByteArrayOutputStream;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.security.MessageDigest;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.HexFormat;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JFormattedTextField;
 import javax.swing.JOptionPane;
-import javax.swing.JScrollBar;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.table.TableColumn;
 import javax.swing.text.NumberFormatter;
 import models.Administrador;
 import models.CatalogoProductos;
@@ -1043,12 +1030,12 @@ public class ViewProducto extends javax.swing.JFrame {
         
 
         if (!bandera) {
-            int maxID = crudProducto.getMaxID(), numGabinete = Integer.parseInt(cmbGabinete.getSelectedItem().toString());
+            int numGabinete = Integer.parseInt(cmbGabinete.getSelectedItem().toString());
             String catpro = cmbCatPro.getSelectedItem().toString(),
                     marca = cmbMarca.getSelectedItem().toString(),
                     tipoPro = cmbTipoPro.getSelectedItem().toString(),
                     estadoPro = cmbEstadoPro.getSelectedItem().toString(),
-                    numInventario = generarNumInventario(maxID + 1),
+                    
                     modelo=obtenerModelo(),
                     serie=obtenerSerie(),
                     serieInst=obtenerSerieInstitucional();
@@ -1056,7 +1043,7 @@ public class ViewProducto extends javax.swing.JFrame {
 
             Producto newProducto = new Producto();
 
-            newProducto.setNumInventario(numInventario);
+            newProducto.setNumInventario(null);
             newProducto.setDescripcion(txtDescripcion.getText());
             newProducto.setCantidadStock(spnCantidad.getComponentCount());
             newProducto.setModelo(modelo);
@@ -1081,7 +1068,6 @@ public class ViewProducto extends javax.swing.JFrame {
             **/
             if (JOptionPane.showConfirmDialog(null, "El siguiente producto se agregara al inventario\n"
                     + "Nombre: " + catpro + "\n"
-                    + "Numero de inventario: " + numInventario + "\n"
                     + "Marca: " + marca + "\n"
                     + "Tipo de producto: " + tipoPro + "\n"
             ) == JOptionPane.YES_OPTION) {
@@ -1090,7 +1076,7 @@ public class ViewProducto extends javax.swing.JFrame {
                     limpiarCampos();
                     checkModelo.setSelected(false);
                     checkSerie.setSelected(false);
-                    checkInstitucional.setEnabled(false);
+                    checkInstitucional.setSelected(false);
                     //ViewBarcode viewBarcode = new ViewBarcode(barcodeBytes, numInventario);
                     //viewBarcode.setVisible(true);
                     JOptionPane.showMessageDialog(null, "El producto se agregó correctamente", "INFO", JOptionPane.INFORMATION_MESSAGE);

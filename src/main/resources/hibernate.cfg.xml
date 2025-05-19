@@ -8,7 +8,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/XML/XMLDocument.xml to edit this 
     <session-factory>
         <property name = "hibernate.connection.url">jdbc:mysql://localhost:3306/ucl_tr_inventario?useSSL=false</property>
         <property name = "hibernate.connection.username">root</property>
-        <property name = "hibernate.connection.password">CECEVI2003</property>
+        <property name = "hibernate.connection.password">adminUCL_2025</property>
         <property name = "hibernate.connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name = "hibernate.show_sql">true</property>
         <property name="hibernate.archive.autodetection">class</property>

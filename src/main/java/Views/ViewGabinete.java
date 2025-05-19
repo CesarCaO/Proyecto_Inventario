@@ -30,6 +30,7 @@ public class ViewGabinete extends javax.swing.JFrame {
         String nombreCompleto=admin.getNombre()+" "+admin.getApellidoPaterno()+" "+admin.getApellidoMaterno();
         lblNombre.setText(nombreCompleto);
         setIconImage(new ImageIcon(getClass().getResource("/garza.png")).getImage());
+        tblGabinete.getTableHeader().setReorderingAllowed(false);
     }
     public ViewGabinete(){}
     public void createTable(){
@@ -389,7 +390,7 @@ public class ViewGabinete extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Este gabinete ya esta dado de alta", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
                 newgabinete.setDescripcion(descripcion);
-                if (JOptionPane.showConfirmDialog(null, "¿Desea agregar el siguiente gabiente?:\n" + newgabinete.getNumGabinete() + "\n" + newgabinete.getDescripcion() + "\n") == JOptionPane.YES_OPTION) {
+                if (JOptionPane.showConfirmDialog(null, "¿Desea agregar el siguiente gabiente?:\n" +"Número de Gabinete: "+ newgabinete.getNumGabinete() + "\n" +"Descripción: "+ newgabinete.getDescripcion() + "\n") == JOptionPane.YES_OPTION) {
                     
                     if (crudGabinete.save(newgabinete)) {
    

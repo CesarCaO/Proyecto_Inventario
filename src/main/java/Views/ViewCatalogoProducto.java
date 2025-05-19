@@ -4,20 +4,16 @@
  */
 package Views;
 
-import java.awt.Component;
-import java.awt.Container;
-import java.awt.FocusTraversalPolicy;
-import java.awt.event.ActionListener;
-import java.util.List;
+
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 import models.Administrador;
 import models.CatalogoProductos;
 import opCRUD.CRUDCatalogoProductos;
 
-
+/**
+ * Esta interfaz sirve para crear, modificad, eliminar o eliminar los nombre de los productos que estarán en el inventario
+ **/
 
 public class ViewCatalogoProducto extends javax.swing.JFrame {
     
@@ -40,6 +36,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
         lblNombre.setText(nombreCompleto);
         setIconImage(new ImageIcon(getClass().getResource("/garza.png")).getImage());
         
+        
     }
     public ViewCatalogoProducto(){}
     public void createTableCatPro(){
@@ -49,6 +46,11 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
     public void cleanFields(){
         txtProducto.setText("");
         tblcatpro.clearSelection();
+        btnUpdate.setEnabled(false);
+        btnCancel.setEnabled(false);
+        btnAdd.setEnabled(false);
+        btnDelete.setEnabled(false);
+        pnlPrincipal.requestFocus();
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -74,7 +76,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        pnlPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Registros"));
+        pnlPrincipal.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Catálogo de productos"));
         pnlPrincipal.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 pnlPrincipalMouseClicked(evt);
@@ -227,9 +229,8 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(lblNumCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(lblNumCuenta, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
@@ -340,8 +341,6 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
             if (JOptionPane.showConfirmDialog(null, "¿Desea agregar este articulo al catalogo?\n" + newcatpro.getNombre_producto(), "Confirm", JOptionPane.INFORMATION_MESSAGE) == JOptionPane.YES_OPTION) {
                 
                 if(crudCatPro.save(newcatpro)){
-                    
-                    JOptionPane.showMessageDialog(null,"Se registros el producto en el catalogo","Info", JOptionPane.INFORMATION_MESSAGE);
                     cleanFields();
                     createTableCatPro();
                     btnAdd.setEnabled(false);
@@ -388,9 +387,8 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
                 cleanFields();
                 createTableCatPro();
                 update=false;
-                btnUpdate.setEnabled(false);
-                btnCancel.setEnabled(false);
-                JOptionPane.showMessageDialog(null, "Actualización completa");
+                
+                JOptionPane.showMessageDialog(null, "Registro actualizado","INFO",JOptionPane.INFORMATION_MESSAGE);
                 }else{
                     JOptionPane.showMessageDialog(null, "Hubo un error en la actualización", "ERROR", JOptionPane.ERROR_MESSAGE);
                 }

@@ -12,7 +12,7 @@ import opCRUD.CRUDTipoProducto;
 
 /**
  *
- * @author darwi
+ * Esta interfaz sirve para crear, modificar, eliminar o buscar los diferentes tipos de productos que se encuentran en el inventario
  */
 public class ViewTipoProducto extends javax.swing.JFrame {
 
@@ -51,6 +51,7 @@ public class ViewTipoProducto extends javax.swing.JFrame {
         btnUpdate.setEnabled(false);
         btnCancel.setEnabled(false);
         btnDelete.setEnabled(false);
+        pnlPrincipal.requestFocus();
         
     }
     @SuppressWarnings("unchecked")
@@ -309,6 +310,8 @@ public class ViewTipoProducto extends javax.swing.JFrame {
             TipoProducto tipoPro = new TipoProducto();
             tipoPro.setTipo(txtTipo.getText());
             if (tipoPro.getTipo().equals(tblTipoPro.getValueAt(tblTipoPro.getSelectedRow(), 0))) {
+                JOptionPane.showMessageDialog(null, "No se han detectado cambios en el registro", "Error",JOptionPane.ERROR_MESSAGE);
+                /**
                 if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de actualizar el registro? ", "INFO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                     if (crudTipoPro.update(tipoPro, (tblTipoPro.getValueAt(tblTipoPro.getSelectedRow(), 0)).toString())) {
                         createTable();
@@ -320,7 +323,7 @@ public class ViewTipoProducto extends javax.swing.JFrame {
                     }
 
                 }
-
+                *  **/
             } else {
                 if (crudTipoPro.ValidarTipo(tipoPro.getTipo())) {
                     JOptionPane.showMessageDialog(null, "El tipo de producto ya esta en el sistema", "Error", JOptionPane.ERROR_MESSAGE);

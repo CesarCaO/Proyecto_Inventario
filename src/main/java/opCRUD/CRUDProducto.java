@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.List;
 import java.util.Vector;
 import javax.imageio.ImageIO;
@@ -55,6 +56,15 @@ public class CRUDProducto {
             producto.setEstadoProducto(relEstPro);
             System.out.println("Guardando registro");
             session.persist(producto);
+            
+            session.flush();
+            
+            int generateId=producto.getIdProducto();
+            String numInv=generarNumInventario(generateId);
+            
+            producto.setNumInventario(numInv);
+            
+            session.merge(producto);
             transaction.commit();
             System.out.println("Se guardo el registro");
             completado=true;
@@ -341,21 +351,13 @@ public class CRUDProducto {
             return new ImageIcon();
         }
     }
-     public int getMaxID(){
-         Session session=HibernateUtil.getSessionFactory().openSession();
-         int idMax=-1;
-         
-         try{
-             idMax=session.createQuery("SELECT  max(p.idProducto) FROM Producto p", Integer.class).uniqueResult();
-             System.out.print("Id máximo encontrado "+ idMax);
-         }catch(Exception err){
-             System.out.print("Error al buscar el ID maximo");
-         }finally{
-             session.close();
-             
-         }
-         
-         return idMax;
-     }
+     
+     
+     public String generarNumInventario(int ID){
+        
+        DecimalFormat df = new DecimalFormat("000000");
+        String numeroFormateado = df.format(ID);
+        return numeroFormateado;
+    }
     
 }

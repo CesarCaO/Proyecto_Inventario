@@ -281,7 +281,7 @@ public class ViewEstadoProducto extends javax.swing.JFrame {
             
         } else {
             
-            if (JOptionPane.showConfirmDialog(null, "El estado " + tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0) + "\n" + "¿Desea continuar?", "Warning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            if (JOptionPane.showConfirmDialog(null, "El estado '" + tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0) + "' será eliminado del sistema y también todos lo registros asociados a él en el inventario\n" + "¿Desea continuar?", "Warning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
                 
                 if (crudEstPro.delete(tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0).toString())) {
                     
@@ -317,6 +317,7 @@ public class ViewEstadoProducto extends javax.swing.JFrame {
                     if (crudEstPro.save(estpro)) {
                         createTable();
                         limpiarCampos();
+                        JOptionPane.showMessageDialog(null, "Registro completado", "INFO", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(null, "Hubo un problema en el registro", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
@@ -326,43 +327,53 @@ public class ViewEstadoProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+        //Acción al apretar el boton de actualización
         if (txtEstado.getText().isEmpty() || !txtEstado.getText().matches("[a-zA-ZáéíóúÁÉÍÓÚñÑ ]+")) {
-            
+
             JOptionPane.showMessageDialog(null, "No se puede dar de alta ese estado de un producto en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
-            
+
         } else {
-            
+
             EstadoProducto estpro = new EstadoProducto();
             estpro.setEstado(txtEstado.getText());
-            
-            if (estpro.getEstado().equals(tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0).toString())) {//Validación si es necesario validar la existencia del estado
-                
+
+            if (estpro.getEstado().equals(tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0).toString())) {//Si el estado ya existe en el sistema
+                System.out.println("Estado validado");
+                JOptionPane.showMessageDialog(null, "No se ha detectado un cambio en el registro", "ERROR", JOptionPane.ERROR_MESSAGE);
+                /**
                 if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de actualizar el registro?", "INFO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    
+
                     if (crudEstPro.update(estpro, tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0).toString())) {
                         createTable();
                         limpiarCampos();
+                        JOptionPane.showMessageDialog(null, "Registro actualizado", "INFO", JOptionPane.INFORMATION_MESSAGE);
                     } else {
                         JOptionPane.showMessageDialog(null, "Hubo un problema en la actualización", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
-                    
+
                 }
-                
-            } else {//Validación si es necesario validar la existencia del estado
-                
+                * */
+
+            } else {//Si el estado no existe en el sistema
+
                 if (crudEstPro.ValidarEstadoProducto(estpro.getEstado())) {
-                    
+
                     JOptionPane.showMessageDialog(null, "El estado ya esta dado de alta en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
-                    
+
                 } else {
-                    
-                    crudEstPro.update(estpro, tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0).toString());
-                    createTable();
-                    btnCancel.setEnabled(false);
-                    limpiarCampos();
-                    
+                    if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de actualizar el registro?", "INFO", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+                        if (crudEstPro.update(estpro, tblEstPro.getValueAt(tblEstPro.getSelectedRow(), 0).toString())) {
+                            createTable();
+                            btnCancel.setEnabled(false);
+                            limpiarCampos();
+                            JOptionPane.showMessageDialog(null, "Registro actualizado", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                        } else {
+                            JOptionPane.showMessageDialog(null, "Hubo un problema en la actualización", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+
                 }
-                
+
             }
 
         }

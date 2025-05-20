@@ -71,20 +71,15 @@ public class ViewAdmin extends javax.swing.JFrame {
        return matcher.matches();
    }
     public boolean validarTelefono(String telefono, boolean extension) {
-        boolean valido = false;        
+        String regex;        
         if (extension) {
-            String regex = "^\\d{6}+$";
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(telefono.trim());
-            valido = matcher.matches();
-            return valido;
-        } else {
-            String regex = "^\\d{10}+$";
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(telefono.trim());
-            valido = matcher.matches();
-            return valido;
+             regex = "^\\d{3,8}+$";    
+        }  else {
+            regex = "^\\d{10}+$";
         }  
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(telefono.trim());
+        return matcher.matches();
     }
   
    
@@ -643,12 +638,20 @@ public class ViewAdmin extends javax.swing.JFrame {
                 newAdmin.setTelefono(telefono);
                 newAdmin.setCorreo(correo);
                 newAdmin.setContrasenia(hashedPasswordONE);
-                crudAdmin.save(newAdmin);
-                JOptionPane.showMessageDialog(null,"Se dio de alta el siguiente administrador: \n"+newAdmin,"INFO", JOptionPane.INFORMATION_MESSAGE);
-                char[] hashedPasswordChars = hashedPasswordONE.toCharArray();//Convertir la hashesPassword en carateres para limpiarlo
-                Arrays.fill(hashedPasswordChars, '\0');//Limpiar la contraseña encriptada
-                limpiarCampos();
-                createTable();
+                if (JOptionPane.showConfirmDialog(null, "¿Esta seguro de agregar el soguiente adminsitrador al sistema?\n" + newAdmin, "Confirmación", JOptionPane.YES_NO_CANCEL_OPTION) == JOptionPane.YES_OPTION) {
+                    if (crudAdmin.save(newAdmin)) {
+                        char[] hashedPasswordChars = hashedPasswordONE.toCharArray();//Convertir la hashesPassword en carateres para limpiarlo
+                        Arrays.fill(hashedPasswordChars, '\0');//Limpiar la contraseña encriptada
+                        limpiarCampos();
+                        createTable();
+                        JOptionPane.showMessageDialog(null, "Se regsitró el administrador", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Hubo un problema en el registro del administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+
+
+                
             }
         }
 

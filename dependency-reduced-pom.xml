@@ -40,7 +40,7 @@
         <configuration>
           <input>${project.build.directory}</input>
           <name>InventarioUCL</name>
-          <appVersion>1.0</appVersion>
+          <appVersion>1.1</appVersion>
           <mainClass>main.Main</mainClass>
           <mainJar>Inventario_UCL-1.0-SNAPSHOT.jar</mainJar>
           <destination>target/dist</destination>

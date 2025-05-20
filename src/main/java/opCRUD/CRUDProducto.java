@@ -197,6 +197,7 @@ public class CRUDProducto {
        System.out.println("El campo es: "+field);
        List<ProductoTableDTO> listproducto=null;
        Query<ProductoTableDTO> query;
+       
         try {
             if (crit.equals("")) {
                 query = session.createQuery("SELECT NEW models.ProductoTableDTO(p.idProducto,p.numInventario, cp.nombreProducto, m.nombreMarca, tp.tipo, "
@@ -228,6 +229,7 @@ public class CRUDProducto {
         } catch (Exception err) {
             System.out.println("Error al leer los productos " + err + " Error: opRead");
         } finally {
+            
             session.close();
         }
             return listproducto;

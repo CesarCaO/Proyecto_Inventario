@@ -41,20 +41,15 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
    }
    
     public boolean validarTelefono(String telefono, boolean extension) {
-        boolean valido = false;        
+        String regex;        
         if (extension) {
-            String regex = "^\\d{6}+$";
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(telefono.trim());
-            valido = matcher.matches();
-            return valido;
-        } else {
-            String regex = "^\\d{10}+$";
-            Pattern pattern = Pattern.compile(regex);
-            Matcher matcher = pattern.matcher(telefono.trim());
-            valido = matcher.matches();
-            return valido;
+             regex = "^\\d{3,8}+$";    
+        }  else {
+            regex = "^\\d{10}+$";
         }  
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(telefono.trim());
+        return matcher.matches();
     }
     
     public boolean validarCorreo(String correo){

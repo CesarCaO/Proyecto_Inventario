@@ -154,6 +154,7 @@ public class ViewProducto extends javax.swing.JFrame {
         txtModelo.setText("");
         txtNumSerie.setText("");
         txtInstitucional.setText("");
+        updateDelete=false;
     }
     /**
     public byte[] generarCodigoBarras(String data) throws IOException, Exception{
@@ -316,17 +317,41 @@ public class ViewProducto extends javax.swing.JFrame {
             public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
             }
         });
+        cmbTipoPro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cmbTipoProActionPerformed(evt);
+            }
+        });
 
         jLabel3.setText("Tipo de producto");
 
         jLabel4.setText("Gabinete");
 
         cmbGabinete.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccione un gabiente" }));
+        cmbGabinete.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                cmbGabinetePopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
 
         jLabel6.setText("Cantidad");
 
         jLabel8.setText("Estado del producto");
 
+        cmbEstadoPro.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Seleccionar un estado" }));
+        cmbEstadoPro.addPopupMenuListener(new javax.swing.event.PopupMenuListener() {
+            public void popupMenuCanceled(javax.swing.event.PopupMenuEvent evt) {
+            }
+            public void popupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {
+                cmbEstadoProPopupMenuWillBecomeInvisible(evt);
+            }
+            public void popupMenuWillBecomeVisible(javax.swing.event.PopupMenuEvent evt) {
+            }
+        });
         cmbEstadoPro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbEstadoProActionPerformed(evt);
@@ -335,6 +360,11 @@ public class ViewProducto extends javax.swing.JFrame {
 
         txtDescripcion.setColumns(20);
         txtDescripcion.setRows(5);
+        txtDescripcion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtDescripcionKeyReleased(evt);
+            }
+        });
         jScrollPane2.setViewportView(txtDescripcion);
 
         jLabel5.setText("Descripción");
@@ -420,7 +450,7 @@ public class ViewProducto extends javax.swing.JFrame {
 
         jLabel7.setText("Buscar por");
 
-        cmbBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Número de Inventario", "Nombre", "Marca", "Tipo de producto", "Gabinete", "Estado del producto", "Número de serie", "Número de inventario institucional" }));
+        cmbBuscar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Número de Inventario", "Nombre", "Marca", "Tipo de producto", "Gabinete", "Estado del producto", "Número de serie", "Número de inventario institucional", "Modelo" }));
         cmbBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cmbBuscarActionPerformed(evt);
@@ -516,9 +546,26 @@ public class ViewProducto extends javax.swing.JFrame {
 
         jLabel14.setText("Número de inventario:");
 
+        txtModelo.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtModeloKeyReleased(evt);
+            }
+        });
+
+        txtNumSerie.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtNumSerieKeyReleased(evt);
+            }
+        });
+
         txtInstitucional.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtInstitucionalActionPerformed(evt);
+            }
+        });
+        txtInstitucional.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtInstitucionalKeyReleased(evt);
             }
         });
 
@@ -822,6 +869,7 @@ public class ViewProducto extends javax.swing.JFrame {
         cmbGabinete.setSelectedItem(tblProducto.getValueAt(tblProducto.getSelectedRow(), 4).toString());
         txtDescripcion.setText(tblProducto.getValueAt(tblProducto.getSelectedRow(), 6).toString());
         spnCantidad.setValue(tblProducto.getValueAt(tblProducto.getSelectedRow(), 10));
+        cmbEstadoPro.setSelectedItem(tblProducto.getValueAt(tblProducto.getSelectedRow(), 5));
         
         if(modelo.equals("N/A")){
             txtModelo.setText("");
@@ -875,7 +923,13 @@ public class ViewProducto extends javax.swing.JFrame {
     }//GEN-LAST:event_cmbBuscarActionPerformed
 
     private void pnlPrincipalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPrincipalMouseClicked
-       pnlPrincipal.requestFocus();
+  
+       if(updateDelete){
+           limpiarCampos();
+           pnlPrincipal.requestFocus();
+       }else{
+           pnlPrincipal.requestFocus();
+       }
     }//GEN-LAST:event_pnlPrincipalMouseClicked
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
@@ -927,7 +981,7 @@ public class ViewProducto extends javax.swing.JFrame {
 
                 newProducto.setNumInventario(numInventario);
                 newProducto.setDescripcion(txtDescripcion.getText());
-                newProducto.setCantidadStock(Integer.valueOf(spnCantidad.getValue().toString()));
+                newProducto.setCantidadStock(Integer.parseInt(spnCantidad.getValue().toString()));
                 newProducto.setFechaRegistro(obtenerFechaActual());
                 newProducto.setModelo(modelo);
                 newProducto.setSerie(serie);
@@ -1169,6 +1223,70 @@ public class ViewProducto extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         new ViewExport().setVisible(true);
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void cmbTipoProActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbTipoProActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_cmbTipoProActionPerformed
+
+    private void cmbGabinetePopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cmbGabinetePopupMenuWillBecomeInvisible
+        if (cmbGabinete.getSelectedIndex() != 0 && !updateDelete) {
+            btnAdd.setEnabled(true);
+            btnCancel.setEnabled(true);
+        } else {
+            btnAdd.setEnabled(false);
+            btnCancel.setEnabled(false);
+        }
+    }//GEN-LAST:event_cmbGabinetePopupMenuWillBecomeInvisible
+
+    private void cmbEstadoProPopupMenuWillBecomeInvisible(javax.swing.event.PopupMenuEvent evt) {//GEN-FIRST:event_cmbEstadoProPopupMenuWillBecomeInvisible
+       if (cmbEstadoPro.getSelectedIndex() != 0 && !updateDelete) {
+            btnAdd.setEnabled(true);
+            btnCancel.setEnabled(true);
+        } else {
+            btnAdd.setEnabled(false);
+            btnCancel.setEnabled(false);
+        }
+    }//GEN-LAST:event_cmbEstadoProPopupMenuWillBecomeInvisible
+
+    private void txtModeloKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtModeloKeyReleased
+        if (!txtModelo.getText().isEmpty() && !updateDelete) {
+            btnAdd.setEnabled(true);
+            btnCancel.setEnabled(true);
+        } else {
+            btnAdd.setEnabled(false);
+            btnCancel.setEnabled(false);
+        }
+    }//GEN-LAST:event_txtModeloKeyReleased
+
+    private void txtNumSerieKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNumSerieKeyReleased
+        if (!txtNumSerie.getText().isEmpty() && !updateDelete) {
+            btnAdd.setEnabled(true);
+            btnCancel.setEnabled(true);
+        } else {
+            btnAdd.setEnabled(false);
+            btnCancel.setEnabled(false);
+        }
+    }//GEN-LAST:event_txtNumSerieKeyReleased
+
+    private void txtInstitucionalKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtInstitucionalKeyReleased
+        if (!txtInstitucional.getText().isEmpty() && !updateDelete) {
+            btnAdd.setEnabled(true);
+            btnCancel.setEnabled(true);
+        } else {
+            btnAdd.setEnabled(false);
+            btnCancel.setEnabled(false);
+        }
+    }//GEN-LAST:event_txtInstitucionalKeyReleased
+
+    private void txtDescripcionKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtDescripcionKeyReleased
+        if (!txtDescripcion.getText().isEmpty() && !updateDelete) {
+            btnAdd.setEnabled(true);
+            btnCancel.setEnabled(true);
+        } else {
+            btnAdd.setEnabled(false);
+            btnCancel.setEnabled(false);
+        }
+    }//GEN-LAST:event_txtDescripcionKeyReleased
 
     /**
      * @param args the command line arguments

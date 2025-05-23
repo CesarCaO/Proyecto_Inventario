@@ -52,6 +52,7 @@ public class ViewTipoProducto extends javax.swing.JFrame {
         btnCancel.setEnabled(false);
         btnDelete.setEnabled(false);
         pnlPrincipal.requestFocus();
+        updateDelete=false;
         
     }
     @SuppressWarnings("unchecked")

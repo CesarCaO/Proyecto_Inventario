@@ -40,11 +40,12 @@
         <configuration>
           <input>${project.build.directory}</input>
           <name>InventarioUCL</name>
-          <appVersion>1.1</appVersion>
+          <appVersion>3.0</appVersion>
           <mainClass>main.Main</mainClass>
           <mainJar>Inventario_UCL-1.0-SNAPSHOT.jar</mainJar>
           <destination>target/dist</destination>
           <platforms>win</platforms>
+          <icon>${project.basedir}/src/main/resources/garza.ico</icon>
           <jpackageArgs>
             <jpackageArg>--toolchain</jpackageArg>
             <jpackageArg>wix</jpackageArg>

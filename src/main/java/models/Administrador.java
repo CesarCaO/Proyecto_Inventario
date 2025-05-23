@@ -119,10 +119,9 @@ public class Administrador implements Serializable{
 
     @Override
     public String toString(){
-        return  "ID: "+idAdmin+"\n"+
-                "Numero de cuenta: "+cuentaAdmin+"\n"+
-                "Apellido Paterno: "+apellidoPaterno+
-                "Apellido Materno: "+apellidoMaterno+
+        return  "Numero de cuenta: "+cuentaAdmin+"\n"+
+                "Apellido Paterno: "+apellidoPaterno+"\n"+
+                "Apellido Materno: "+apellidoMaterno+"\n"+
                 "Nombre: "+nombre+"\n"+
                 "Telefono: "+telefono+"\n"+
                 "Correo: "+correo+"\n";

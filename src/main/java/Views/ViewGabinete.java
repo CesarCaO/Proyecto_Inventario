@@ -41,6 +41,7 @@ public class ViewGabinete extends javax.swing.JFrame {
         txtNumero.setText("");
         txtDescripcion.setText("");
         tblGabinete.clearSelection();
+        update=false;
         
     }
 

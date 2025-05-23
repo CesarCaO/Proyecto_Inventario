@@ -62,6 +62,17 @@ public class ViewAdmin extends javax.swing.JFrame {
         passwordONE.setText("");
         passwordConfirm.setText("");
         tblAdmin.clearSelection();
+        txtApellidoP.setEditable(true);
+        txtApellidoM.setEditable(true);
+        txtNombre.setEditable(true);
+        txtTelefono.setEditable(true);
+        txtCorreo.setEditable(true);
+        txtCuenta.setEditable(true);
+        passwordONE.setEditable(true);
+        passwordConfirm.setEditable(true);
+        btnDelete.setEnabled(false);
+        updateDelete=false;
+        btnAdd.setEnabled(true);
     }
     
    public boolean validarCorreo(String correo){
@@ -630,7 +641,7 @@ public class ViewAdmin extends javax.swing.JFrame {
             Administrador newAdmin = new Administrador();
             newAdmin.setCuentaAdmin(numCuenta);
             if (crudAdmin.ValidarAdministrador(newAdmin.getCuentaAdmin())) {
-                JOptionPane.showMessageDialog(null, "El administrador ya esta dado de alta en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "El número de cuenta ya esta dado de alta en el sistema", "ERROR", JOptionPane.ERROR_MESSAGE);
             } else {
                 newAdmin.setApellidoPaterno(apellidoPaterno);
                 newAdmin.setApellidoMaterno(apellidoMaterno);
@@ -694,7 +705,7 @@ public class ViewAdmin extends javax.swing.JFrame {
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         
- /***       
+  
         if(txtCuenta.getText().isEmpty()){     
             JOptionPane.showMessageDialog(null, "Debe seleccionar un registro para eliminarlo", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
@@ -709,24 +720,27 @@ public class ViewAdmin extends javax.swing.JFrame {
                         +"Nombre: "+tblAdmin.getValueAt(tblAdmin.getSelectedRow(),3).toString()+"\n"
                         +"Correo: "+tblAdmin.getValueAt(tblAdmin.getSelectedRow(),4).toString()+"\n"
                         +"Telefono: "+tblAdmin.getValueAt(tblAdmin.getSelectedRow(),5).toString(),"Warning", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-                    crudAdmin.delete(Integer.parseInt(tblAdmin.getValueAt(tblAdmin.getSelectedRow(), 0).toString()));
-                    limpiarCampos();
-                    createTable();
-                    btnDelete.setEnabled(false);
-                    txtApellidoP.setEditable(true);
-                    txtApellidoM.setEditable(true);
-                    txtNombre.setEditable(true);
-                    txtTelefono.setEditable(true);
-                    txtCorreo.setEditable(true);
-                    txtCuenta.setEditable(true);
-                    btnAdd.setEnabled(true);
-                    passwordONE.setEnabled(true);
-                    passwordConfirm.setEnabled(true);
+                    if(crudAdmin.delete(Integer.parseInt(tblAdmin.getValueAt(tblAdmin.getSelectedRow(), 0).toString()))){
+                        limpiarCampos();
+                        createTable();
+                        btnDelete.setEnabled(false);
+                        txtApellidoP.setEditable(true);
+                        txtApellidoM.setEditable(true);
+                        txtNombre.setEditable(true);
+                        txtTelefono.setEditable(true);
+                        txtCorreo.setEditable(true);
+                        txtCuenta.setEditable(true);
+                        btnAdd.setEnabled(true);
+                        passwordONE.setEnabled(true);
+                        passwordConfirm.setEnabled(true);
+                        JOptionPane.showMessageDialog(null, "Administrador eliminado", "INFO", JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Hubo un error en la eliminación", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
+                    
                 }
             }
-        }
-
- ***/    
+        }    
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void passwordONEFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_passwordONEFocusLost
@@ -767,7 +781,6 @@ public class ViewAdmin extends javax.swing.JFrame {
             limpiarCampos();
             passwordONE.setEnabled(true);
             passwordConfirm.setEnabled(true);
-            updateDelete=true;
             pnlPrincipal.requestFocus();
         }else{
             pnlPrincipal.requestFocus();

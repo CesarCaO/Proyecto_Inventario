@@ -96,6 +96,7 @@ public class CRUDEstadoProducto {
     }
     public int ToID(String estado){
         Session session= HibernateUtil.getSessionFactory().openSession();
+        System.out.print("Es estado es: "+estado);
           Query<Integer>query;
           int idEstPro=-1;
           try{
@@ -103,7 +104,7 @@ public class CRUDEstadoProducto {
               query.setParameter("estado",estado);
               idEstPro=query.uniqueResult();
           }catch(Exception err){
-                JOptionPane.showMessageDialog(null,"Error al encontrar el id del estado del producto"+err+" Error: IDGAB", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Error al encontrar el id del estado del producto"+err+" Error: IDEST", "Error", JOptionPane.ERROR_MESSAGE);
           }finally{
               session.close();
           }

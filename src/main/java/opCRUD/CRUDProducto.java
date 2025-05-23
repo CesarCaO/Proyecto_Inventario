@@ -109,12 +109,12 @@ public class CRUDProducto {
             if(relGabinete==null){
                throw new IllegalArgumentException("El gabinete número " + numGabinete + " no existe.");
             }
+            
+            
             EstadoProducto relEstPro = session.find(EstadoProducto.class, crudEstPro.ToID(estadoProducto));
             if(relEstPro==null){
                 throw new IllegalArgumentException("El estado del producto: " + estadoProducto + " no existe.");
             }
-            
-           
             
             //Hacer las relaciones
             updateProducto.setMarca(relMarca);

@@ -51,6 +51,7 @@ public class ViewCatalogoProducto extends javax.swing.JFrame {
         btnAdd.setEnabled(false);
         btnDelete.setEnabled(false);
         pnlPrincipal.requestFocus();
+        update=false;
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

@@ -26,6 +26,7 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
         passwordConfirm.setEnabled(false);
         setIconImage(new ImageIcon(getClass().getResource("/garza.png")).getImage());
         this.setLocationRelativeTo(null);
+        this.setResizable(false);
 
     }
    
@@ -38,6 +39,7 @@ public class ViewAjustesPerfil extends javax.swing.JFrame {
         txtCuenta.setText(String.valueOf(admin.getCuentaAdmin()));
         txtCorreo.setText(admin.getCorreo());
         txtTelefono.setText(admin.getTelefono());
+        cambiarContrasenia=false;
    }
    
     public boolean validarTelefono(String telefono, boolean extension) {

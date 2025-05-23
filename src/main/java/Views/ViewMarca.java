@@ -128,7 +128,7 @@ public class ViewMarca extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 114, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 106, Short.MAX_VALUE))
+                        .addGap(0, 98, Short.MAX_VALUE))
                     .addComponent(txtNombre))
                 .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -176,7 +176,7 @@ public class ViewMarca extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tblMarca);
 
-        jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)), "Buscar"));
 
         txtBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
@@ -255,7 +255,7 @@ public class ViewMarca extends javax.swing.JFrame {
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addGroup(pnlPrincipalLayout.createSequentialGroup()
                                 .addComponent(jButton1)
-                                .addGap(0, 168, Short.MAX_VALUE)))
+                                .addGap(0, 160, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(pnlPrincipalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
